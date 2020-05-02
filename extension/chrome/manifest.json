@@ -1,0 +1,14 @@
+{
+    "name": "Open Tabs",
+    "description" : "Open Tabs and generate money for charities, each tab at a time!",
+    "version": "1.0",
+    "manifest_version": 2,
+    "chrome_url_overrides":{
+        "newtab":"newtab.html"
+    },
+    "background":{
+        "scripts":["external.js"],
+        "persistent":"false"
+    }
+    
+}
