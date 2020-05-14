@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema();
+const Schema = mongoose.Schema;
+
+
 const userSchema = new Schema({
     method:{
         type:String,
@@ -12,6 +14,9 @@ const userSchema = new Schema({
         },
         name:{
             type:String
+        },
+        password:{
+            type:String
         }
     },
     google:{
@@ -20,6 +25,9 @@ const userSchema = new Schema({
         },
         email:{
             type:String,
+        },
+        name:{
+            type:String
         }
     },
     facebook:{
@@ -28,11 +36,20 @@ const userSchema = new Schema({
         },
         email:{
             type:String,
+        },
+        name:{
+            type:String,
         }
+
     },
     tabs_opened:{
-        type:Number
+        type:Number,
+        required:true
+    },
+    isVerified:{
+        type:Boolean,
+        default: false
     }
 })
 
-module.exports = User = mongoose.model("user",userSchema);
+module.exports = User = mongoose.model('users',userSchema);
