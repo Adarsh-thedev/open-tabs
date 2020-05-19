@@ -74,13 +74,18 @@ router.post('/register', [
                                 var transporter = nodemailer.createTransport({ 
                                     service: 'Sendgrid', 
                                     auth: {
-                                         user: 'scyther67', 
-                                         pass: 'Ghana@111' } });
+                                         user: 'opentabs', 
+                                         pass: 'qwaszx12e' } 
+                                    // service: 'Gmail', 
+                                    // auth: {
+                                    //      user: 'no-reply@opentabs.org', 
+                                    //      pass: 'Qwaszx12e' }
+                                });
                                 var mailOptions = { 
                                     from: 'jashjain@opentabs.org', 
                                     to: user.local.email, 
                                     subject: 'Account Verification Token', 
-                                    text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + JSON.stringify(req.headers).host + '\/confirmation\/' + token.token + '.\n' };
+                                    text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/api\/users\/confirmation\/' + token.token + '.\n' };
                                 transporter.sendMail(mailOptions)
                                     .catch(err=>console.log(err))
                                 res.json(user)
@@ -111,5 +116,6 @@ router.post('/register', [
 
 // router.post('/confirmation', userController.confirmationPost);
 
+router.post('/api/users/confirmation')
 
 module.exports = router;
