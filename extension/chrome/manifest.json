@@ -13,8 +13,11 @@
         "newtab":"newtab.html"
     },
     "background":{
-        "scripts":["external.js"],
-        "persistent":"false"
-    }
+        "persistent":false,
+        "scripts":["external.js"]
+    },
+    "web_accessible_resources":[
+        "images.*"
+    ]
     
 }
