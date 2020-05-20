@@ -4,16 +4,20 @@ import Modal from 'react-modal';
 import './styles.css';
 import Header from './Header';
 import Searchbar from './Searchbar';
+import { FiArrowRight } from 'react-icons/fi';
 
-const NAME_LS = 'NAME_LS';
-const EMAIL_LS = 'EMAIL_LS';
-const PASSWORD_LS = 'PASSWORD_LS'
+// const NAME_LS = 'NAME_LS';
+// const EMAIL_LS = 'EMAIL_LS';
+// const PASSWORD_LS = 'PASSWORD_LS'
+const NAME_LS = 'name';
+const EMAIL_LS = 'email';
+const PASSWORD_LS = 'password'
 
 const customStyles = {
     content: {
       width: '100vw',
       height: '100vh',
-      opacity: '0.9',
+      opacity: '1',
       top: '50%',
       left: '50%',
       right: 'auto',
@@ -22,13 +26,16 @@ const customStyles = {
       transform: 'translate(-50%, -50%)',
       border: 'none',
       background: 'none',
-      backgroundColor: 'none'
+      backgroundColor: 'none',
+      overflow: 'none',
+      position:'fixed',
+      padding: '0 20px'
       }
   };
   const getBGStyle = {
     height: '100vh',
     width: '100%',
-    opacity: '0.9'
+    opacity: '1'
 };
 export default class Landingpage extends Component {
     constructor() {
@@ -43,6 +50,10 @@ export default class Landingpage extends Component {
           password: '',
           isNameRequired: false,
           salutation: this.determineSalutation(time.hour),
+          /*server*/
+          response: '',
+          post: '',
+          responseToPost: '',
         };
     
         this.closeModal = this.closeModal.bind(this);
@@ -53,16 +64,19 @@ export default class Landingpage extends Component {
     
       closeModal() {
         this.setState({modalIsOpen: false});
-        this.setState({name: this.state.inputValue});
-        localStorage.setItem(NAME_LS, this.state.inputValue);
+        this.setState({name: this.state.name});
+        localStorage.setItem(NAME_LS, this.state.name);
+        // localStorage.setItem(name, this.state.name);
         this.setState({email: this.state.email});
         localStorage.setItem(EMAIL_LS, this.state.email);
+        // localStorage.setItem(email, this.state.email);
         this.setState({password: this.state.password});
         localStorage.setItem(PASSWORD_LS, this.state.password);
+        // localStorage.setItem(password, this.state.password);
       }
     
       handleChangeName(e) {
-        this.setState({inputValue: e.target.value});
+        this.setState({name: e.target.value});
       }
       handleChangeEmail(e) {
         this.setState({email: e.target.value});
@@ -72,16 +86,24 @@ export default class Landingpage extends Component {
       }
     
       componentDidMount() {
+        /*server*/
+        this.callApi()
+        .then(res => this.setState({ response: res.express }))
+        .catch(err => console.log(err));
+
         const name = localStorage.getItem(NAME_LS);
+        const email = localStorage.getItem(EMAIL_LS);
+        const password = localStorage.getItem(PASSWORD_LS);
+
         if (name) {
           this.setState({name});
         } else {
           this.setState({modalIsOpen: true});
         }
     
-        fetch('https://horizonshq.herokuapp.com/api/inspirationalquotes')
-          .then(resp => resp.json())
-          .then(resp => this.setState({quote: resp.message}));
+        // fetch('https://horizonshq.herokuapp.com/api/inspirationalquotes')
+        //   .then(resp => resp.json())
+        //   .then(resp => this.setState({quote: resp.message}));
     
         setInterval(() => {
           var time = DateTime.local();
@@ -106,12 +128,35 @@ export default class Landingpage extends Component {
         return DateTime.local();
       }
 
+      /*server*/
+      callApi = async () => {
+        const response = await fetch('/api/users/register');
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        
+        return body;
+      };
+      
+      handleSubmit = async e => {
+        e.preventDefault();
+        const response = await fetch('/api/users/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name: this.state.name, email: this.state.email, password: this.state.password, method: 'local'}),
+        });
+        const body = await response.text();
+        console.log(body);
+        this.setState({ responseToPost: body });
+      };
+
       render() {
         return (
           <div className="bg" style={getBGStyle}>
             <div className="bg-wrapper">
             
-            <div className="top-right">
+            <div className="top-content">
                 <div>
                   <Header />
                 </div>
@@ -119,42 +164,80 @@ export default class Landingpage extends Component {
               
               <div className="text-center centered">
                 <div className="block-text">
-                  <h1 id="time">{this.state.time.toFormat("h':'mm")}</h1>
+                  <h1 id="time">{this.state.time.toFormat("HH':'mm")}</h1>
                 </div>
                 <h3 id="greetings">
-                  Good {this.state.salutation}, {this.state.name}!
+                  Good {this.state.salutation}, {this.state.name}.
                 </h3>
                 <Modal
                   isOpen={this.state.modalIsOpen}
                   style={customStyles}
                   contentLabel="name-modal"
                 >
-		<div className="modal-content">
-                    <div className="modal-title">What's your name?</div>
-                      <div className="modal-input" >
-                        <form>
-                        <input required name="name" type="text" onChange={this.handleChangeName}/>
-                        </form>
+                  <div class="form-container">
+                    <form action="" role="form" onSubmit={this.handleSubmit}>
+                      <input id='step2' type='checkbox'/>
+                      <input id='step3' type='checkbox'/>
+                      <div id="part1" className="form-group">
+                        <div className="panel panel-primary">
+                          <div className="panel-heading">
+                            <h1 className="panel-title">Hey Buddy, What's your name?</h1>
+                          </div>
+                          <input type="text" id="name" className="form-control" placeholder="" aria-describedby="sizing-addon1" onChange={this.handleChangeName} value={this.state.name}/>
+                          <div className="btn-group btn-group-lg" role="group" aria-label="...">
+                            <label for='step2' id="continue-step2" class="continue">
+                              <div className="btn btn-default btn-success btn-lg"><FiArrowRight/> </div>
+                            </label>
+                          </div>
+                        </div>
                       </div>
-                      <div className="modal-title">Enter your email?</div>
-                      <div className="modal-input" >
-                        <input name="email" type="email" onChange={this.handleChangeEmail}/>
+
+                      <div id="part2" className="form-group">
+                        <div className="panel panel-primary">
+                          <div className="panel-heading">
+                            <h1 className="panel-title">What's your Email {this.state.name}?</h1>
+                          </div>
+                          <input type="email" id="email" className="form-control" placeholder="" onChange={this.handleChangeEmail} value={this.state.email}/>
+                          <div className="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
+
+                            {/* <label for='step2' id="back-step2" className="back">
+                              <div className="btn btn-default btn-primary btn-lg" role="button">Back</div>
+                            </label> */}
+
+
+                            <label for='step3' id="continue-step3" className="continue">
+                              <div className="btn btn-default btn-success btn-lg" role="button"><FiArrowRight /> </div>
+                            </label>
+
+                          </div>
+                        </div>
                       </div>
-                      <div className="modal-title">Enter your password?</div>
-                      <div className="modal-input" >
-                        <input name="password" type="password" onChange={this.handleChangePassword}/>
+
+                      <div id="part3" className="form-group">
+                        <div className="panel panel-primary">
+                          <div className="panel-heading">
+                            <h1 className="panel-title">{this.state.name}, Enter Password</h1>
+                          </div>
+                          <input type="password" id="password" className="form-control" placeholder="" onChange={this.handleChangePassword} value={this.state.password}/>
+                          <div className="btn-group btn-group-lg" role="group" aria-label="...">
+                            {/* <label for='step3' id="back-step3" className="back">
+                              <div className="btn btn-default btn-primary btn-lg">Back</div>
+                            </label> */}
+                            <label class="continue">
+                              <button type="submit" className="btn btn-default btn-success btn-lg" onClick={this.closeModal}>Submit</button>
+                            </label>
+                          </div>
+                        </div>
                       </div>
-                      <div className="modal-btn">
-                        <button className="modal-button" onClick={this.closeModal}>
-                          Enter
-                        </button>
-                      </div>
+                    </form>
                   </div>
+
                 </Modal>
-              </div>
               <div className="Search">
                 <Searchbar />
               </div>
+              </div>
+              
             </div> 
           </div>
         );
