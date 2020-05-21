@@ -38,8 +38,10 @@ router.post('/register', [
                     .then(isMatch=>{
                         if(isMatch) //if password is correct
                         {
-                            if (!user.isVerified) return res.status(401).send({ type: 'not-verified', msg: 'Your account has not been verified.' });
-                            else return res.json({user:user, msg:'User authenticated'});
+                            // if (!user.isVerified) return res.status(401).send({ type: 'not-verified', msg: 'Your account has not been verified.' });
+                            // else{
+                             return res.json({user:user, msg:'User authenticated'});
+                            // }
                         }
                         else //if entered password is incorrect
                         {
@@ -71,44 +73,30 @@ router.post('/register', [
                         newUser.local.password = hash;
                         newUser.save()
                             .then(user =>{
-                                var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
-                                token.save((err)=>{
-                                    if(err)
-                                    {return res.status(500).send({error: err.message});}
-                                })
-                                var transporter = nodemailer.createTransport({ 
-                                    service: 'Sendgrid', 
-                                    auth: {
-                                         user: 'opentabs', 
-                                         pass: 'qwaszx12e' } 
-                                    // service: 'Gmail', 
-                                    // auth: {
-                                    //      user: 'no-reply@opentabs.org', 
-                                    //      pass: 'Qwaszx12e' }
-                                });
-                                var mailOptions = { 
-                                    from: 'no-reply@opentabs.org', 
-                                    to: user.local.email, 
-                                    subject: 'Account Verification Token', 
-                                    text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/api\/users\/confirmation\/' + token.token + '\n' };
-                                transporter.sendMail(mailOptions)
-                                    .catch(err=>console.log(err))
-                                res.json({user:user,msg:"Now please verify your email ID by clicking on the link in the email sent to you"})
-
-                                // sgMail.setApiKey(sendgridAPIKey);
-                                // const msg = {
-                                // to: user.local.email,
-                                // from: 'test@example.com',
-                                // subject: 'Account Verification Token',
-                                // text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n', 
-                                // // text: 'hello',
-                                // html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-                                // };
-                                // sgMail.send(msg)
-                                //     .then(param =>{
-                                //     console.log('Mail sent');
-                                //     res.json(user)})})
+                                // var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
+                                // token.save((err)=>{
+                                //     if(err)
+                                //     {return res.status(500).send({error: err.message});}
+                                // })
+                                // var transporter = nodemailer.createTransport({ 
+                                //     service: 'Sendgrid', 
+                                //     auth: {
+                                //          user: 'opentabs', 
+                                //          pass: 'qwaszx12e' } 
+                                //     // service: 'Gmail', 
+                                //     // auth: {
+                                //     //      user: 'no-reply@opentabs.org', 
+                                //     //      pass: 'Qwaszx12e' }
+                                // });
+                                // var mailOptions = { 
+                                //     from: 'no-reply@opentabs.org', 
+                                //     to: user.local.email, 
+                                //     subject: 'Account Verification Token', 
+                                //     text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/api\/users\/confirmation\/' + token.token + '\n' };
+                                // transporter.sendMail(mailOptions)
                                 //     .catch(err=>console.log(err))
+                                res.json({user:user});//,msg:"Now please verify your email ID by clicking on the link in the email sent to you"})
+
                             })
                             .catch(err=>console.log(err));
                     })
