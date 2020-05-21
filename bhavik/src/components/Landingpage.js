@@ -147,12 +147,24 @@ export default class Landingpage extends Component {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ name: this.state.name, email: this.state.email, password: this.state.password, method: 'local'}),
-        });
-        const body = await response.text();
-        console.log(body);
-        this.setState({ responseToPost: body });
+        })
+            .then(res=>console.log(res.json()));
+        // console.log(body);
+        // fetch('/api/users/test')
+        //     .then(res=>console.log(res.json()));
+        // this.setState({ responseToPost: body });
+        this.setState({modalIsOpen: false});
+        this.setState({name: this.state.name});
+        localStorage.setItem(NAME_LS, this.state.name);
+        // localStorage.setItem(name, this.state.name);
+        this.setState({email: this.state.email});
+        localStorage.setItem(EMAIL_LS, this.state.email);
+        // localStorage.setItem(email, this.state.email);
+        this.setState({password: this.state.password});
+        localStorage.setItem(PASSWORD_LS, this.state.password);
+        // localStorage.setItem(password, this.state.password);
       };
-
+      
       render() {
         return (
           <div className="bg" style={getBGStyle}>
@@ -191,7 +203,7 @@ export default class Landingpage extends Component {
                       className="User-Logo"
                     />
                   <div class="form-container">
-                    <form action="" role="form" onSubmit={this.handleSubmit}>
+                    <form action="" role="form" /*onSubmit={this.handleSubmit}*/>
                       <input id='step2' type='checkbox'/>
                       <input id='step3' type='checkbox'/>
                       <div id="part1" className="form-group">
@@ -240,7 +252,7 @@ export default class Landingpage extends Component {
                               <div className="btn btn-default btn-primary btn-lg">Back</div>
                             </label> */}
                             <label class="continue">
-                              <button type="submit" className="btn btn-default btn-success btn-lg" onClick={this.closeModal}>Submit</button>
+                              <button type="submit" className="btn btn-default btn-success btn-lg" onClick={this.handleSubmit}/*{this.closeModal}*/>Submit</button>
                             </label>
                           </div>
                         </div>
