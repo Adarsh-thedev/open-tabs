@@ -5,6 +5,8 @@ import './styles.css';
 import Header from './Header';
 import Searchbar from './Searchbar';
 import { FiArrowRight } from 'react-icons/fi';
+import logo from '../assets/logo.png';
+import Settings from './Settings';
 
 // const NAME_LS = 'NAME_LS';
 // const EMAIL_LS = 'EMAIL_LS';
@@ -160,7 +162,13 @@ export default class Landingpage extends Component {
                 <div>
                   <Header />
                 </div>
-              </div>
+            </div>
+
+            <div className="bottom-content">
+                <div>
+                  <Settings />
+                </div>
+            </div>
               
               <div className="text-center centered">
                 <div className="block-text">
@@ -173,7 +181,15 @@ export default class Landingpage extends Component {
                   isOpen={this.state.modalIsOpen}
                   style={customStyles}
                   contentLabel="name-modal"
+                  aria-HideApp="false"
                 >
+                  <img
+                      src={logo}
+                      width="80"
+                      height="80"                    
+                      alt="OpenTabs logo"
+                      className="User-Logo"
+                    />
                   <div class="form-container">
                     <form action="" role="form" onSubmit={this.handleSubmit}>
                       <input id='step2' type='checkbox'/>

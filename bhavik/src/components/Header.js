@@ -27,7 +27,9 @@ function Update() {
             {/* <small>11 mins ago</small> */}
           </Toast.Header>
           <Toast.Body style={{textAlign: 'justify'}}>
-          After much preparation and hard work, we are launching our ready-for-market version of OpenTabs. A huge thank you to our 100 beta users and their faith in us for helping us reach this milestone. We have made significant strides by forming partnerships with the Against Malaria Foundation and the Rainforest Trust to combat malaria and climate change respectively, as well as receiving a $10,000 a month ad grant from Google! Once again, this has all been possible thanks to you and we urge you to please share OpenTabs with your friends and family to further grow our mission of reducing poverty and fighting climate change.
+            <div>
+          After much preparation and hard work, we are launching our ready-for-market version of OpenTabs. A huge thank you to our 100 beta users and their faith in us for helping us reach this milestone.
+          This has all been possible thanks to you and we urge you to please share OpenTabs with your friends and family to further grow our mission of reducing poverty and fighting climate change.
           <br />
           <br />
           New Features Include:
@@ -37,6 +39,7 @@ function Update() {
             <li>A secure and privacy-centred account system.</li>
           </ul>
           If you haven't yet, we invite you to create an account (by clicking on the settings icon on the lower left) to ensure that you never lose your tabs count again, and can sync it across browsers and devices. Stay tuned for exciting updates coming soon.
+          </div>
           </Toast.Body>
         </Toast>
       </Col>
@@ -60,7 +63,8 @@ export default class Header extends Component {
      }  
     render() {
         return (
-            <div className="header">
+            <div className="widgets"> 
+              <div className="header">
                 <div className="text-right top-left logo">
                   <div className="logo-counter">
                     <Update />
@@ -73,21 +77,22 @@ export default class Header extends Component {
                       alt="OpenTabs logo"
                     />
                   </div>
-                </div>                
-            
-              <div className="text-left bottom-left">
-              <Dropdown id="settings">
-                <Dropdown.Toggle style={{padding: '0'}}>
-                <FiSettings/>
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item eventKey="1" target="_blank" href="http://opentabs.org"><FiHome /> Home</Dropdown.Item>
-                  <Dropdown.Item eventKey="2" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScNIVjuhLCUF_CczUf2eCP3VOIiIfl-UhJAsh-f-SJbUq7WnQ/viewform"><FiUser /> Feedback</Dropdown.Item>
-                  <Dropdown.Item eventKey="3" target="_blank" href="https://donorbox.org/opentabs"><FiGift /> Donate</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-              </div>     
+                </div>                 
             </div>
+
+            {/* <div className="text-left bottom-left">
+            <Dropdown id="settings">
+              <Dropdown.Toggle style={{padding: '0'}}>
+              <FiSettings/>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item eventKey="1" target="_blank" href="http://opentabs.org"><FiHome /> Home</Dropdown.Item>
+                <Dropdown.Item eventKey="2" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScNIVjuhLCUF_CczUf2eCP3VOIiIfl-UhJAsh-f-SJbUq7WnQ/viewform"><FiUser /> Feedback</Dropdown.Item>
+                <Dropdown.Item eventKey="3" target="_blank" href="https://donorbox.org/opentabs"><FiGift /> Donate</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            </div> */}
+            </div>    
         )
     }
 }
