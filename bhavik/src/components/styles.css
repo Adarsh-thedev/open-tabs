@@ -131,51 +131,53 @@ body{
 }
 
 /* Settings */
-.bottom-right {
+.bottom-content {
   position: fixed;
   bottom: 2vh;
-  right: 2vh;
+  left: 2vh;
 }
-
-#settings {
+.bottom-content .btn-primary{
+  color: #fff;
+  background-color: transparent;
+  border-color: transparent;
+}
+/* #settings {
   color: #0080ff;
   font-family: "Nunito", Sans-serif;
   font-size: 1vw;
   letter-spacing: 1px;
   line-height: 1;
-  /* margin: 0 0 0 5px; */
   position: fixed;
   bottom: 2%;
   left: 2%;
-}
-#settings .btn{
+} */
+/* #settings .btn{
   padding: none;
   line-height: none;
   border: none;
-}
-#settings:focus, #settings:active{
+} */
+/* #settings:focus, #settings:active{
   outline: none;
-  border: none;
+  border-color: transparent;
 }
 #settings button{
   color: white;
   font-family: "Nunito", Sans-serif;
-  background: none;
-  border: none;
+  background-color: transparent;
+  border-color: transparent;
   outline: none;
-  /* margin: 0.5rem; */
-}
+} */
 
 #settings button:hover, #settings button:active,  #settings button:focus{
   color:  white;
   opacity: 0.6;
-  border: none;
+  border-color: transparent;
 }
 #settings .dropdown-menu{
   color: #fff;
   text-decoration: none;
   background:  rgba(0,0,0,.2);
-  border: none;
+  border-color: transparent;
 }
 .btn-primary.dropdown-toggle:focus {
   box-shadow: none;
@@ -186,12 +188,12 @@ body{
 #settings .dropdown-item.hover, .dropdown-item:hover {
   color: lightgray;
   text-decoration: none;
-  background:none;
+  background-color: transparent;
 }
 #settings .dropdown-item.active, .dropdown-item:active {
   color: #fff;
   text-decoration: none;
-  background: none;
+  background-color: transparent;
 }
 #settings .dropdown-item{
   color: white;
@@ -200,13 +202,13 @@ body{
 }
 .dropdown-toggle::after {
   display: none;
-  margin-left: .255em;
+  /* margin-left: .255em;
   vertical-align: .255em;
   content: "";
   border-top: .3em solid;
   border-right: .3em solid transparent;
   border-bottom: 0;
-  border-left: .3em solid transparent;
+  border-left: .3em solid transparent; */
 }
 .fa {
   position: relative;
@@ -272,8 +274,11 @@ body{
   background: white;
   opacity: 1;
 } */
-
-.ReactModal__Overlay, .bg{
+.ReactModal__Overlay{
+  background-image: url("/green.jpg");
+  background-size: cover;
+}
+.bg{
   /* background-image: url(https://source.unsplash.com/collection/10046061/2560x1600/daily?); */
   /* background-image: url(https://source.unsplash.com/lyPG-o_U0mE/2560x1600); */
   /* background-image: url(https://source.unsplash.com/XHDtPRj535A/2560x1600); */
@@ -284,7 +289,7 @@ body{
   background-image: url(https://source.unsplash.com/YMBpLXZrHmc/2560x1600);
   background-image: url(https://source.unsplash.com/aaUJ_mfSiDU/2560x1600);
   background-image: url(https://source.unsplash.com/ZOA-cqKuJAA/2560x1600);
-  background-image: url(https://source.unsplash.com/04-C1NZk1hE/2560x1600);
+  /* background-image: url(https://source.unsplash.com/04-C1NZk1hE/2560x1600); */
   background-size: cover;
 }
 
@@ -293,33 +298,44 @@ body{
   border: none;
   width: 100vw;
   height: 100vh;
+  text-align: center;
 }
 .modal-content{
   background: none;
   border: none;
   width: fit-content;
-  background-color: rgba(92, 92, 92, 0.4);
+  /* background-color: rgba(92, 92, 92, 0.4); */
 }
-
+.ReactModal__Content img{
+  position: fixed;
+  top: 10vh;
+  opacity: 1;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+}
 .form-container {
   height: 100%;
   /* margin: 25vh 25vw; */
 }
 .form-container h1{
-  font-family: -apple-system, BlinkMacSystemFont, "Neue Haas Grotesk Text Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Neue Haas Grotesk Text Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-shadow: 0 0 25px rgba(0,0,0,0.3);
   color: white;
   letter-spacing: -1px;
   line-height: 120%;
   margin: 0;
-  font-weight: 500;
+  font-weight: 400;
   padding: 10px;
-  font-size: 337.5%;
+  white-space: normal;
+  text-shadow: 0 1px 5px rgba(0,0,0,.1);
+  font-size: 274%;
 }
 .form-container input, .form-container input:focus, .form-container input:active, .form-container input:hover{
-  width: 60%;
+  min-width: 585px;
+  max-width: 90%;
   margin: 20px auto;
   font-size: 24px;
+  text-align: center;
   /* border: 1px solid white;
   box-shadow: 0  0 1px 1px white; */
   background: transparent;
@@ -334,9 +350,9 @@ body{
   border-radius: 0;
 }
 .form-container .panel {
-  background: rgba(0,0,0,.2);
+  /* background: rgba(0,0,0,.2); */
   height: 100%;
-  width: 80%;
+  width: 605px;
   text-align: center;
   border-radius: 10px;
 }
@@ -347,6 +363,18 @@ body{
   width: 90%;
   margin: 0 auto 10px auto;
   justify-content: center;
+}
+.btn-group-lg>.btn, .btn-lg {
+  padding: 1rem 1.5rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: .3rem;
+}
+.btn-group svg {
+  width: 1.5em;
+  overflow: hidden;
+  vertical-align: middle;
+  height: 1.5em;
 }
 .form-container .back {
   float: left;
@@ -438,6 +466,11 @@ body{
     height: 50%;
     margin-bottom: 0;
   }
+  .toast-body{
+    height: 120px;
+    overflow-y: scroll;
+    text-align: justify;
+  }
 }
 @media screen and (max-height: 700px){
   .bg-wrapper h1 {
@@ -464,6 +497,11 @@ body{
   .block-text{
     height: 50%;
     margin-bottom: 0;
+  }
+  .toast-body{
+    height: 120px;
+    overflow-y: scroll;
+    text-align: justify;
   }
 }
 
