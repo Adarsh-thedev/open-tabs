@@ -107,6 +107,35 @@ router.post('/register', [
     }
 })
 
+//POST '/api/users/update_tabs
+//API to update tab counter 
+router.post('/update_tabs',[
+    check('email').isEmail(),
+    check('email').notEmpty(),
+    check('tabs_opened').notEmpty(),
+    check('tabs_opened').isDecimal()
+],(req,res)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(422).json({errors:errors.array()});
+    }
+    User.findOne({"local.email" : req.body.email})
+        .then(user=>{
+            if(user)
+            {
+                user.tabs_opened=req.body.tabs_opened;
+                user.save();
+                return res.json({msg:'Tabs updated'});
+            }
+            else
+            {
+                return res.json({errors:{user:'User with given email does not exist'}});
+            }
+        })
+        .catch(err=>console.log(err));
+}
+
+)
 // router.post('/confirmation', userController.confirmationPost);
 router.get('/confirmation/:token', [
     check('token').notEmpty(),
