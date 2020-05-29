@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, { Component, useState, useRef } from 'react';
 import {DateTime} from 'luxon';
 import Modal from 'react-modal';
 import './styles.css';
@@ -8,6 +8,52 @@ import { FiArrowRight, FiLogOut } from 'react-icons/fi';
 import {FiSettings, FiHome, FiUser, FiBell, FiGift} from 'react-icons/fi';
 import Dropdown from 'react-bootstrap/Dropdown';
 import logo from '../assets/logo2.png';
+import Tooltip from '@material-ui/core/Tooltip';
+
+import logosmall from '../assets/logo1.png';
+import { Row, Col } from 'react-bootstrap';
+import Tabcounter from './Tabcounter';
+import Toast from 'react-bootstrap/Toast';
+import Button from 'react-bootstrap/Button';
+import Overlay from 'react-bootstrap/Overlay';
+
+function Update() {
+  const [show, setShow] = useState(false);
+  const target = useRef(null);
+
+  return (
+    <Row >
+      <Overlay target={target.current} show={show}>
+      <Col xs={10}>
+        <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide style={{position: 'fixed', right: '18%'}}> 
+          <Toast.Header>
+            <strong className="mr-auto" style={{textAlign: 'left'}}>OpenTabs' Brand New Look!<br />(Update May 2020)</strong>
+          </Toast.Header>
+          <Toast.Body style={{textAlign: 'justify'}}>
+            <div>
+            After much preparation, we are launching our ready-for-market version of OpenTabs! A huge thank you to our beta users for your continued support.
+            <br />
+            <br />
+            We urge you to please share OpenTabs with your friends and family to further grow our mission of reducing poverty and fighting climate change. 
+            <br />
+            <br />
+            If you haven't yet, we invite you to create an account (by clicking on the settings icon on the lower left) to ensure that you never lose your tabs count again, and can sync it across browsers and devices. 
+            <br />
+            <br />
+            Stay tuned for exciting updates coming soon.
+            </div>
+          </Toast.Body>
+        </Toast>
+      </Col>
+      
+      </Overlay>
+      <Col xs={3}>
+        <Button id="update-btn" ref={target} onClick={() => setShow(true)}><FiBell /></Button>
+      </Col>
+    </Row>
+
+  );
+}
 
 const NAME_LS = 'name';
 const EMAIL_LS = 'email';
@@ -40,11 +86,8 @@ const customStyles = {
 };
 
 function validate(name, email, password) {
-  // true means invalid, so our conditions got reversed
   return {
     name: name.length === 0, //true if name is empty
-    // email: email.length === 0, //true if email is empty
-    // password: password.length === 0, //true if password is empty
   };
 }
 
@@ -71,19 +114,13 @@ export default class Landingpage extends Component {
           email: '',
           password: '',
           errors: false,
-          // tabs_opened: 0,
+          showPopup: false,
+        //   tabs_opened: 0,
+          tabs_opened: JSON.parse(localStorage.getItem(TABS_LS)),
           isNameRequired: true,
           salutation: this.determineSalutation(time.hour),
           login: true,
           images, currentImg: 0,
-          // imgPath: "url(" + images[1] + ")" ,
-          /*Bg Image*/
-          // images: [
-          //   "https://unsplash.com/photos/pBx1VvMCL24",
-          //   "https://unsplash.com/photos/pBx1VvMCL24",
-          //   "https://unsplash.com/photos/pBx1VvMCL24"
-          // ],
-          // selectedImage: "https://unsplash.com/photos/pBx1VvMCL24",
           /*Validate */
           touched: {
             email: false,
@@ -103,6 +140,9 @@ export default class Landingpage extends Component {
         this.handleChangeName = this.handleChangeName.bind(this);
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
+
+        this.handleLoad = this.handleLoad.bind(this);
+        this.setState({tabs_opened: this.state.tabs_opened});
       }
       
       changeState = () => {
@@ -110,6 +150,12 @@ export default class Landingpage extends Component {
           login: !this.state.login
         });
       }
+
+      togglePopup() {  
+        this.setState({  
+             showPopup: !this.state.showPopup  
+        });  
+         } 
 
       onKeyPress(event){
         if(event.which === 13){
@@ -135,8 +181,8 @@ export default class Landingpage extends Component {
         localStorage.setItem(EMAIL_LS, this.state.email);
         this.setState({password: this.state.password});
         localStorage.setItem(PASSWORD_LS, this.state.password);
-        // this.setState({tabs_opened: this.state.tabs_opened});
-        // localStorage.setItem(TABS_LS, this.state.tabs_opened);
+        this.setState({tabs_opened: this.state.tabs_opened});
+        localStorage.setItem(TABS_LS, this.state.tabs_opened);
       }
       
       handleChangeName(e) {
@@ -162,12 +208,13 @@ export default class Landingpage extends Component {
         this.callApi()
         .then(res => this.setState({ response: res.express }))
         .catch(err => console.log(err));
-        // .catch(err => this.setState({ modalIsOpen: true}));
+
+        window.addEventListener('load', this.handleLoad);
 
         const name = localStorage.getItem(NAME_LS);
         const email = localStorage.getItem(EMAIL_LS);
         const password = localStorage.getItem(PASSWORD_LS);
-        // const tabs_opened = localStorage.getItem(TABS_LS);
+        const tabs_opened = localStorage.getItem(TABS_LS);
 
         if (name/*, email, password*/) {
           this.setState({name});
@@ -192,6 +239,7 @@ export default class Landingpage extends Component {
         if (this.interval) {
           clearInterval(this.interval);
         }
+        window.removeEventListener('load', this.handleLoad) 
       }
 
       changeBackgroundImage() {
@@ -223,7 +271,15 @@ export default class Landingpage extends Component {
 
       /*server*/
       callApi = async () => {
-        const response = await fetch('/api/users/register');
+        const response = await (fetch('/api/users/register'));
+        // fetch('/api/users/update_tabs')])
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        
+        return body;
+      };
+      callApi = async () => {
+        const response = await fetch('/api/users/update_tabs');
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         
@@ -243,50 +299,8 @@ export default class Landingpage extends Component {
             name: this.state.name, email: this.state.email, password: this.state.password/*,tabs_opened: this.state.tabs_opened*/,method: 'local'}),
         })
         // .then(
-        //   req=>{
-        //     if(!req.json.errors){
-        //       // return console.log(this.state.modalIsOpen)
-        //       this.setState({modalIsOpen: false})
-        //     }
-        //     else{
-        //       // return console.log(!this.state.modalIsOpen)
-        //       this.setState({modalIsOpen: true})
-        //     }
-        //   }
+        //      
         // )
-        // .then(
-        //   res=>console.log(res.json()) 
-        // )
-        // .then(
-        //   req=>{
-        //     if(!req.json.errors){
-        //       this.setState({errors: false});
-        //       console.log(this.state.errors);
-        //     }
-        //   }
-        // )
-
-        // if({errors: false}){
-        //   alert('Welcome')
-        //   this.setState({modalIsOpen: false});
-        //     console.log(this.state.modalIsOpen);
-        //     this.setState({name: this.state.name});
-        //     localStorage.setItem(NAME_LS, this.state.name);
-        //     // localStorage.setItem(name, this.state.name);
-        //     this.setState({email: this.state.email});
-        //     localStorage.setItem(EMAIL_LS, this.state.email);
-        //     // localStorage.setItem(email, this.state.email);
-        //     this.setState({password: this.state.password});
-        //     localStorage.setItem(PASSWORD_LS, this.state.password);
-        //     // localStorage.setItem(password, this.state.password);
-        //     this.setState({tabs_opened: this.state.tabs_opened});
-        //     localStorage.setItem(TABS_LS, this.state.tabs_opened); 
-        //     this.setState({login: false});
-        // }if({errors: true}){
-        //   alert('logi properly')
-        //   this.setState({modalIsOpen: true});
-        //     console.log(this.state.modalIsOpen);
-        // }
 
         .then(
           req=>{
@@ -307,44 +321,35 @@ export default class Landingpage extends Component {
             this.setState({login: false}); //important to keep this false to get logout option
           }
           else {
-            this.setState({modalIsOpen: !this.state.modalIsOpen});
-            window.localStorage.clear();
-            localStorage.clear();
-            this.setState({name: ''});
-            localStorage.setItem(NAME_LS, this.state.name);
-            // localStorage.setItem(name, this.state.name);
-            this.setState({email: ''});
-            localStorage.setItem(EMAIL_LS, this.state.email);
-            // localStorage.setItem(email, this.state.email);
-            this.setState({password: ''});
-            localStorage.setItem(PASSWORD_LS, this.state.password);
-            // localStorage.setItem(password, this.state.password);
+            this.setState({modalIsOpen: true});
             console.log(this.state.modalIsOpen);
           }
-          // this.setState({modalIsOpen: this.state.modalIsOpen}) 
-          }
-                   
+          }          
         )
-        
+        this.setState({modalIsOpen: this.state.modalIsOpen})
         console.log(this.state.modalIsOpen);
-        
-        
-        // // /*close modal code*/
-        // this.setState({modalIsOpen: false});
-        // this.setState({name: this.state.name});
-        // localStorage.setItem(NAME_LS, this.state.name);
-        // // localStorage.setItem(name, this.state.name);
-        // this.setState({email: this.state.email});
-        // localStorage.setItem(EMAIL_LS, this.state.email);
-        // // localStorage.setItem(email, this.state.email);
-        // this.setState({password: this.state.password});
-        // localStorage.setItem(PASSWORD_LS, this.state.password);
-        // // localStorage.setItem(password, this.state.password);
-        // this.setState({tabs_opened: this.state.tabs_opened});
-        // localStorage.setItem(TABS_LS, this.state.tabs_opened); 
-        // this.setState({login: false}); //important to keep this false to get logout option
-      };
+        };
     
+        handleLoad = async e => {
+            e.preventDefault();
+            const response = await fetch('/api/users/update_tabs',
+            {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: this.state.name, email: this.state.email, password: this.state.password, tabs_opened: this.state.tabs_opened, method: 'local'}),    
+            }
+            )
+            .then(res=>console.log(res.json()));
+            this.setState((prevState, { tabs_opened }) => ({
+              tabs_opened: prevState.tabs_opened + 1
+            }));
+        
+            this.setState({tabs_opened: this.state.tabs_opened});
+            localStorage.setItem(TABS_LS, this.state.tabs_opened);
+          };
+
       validatename = (e) => {
         if (!this.canBeSubmitted()) {
           e.preventDefault();
@@ -364,7 +369,6 @@ export default class Landingpage extends Component {
       this.setState({email: ''});
       this.setState({password: ''});
       this.setState({login: true});
-      // alert('enter valid login details')
     }
 
     handleClick = () => {
@@ -374,26 +378,7 @@ export default class Landingpage extends Component {
       localStorage.setItem(TABS_LS, this.state.tabs_opened + 1);
     };
 
-//     checkTab(){
-//       var x = getCookie("tab");    
-//       document.getElementById("tabb").innerHTML = x + '  <img id="what" src="Images/logo.png" alt="">' ;
-//       setCookie("tab",eval(x)+1,30);
-      
-//   }
-//   setup(){
-//     // photo = getCookie("photo");
-//     tab = getCookie("tab");
-//     if(tab == ""){
-//         setCookie('tab',1,30);
-//     }
-// }
-
       render() {
-
-        // const myelement = (
-        //   <h1 id="counter"> 1 </h1>
-        // );
-        
         const {images, currentImg} = this.state;
         const urlString = `url('${images[currentImg]}')`;
 
@@ -408,38 +393,34 @@ export default class Landingpage extends Component {
         
         return hasError ? shouldShow : false;
         };
-        // var bgimg = this.state.selectedImage;
-        // var bg=require('../assets/modal-bg.jpg')
-        // const Images = [
-        //   require('../assets/modal-bg.jpg'),
-        //   require('../assets/img1.jpg'),
-        //   require('../assets/img2.jpg')   ];
-        // const bgimg = require(this.state.backgroundStyle.backgroundImage)
-
-        // var images = [
-        //   "https://unsplash.com/photos/pBx1VvMCL24",
-        //     "https://unsplash.com/photos/pBx1VvMCL24",
-        //     "https://unsplash.com/photos/pBx1VvMCL24"
-        // ]
-        
-        // // var imageHead = document.getElementById("image-head");
-        // var i = 0;
-        
-        // setInterval(function() {
-        //       // imageHead.style.backgroundImage = "url(" + images[i] + ")";
-        //       i = i + 1;
-        //       if (i == images.length) {
-        //         i =  0;
-        //       }
-        // }, 1000);
 
         return (
           <div className="bg" /*id="image-head" */style={{backgroundImage: urlString}}/* style={getBGStyle} style={{ backgroundImage: "url(" + images[i] + ")"}} style={getBGStyle}style={{ backgroundImage: this.state.imgPath }} style ={ { backgroundImage: "url("+Images[0]+")" } } style={ { backgroundImage: "url("+bgimg+")"}}*/>
             <div className="bg-wrapper">
             <div className="top-content">
-                <div>
-                  <Header />
-                </div>
+            <div className="widgets"> 
+              <div className="header">
+                <div className="text-right top-left logo">
+                  <div className="logo-counter">
+                    <Update />
+                    <div className="tab-counter">
+                    <Tooltip disableFocusListener title="No. of Tabs Opened" enterDelay={500} leaveDelay={200}>
+                    <div onLoad={this.handleLoad} style={{padding: '10px 6px', position: 'relative', display: 'block'}}>
+                        {this.state.tabs_opened}
+                    </div>
+                    </Tooltip>
+                  </div>
+                    <img
+                      src={logosmall}
+                      width="35"
+                      height="35"
+                      className="d-inline-block align-top"
+                      alt="OpenTabs logo"
+                    />
+                  </div>
+                </div>                 
+            </div>
+            </div>   
             </div>
            
 
@@ -455,15 +436,7 @@ export default class Landingpage extends Component {
                     <Dropdown.Item eventKey="3" target="_blank" href="https://donorbox.org/opentabs"><FiGift /> Donate</Dropdown.Item>
                     <Dropdown.Item eventKey="4" onClick={this.resetForm/*, this.changeState*/}
                     /*className={login ? "btn-primary" : "btn-danger"}*/>
-                      {console.log(this.state.login)}
-                      {/* if({this.state.login}){
-                        alert('welcome')
-                      }
-                        else{
-                          alert('login with valid')
-                        }
-                      } */}
-                      
+                      {console.log(this.state.login)}             
                     <FiLogOut /> {this.state.login? "Login" : "Log Out"}
                     {/*  Log out */}
                     </Dropdown.Item>
