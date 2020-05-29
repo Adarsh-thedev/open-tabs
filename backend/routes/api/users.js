@@ -6,7 +6,6 @@ const bcrypt = require('bcryptjs');
 const {check, validationResult} = require('express-validator');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const sgMail = require('@sendgrid/mail');
 const sendgridAPIKey = require('../../config/keys').sendgridAPIKey;
 
 router.get('/test',(req,res) =>res.json({msg:"works"}))

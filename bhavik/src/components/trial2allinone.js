@@ -302,9 +302,10 @@ export default class Landingpage extends Component {
         //      
         // )
 
-        .then(
-          req=>{
-            if(!req.json.errors){
+        .then(res => res.json())
+        .then(data=>{
+            console.log(data);
+            if(!data.errors){
             this.setState({modalIsOpen: false});
             console.log(this.state.modalIsOpen);
             this.setState({name: this.state.name});
