@@ -47,22 +47,29 @@ body{
   width: 100%;
   height: 50px;
 }
-.header .row{
+.row{
   justify-content: center;
-  margin: 0 -15px;
+  margin: 0;
 }
-.header #update-btn{
+#update-btn{
   background: none;
   border: none;
-  padding: 10px 5px;
+  padding: 0px 5px;
+  margin: 10px 0px;
 }
-.header .toast{
+.toast{
   width: 400px;
-  margin-top: 10px;
+  /* margin-top: 10px; */
 }
-.header .toast-body {
-  text-align: center;
+.toast-header{
+  line-height: 1.2;
+}
+.close{
+  font-size: 2rem;
+}
+.toast-body {
   padding: .75rem;
+  line-height: 1.2;
 } 
 .header .col-9 {
   flex: 0 0 75%;
@@ -98,12 +105,9 @@ body{
 .toast-header, .toast-body{
   font-family: -apple-system, BlinkMacSystemFont, "Neue Haas Grotesk Text Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
   letter-spacing: 0px;
-  line-height: 1;
+  line-height: 1.2;
   font-weight: 500;
   font-size: 1.2em;
-}
-.toast-body ul{
-  margin-left: -1rem;
 }
 .tab-counter button{
   color: white;
@@ -111,7 +115,9 @@ body{
   text-shadow: 0 0 25px rgba(0,0,0,0.3);
   font-size: 1.2em;
 }
-
+.tab-counter a{
+  text-decoration: none;
+}
 .top-content {
   width: 100vw;
   position: fixed;
@@ -140,6 +146,17 @@ body{
   color: #fff;
   background-color: transparent;
   border-color: transparent;
+}
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: transparent;
+  border-color: transparent;
+  outline-color: transparent;
+}
+.show>.btn-primary.dropdown-toggle:focus, .show>.btn-primary.dropdown-toggle:hover, .show>.btn-primary.dropdown-toggle:active {
+  outline: none;
+  border-color: transparent;
+  background-color: transparent;
 }
 /* #settings {
   color: #0080ff;
@@ -172,6 +189,8 @@ body{
   color:  white;
   opacity: 0.6;
   border-color: transparent;
+  background-color: transparent;
+  outline: transparent;
 }
 #settings .dropdown-menu{
   color: #fff;
@@ -199,6 +218,13 @@ body{
   color: white;
   font-size: small;
   padding: 0.5rem 0.1rem;
+  margin-left: 12px;
+}
+#settings svg{
+  margin-bottom: inherit;
+    overflow: hidden;
+    vertical-align: middle;
+    margin-right: 5px;
 }
 .dropdown-toggle::after {
   display: none;
@@ -242,6 +268,7 @@ body{
 
 /*google-kind bar*/
 .searchbar{
+  display: inline-flex;
   background: transparent;
   opacity: 1;
   overflow: visible;
@@ -269,28 +296,42 @@ body{
   background: none;
   width: 220px;
   height: 35px;
+  margin: 2px 5px;
+}
+.searchbar #searchsubmit{
+  background-color: transparent;
+  border-color: transparent;
 }
 /* .searchbar input:hover, .search #q:active, .search #q:focus{
   background: white;
   opacity: 1;
 } */
 .ReactModal__Overlay{
-  background-image: url("/green.jpg");
+  /* background-image: url("../assets/green.jpg"); */
+  /* background-image: url(https://source.unsplash.com/pOWBHdgy1Lo/2560x1600); */
+  background-image: url("../assets/modal-bg.jpg");
+
   background-size: cover;
+  background-position: top;
 }
-.bg{
+.bg { 
+  /* background-image:url('chrome-extension://pcmkldhlmgpgllljcoofkfcebichpfoi/images/img1.jpg'); */
   /* background-image: url(https://source.unsplash.com/collection/10046061/2560x1600/daily?); */
   /* background-image: url(https://source.unsplash.com/lyPG-o_U0mE/2560x1600); */
   /* background-image: url(https://source.unsplash.com/XHDtPRj535A/2560x1600); */
   /* background-image: url(https://source.unsplash.com/muNaqVq7sTs/2560x1600); */
-  background-image: url(https://source.unsplash.com/e5sp18O40yA/2560x1600);
+  /* background-image: url(https://source.unsplash.com/e5sp18O40yA/2560x1600);
   background-image: url(https://source.unsplash.com/RkuRHfcTNGY/2560x1600);
   background-image: url(https://source.unsplash.com/og3xEhnrOpQ/2560x1600);
   background-image: url(https://source.unsplash.com/YMBpLXZrHmc/2560x1600);
   background-image: url(https://source.unsplash.com/aaUJ_mfSiDU/2560x1600);
-  background-image: url(https://source.unsplash.com/ZOA-cqKuJAA/2560x1600);
+  background-image: url(https://source.unsplash.com/ZOA-cqKuJAA/2560x1600); */
   /* background-image: url(https://source.unsplash.com/04-C1NZk1hE/2560x1600); */
+  /* background-image: url("../assets/modal-bg.jpg");*/
   background-size: cover;
+  background-position: top;
+  width: 100%;
+  height: 100vh;
 }
 
 .ReactModal__Content.ReactModal__Content--after-open{
@@ -328,11 +369,10 @@ body{
   padding: 10px;
   white-space: normal;
   text-shadow: 0 1px 5px rgba(0,0,0,.1);
-  font-size: 274%;
+  font-size: 337.5%;
 }
 .form-container input, .form-container input:focus, .form-container input:active, .form-container input:hover{
-  min-width: 585px;
-  max-width: 90%;
+  width: 605px;
   margin: 20px auto;
   font-size: 24px;
   text-align: center;
@@ -352,7 +392,7 @@ body{
 .form-container .panel {
   /* background: rgba(0,0,0,.2); */
   height: 100%;
-  width: 605px;
+  width: 100;
   text-align: center;
   border-radius: 10px;
 }
@@ -365,16 +405,23 @@ body{
   justify-content: center;
 }
 .btn-group-lg>.btn, .btn-lg {
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 1rem;
   font-size: 1.25rem;
   line-height: 1.5;
-  border-radius: .3rem;
+  border-radius: 3rem;
+  background-color: transparent;
+  border-color: transparent;
+}
+.btn-lg:hover, .btn-lg:active, .btn-lg:focus{
+  opacity: 0.6;
+  background-color: transparent;
+  border-color: transparent;
 }
 .btn-group svg {
-  width: 1.5em;
+  width: 3em;
   overflow: hidden;
   vertical-align: middle;
-  height: 1.5em;
+  height: 3em;
 }
 .form-container .back {
   float: left;
@@ -393,6 +440,32 @@ body{
 .form-group{
   margin: 0;
 }
+.StayLoggedOut{
+  width: 605px;
+  /* position: fixed;
+  bottom: 2vh; */
+  margin-top: 12vh;
+  text-align: center; 
+  justify-content: center;
+  display: inline-flex;
+  color: white; 
+}
+.StayLoggedOut p{
+  line-height: inherit;
+}
+.StayLoggedOut button{
+  margin: 0 5px;
+  color: #fff;
+  background-color: transparent;
+  border: 2px solid white;
+  border-radius: 25px;
+}
+.StayLoggedOut button:focus, .StayLoggedOut button:hover, .StayLoggedOut button:active{
+  color: #fff;
+  opacity: 0.6;
+  background-color: transparent;
+  border-color: transparent;
+}
 /* Styling Parts */
 #part1,
 #part2,
@@ -405,7 +478,8 @@ body{
   /* transition: opacity 1s ease-in-out; */
 }
 #part1, #part2{
-  margin-top: 16.5%;
+  /* margin-top: 16.5%; */
+  margin-top: 21%;
 }
 /* Hidden Parts */
 #part2,
@@ -466,10 +540,20 @@ body{
     height: 50%;
     margin-bottom: 0;
   }
-  .toast-body{
+  .toast{
+    width: 400px;
+    margin-top: 0px;
+  }
+  /* .toast-body{
     height: 120px;
     overflow-y: scroll;
     text-align: justify;
+  } */
+  .StayLoggedOut{
+    justify-content: center;
+    display: inline-flex;
+    margin-top: 8.5vh;
+    color: white;
   }
 }
 @media screen and (max-height: 700px){
@@ -498,10 +582,20 @@ body{
     height: 50%;
     margin-bottom: 0;
   }
-  .toast-body{
+  .toast{
+    width: 400px;
+    margin-top: 0px;
+  }
+  /* .toast-body{
     height: 120px;
     overflow-y: scroll;
     text-align: justify;
+  } */
+  .StayLoggedOut{
+    justify-content: center;
+    display: inline-flex;
+    margin-top: 8.5vh;
+    color: white;
   }
 }
 
@@ -509,4 +603,67 @@ body{
   #greetings{
     padding: 5px 0;
   }
+}
+
+
+/*Form Trial*/
+
+form {
+  padding: 0 40px;
+}
+
+form input {
+  display: block;
+  width: 100%;
+  font-size: 20px;
+  padding: 5px 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+form input.error {
+  border-color: red;
+}
+
+form span.error {
+  color: red;
+}
+
+.hidden {
+  display: none;
+}
+
+form #submitbtn {
+  /* display: block;
+  width: 100%;
+  appearance: none;
+  border-radius: 5px;
+  background-color: transparent;
+  border-color: transparent;
+  color: #fff;
+  font-size: 16px;
+  height: 40px;
+  margin-top: 30px; */
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  border-radius: 3rem;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+form #submitbtn:hover, form #submitbtn:active, form #submitbtn:focus {
+  opacity: 0.6;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+form button:disabled {
+  background-color: #dbf99f;
+  color: #333;
+}
+
+.tab-counter{
+  color: #fff;
 }
