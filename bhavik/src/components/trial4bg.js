@@ -115,6 +115,7 @@ export default class Landingpage extends Component {
             email: '',
             password: '',
           },
+        //   tabs_opened: JSON.parse(localStorage.getItem(TABS_LS)),
           tabs_opened: JSON.parse(localStorage.getItem(TABS_LS)),
           isNameRequired: true,
           salutation: this.determineSalutation(time.hour),
@@ -162,7 +163,18 @@ export default class Landingpage extends Component {
         }
       }
 
-      resetForm = () => {
+      resetForm = async() => {
+        const response = await fetch('/api/users/update_tabs',
+        {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: localStorage.getItem(EMAIL_LS), tabs_opened: localStorage.getItem(TABS_LS)}),    
+        }
+        )
+        .then(res=>console.log(res.json()));
+
         this.setState(this.baseState);
         this.setState({login: true});
         localStorage.setItem(LOGIN_LS, this.state.login);
@@ -172,8 +184,8 @@ export default class Landingpage extends Component {
         // this.setState({name: 'Tabber'});
         // localStorage.setItem(NAME_LS, this.state.name);
         // this.setState({modalIsOpen: false}); //for tabber 
-        this.setState({tabs_opened: this.state.tabs_opened});
-        localStorage.setItem(TABS_LS, this.state.tabs_opened);
+        // this.setState({tabs_opened: this.state.tabs_opened});
+        // localStorage.setItem(TABS_LS, this.state.tabs_opened);
       }
 
       closeModal() {
@@ -287,9 +299,39 @@ export default class Landingpage extends Component {
         
         return body;
       };
+
+      getCookie(name) {
+        var dc = document.cookie;
+        var prefix = name + "=";
+        var begin = dc.indexOf("; " + prefix);
+        if (begin == -1) {
+            begin = dc.indexOf(prefix);
+            if (begin != 0) return null;
+        }
+        else
+        {
+            begin += 2;
+            var end = document.cookie.indexOf(";", begin);
+            if (end == -1) {
+            end = dc.length;
+            }
+        }
+        // because unescape has been deprecated, replaced with decodeURI
+        //return unescape(dc.substring(begin + prefix.length, end));
+        return decodeURI(dc.substring(begin + prefix.length, end));
+    } 
       
       handleSubmit = async e => {
         e.preventDefault();
+        
+        var tab = this.getCookie("tab");
+
+        if (tab == null) {
+            console.log('cookie doesnt exist') // do cookie doesn't exist stuff;
+        }
+        else {
+            this.setState({tabs_opened: tab})
+        }
         
         const response = await fetch('/api/users/register', 
         {
@@ -313,7 +355,8 @@ export default class Landingpage extends Component {
             localStorage.setItem(EMAIL_LS, this.state.email);
             this.setState({password: this.state.password});
             localStorage.setItem(PASSWORD_LS, this.state.password);
-            this.setState({tabs_opened: this.state.tabs_opened});
+            // this.setState({tabs_opened: this.state.tabs_opened});
+            this.setState({tabs_opened: data.user.tabs_opened});
             localStorage.setItem(TABS_LS, this.state.tabs_opened); 
             this.setState({login: false}); //important to keep this false to get logout option
             localStorage.setItem(LOGIN_LS, this.state.login); 
@@ -336,13 +379,13 @@ export default class Landingpage extends Component {
 
         handleLoad = async e => {
             e.preventDefault();
-            const response = await fetch('/api/users/update_tabs',
+            const response = await fetch('/api/users/single_update_tabs',
             {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email: localStorage.getItem(EMAIL_LS), tabs_opened: localStorage.getItem(TABS_LS)}),    
+                body: JSON.stringify({ email: localStorage.getItem(EMAIL_LS)}),    
             }
             )
             .then(res=>console.log(res.json()));
@@ -381,6 +424,7 @@ export default class Landingpage extends Component {
       this.setState({modalIsOpen: false});
       this.setState({email: ''});
       this.setState({password: ''});
+      this.setState({tabs_opened: 0});
       localStorage.getItem(LOGIN_LS); 
       this.setState({login: true});
       localStorage.setItem(LOGIN_LS, this.state.login);
