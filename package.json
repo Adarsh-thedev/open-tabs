@@ -8,7 +8,7 @@
     "client": "npm start --prefix bhavik",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "author": "",
+  "author": "Jash",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -19,7 +19,8 @@
     "express-validator": "^6.4.1",
     "mongoose": "^5.9.10",
     "node": "^14.0.0",
-    "nodemailer": "^6.4.6"
+    "nodemailer": "^6.4.6",
+    "stripe": "^8.56.0"
   },
   "devDependencies": {
     "concurrently": "^5.2.0",

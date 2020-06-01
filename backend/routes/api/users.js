@@ -13,12 +13,12 @@ router.get('/test',(req,res) =>res.json({msg:"works"}))
 
 ///ROUTE /api/users/register
 router.post('/register', [
-    check('email').isEmail(),
-    check('email').notEmpty(),
-    check('password').notEmpty(),
-    check('password').isLength({min:5}),
-    check('method').notEmpty(),
-    check('name').isAlpha()
+    check('email').isEmail().withMessage("Please enter a valid email address"),
+    check('email').notEmpty().withMessage("Please enter an email address"),
+    check('password').notEmpty().withMessage("Please enter a password"),
+    check('password').isLength({min:5}).withMessage("Password Length Should be Minimum 5 characters"),
+    check('method').notEmpty().withMessage("Method of login does not exist"),
+    check('name').isAlpha().withMessage("Invalid name")
 ],(req,res)=>{
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -44,7 +44,7 @@ router.post('/register', [
                         }
                         else //if entered password is incorrect
                         {
-                            return res.status(400).json({errors:{password:'Password for the given email incorrect'}});
+                            return res.status(400).json({errors:{value:req.body.password,param:'password', msg:'Password for the given email incorrect'}});
                         }
                     })
                     .catch(err=>{console.log(err)});
@@ -94,7 +94,7 @@ router.post('/register', [
                                 //     text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/api\/users\/confirmation\/' + token.token + '\n' };
                                 // transporter.sendMail(mailOptions)
                                 //     .catch(err=>console.log(err))
-                                res.json({user:user});//,msg:"Now please verify your email ID by clicking on the link in the email sent to you"})
+                                res.json({user:user,msg:'User created'});//,msg:"Now please verify your email ID by clicking on the link in the email sent to you"})
 
                             })
                             .catch(err=>console.log(err));
@@ -133,8 +133,34 @@ router.post('/update_tabs',[
         })
         .catch(err=>console.log(err));
 }
-
+   
 )
+
+router.post('/single_update_tabs',[
+    check('email').isEmail(),
+    check('email').notEmpty(),
+],(req,res)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(422).json({errors:errors.array()});
+    }
+    User.findOne({"local.email" : req.body.email})
+        .then(user=>{
+            if(user)
+            {
+                user.tabs_opened= (user.tabs_opened + 1);
+                user.save();
+                return res.json({msg:'Tab updated', tabs_opened:user.tabs_opened});
+            }
+            else
+            {
+                return res.json({errors:{user:'User with given email does not exist'}});
+            }
+        })
+        .catch(err=>console.log(err));
+}
+)
+
 // router.post('/confirmation', userController.confirmationPost);
 router.get('/confirmation/:token', [
     check('token').notEmpty(),
