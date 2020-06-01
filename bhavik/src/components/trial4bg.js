@@ -181,6 +181,9 @@ export default class Landingpage extends Component {
         this.setState({modalIsOpen: true});
         window.localStorage.clear();
         localStorage.clear();
+        //for new user trial
+        this.setState({tabs_opened: 0});
+        localStorage.setItem(TABS_LS, this.state.tabs_opened);
         // this.setState({name: 'Tabber'});
         // localStorage.setItem(NAME_LS, this.state.name);
         // this.setState({modalIsOpen: false}); //for tabber 
@@ -363,7 +366,7 @@ export default class Landingpage extends Component {
           }
           else {
             this.setState({modalIsOpen: true});
-            alert('Please enter valid login details!')
+            // alert('Please enter valid login details!')
             console.log(this.state.modalIsOpen);
             this.setState({login: true}); //important to keep this false to get logout option
             localStorage.setItem(LOGIN_LS, this.state.login);
@@ -490,7 +493,6 @@ export default class Landingpage extends Component {
 
         const emailPattern = /(.+)@(.+){2,}\.(.+){2,}/;
         const {login} = this.state.login;
-
         const errors = validate(this.state.name, this.state.email, this.state.password);
         const isDisabled = Object.keys(errors).some(x => errors[x]);
       
@@ -660,6 +662,7 @@ export default class Landingpage extends Component {
                             noValidate />
 
                         <span className={((this.state.password.length)>0 && (this.state.password.length)<5) ? "error" : "hidden"}>Please enter a valid password for {this.state.email}</span>
+                        <span className={(this.state.modalIsOpen) ? "error" : "hidden"}>Please enter valid login details for {this.state.email}</span>
 
                         <div className="btn-group btn-group-lg" role="group" aria-label="...">
                         <label className="continue">
