@@ -55,10 +55,11 @@ body{
   background: none;
   border: none;
   padding: 0px 5px;
-  margin: 10px 0px;
+  margin: 10px -15px;
 }
 .toast{
   width: 400px;
+  transition: opacity 1s ease-in-out;
   /* margin-top: 10px; */
 }
 .toast-header{
@@ -66,6 +67,10 @@ body{
 }
 .close{
   font-size: 2rem;
+}
+.fade {
+  transition: opacity 0.15s linear; /*default*/
+  /* transition: opacity 0.45s linear; trial */
 }
 .toast-body {
   padding: .75rem;
@@ -310,28 +315,30 @@ body{
   /* background-image: url("../assets/green.jpg"); */
   /* background-image: url(https://source.unsplash.com/pOWBHdgy1Lo/2560x1600); */
   background-image: url("../assets/modal-bg.jpg");
-
+  background-color: black;
   background-size: cover;
   background-position: top;
 }
 .bg { 
   /* background-image:url('chrome-extension://pcmkldhlmgpgllljcoofkfcebichpfoi/images/img1.jpg'); */
-  /* background-image: url(https://source.unsplash.com/collection/10046061/2560x1600/daily?); */
-  /* background-image: url(https://source.unsplash.com/lyPG-o_U0mE/2560x1600); */
-  /* background-image: url(https://source.unsplash.com/XHDtPRj535A/2560x1600); */
-  /* background-image: url(https://source.unsplash.com/muNaqVq7sTs/2560x1600); */
-  /* background-image: url(https://source.unsplash.com/e5sp18O40yA/2560x1600);
+  background-image: url(https://source.unsplash.com/collection/10046061/1920x1080/daily?);
+  background-image: url(https://source.unsplash.com/lyPG-o_U0mE/2560x1600); 
+  background-image: url(https://source.unsplash.com/XHDtPRj535A/2560x1600); 
+  background-image: url(https://source.unsplash.com/muNaqVq7sTs/2560x1600);
+  background-image: url(https://source.unsplash.com/e5sp18O40yA/2560x1600);
   background-image: url(https://source.unsplash.com/RkuRHfcTNGY/2560x1600);
   background-image: url(https://source.unsplash.com/og3xEhnrOpQ/2560x1600);
   background-image: url(https://source.unsplash.com/YMBpLXZrHmc/2560x1600);
   background-image: url(https://source.unsplash.com/aaUJ_mfSiDU/2560x1600);
-  background-image: url(https://source.unsplash.com/ZOA-cqKuJAA/2560x1600); */
-  /* background-image: url(https://source.unsplash.com/04-C1NZk1hE/2560x1600); */
-  /* background-image: url("../assets/modal-bg.jpg");*/
+  background-image: url(https://source.unsplash.com/ZOA-cqKuJAA/2560x1600);
+  background-image: url(https://source.unsplash.com/04-C1NZk1hE/2560x1600);
+  background-image: url("../assets/modal-bg.jpg");
+  background-color: black;
   background-size: cover;
   background-position: top;
   width: 100%;
   height: 100vh;
+  transition: opacity 1s ease-in-out;
 }
 
 .ReactModal__Content.ReactModal__Content--after-open{
@@ -340,6 +347,7 @@ body{
   width: 100vw;
   height: 100vh;
   text-align: center;
+  transition: opacity 1s ease-in-out;
 }
 .modal-content{
   background: none;
@@ -411,6 +419,7 @@ body{
   border-radius: 3rem;
   background-color: transparent;
   border-color: transparent;
+  transition: opacity 300ms, transform 300ms;
 }
 .btn-lg:hover, .btn-lg:active, .btn-lg:focus{
   opacity: 0.6;
@@ -423,10 +432,10 @@ body{
   vertical-align: middle;
   height: 3em;
 }
-.form-container .back {
+/* .form-container .back {
   float: left;
   padding: 10px;
-}
+} */
 .form-container .continue {
   float: right;
   padding: 10px;
@@ -466,6 +475,36 @@ body{
   background-color: transparent;
   border-color: transparent;
 }
+
+.back{
+  width: 605px;
+  /* position: fixed;
+  bottom: 2vh; */
+  margin-top: 12vh;
+  text-align: center; 
+  justify-content: center;
+  display: inline-flex;
+  color: white; 
+}
+.back p{
+  line-height: inherit;
+}
+.back .btn{
+  margin: 0 5px;
+  padding: 1px 6px;
+  color: #fff;
+  background-color: transparent;
+  border: 2px solid white;
+  border-radius: 25px;
+  font-size: 16px;
+}
+.back button:focus, .back button:hover, .back button:active{
+  color: #fff;
+  opacity: 0.6;
+  background-color: transparent;
+  border-color: transparent;
+}
+
 /* Styling Parts */
 #part1,
 #part2,
@@ -475,7 +514,7 @@ body{
   justify-content: center;
   height: 100%;
   opacity: 1;
-  /* transition: opacity 1s ease-in-out; */
+  transition: opacity 1s ease-in-out;
 }
 #part1, #part2{
   /* margin-top: 16.5%; */
@@ -549,7 +588,7 @@ body{
     overflow-y: scroll;
     text-align: justify;
   } */
-  .StayLoggedOut{
+  .StayLoggedOut, .back{
     justify-content: center;
     display: inline-flex;
     margin-top: 8.5vh;
@@ -591,7 +630,7 @@ body{
     overflow-y: scroll;
     text-align: justify;
   } */
-  .StayLoggedOut{
+  .StayLoggedOut, .back{
     justify-content: center;
     display: inline-flex;
     margin-top: 8.5vh;
@@ -618,16 +657,26 @@ form input {
   font-size: 20px;
   padding: 5px 10px;
   margin: 10px 0;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   border: 1px solid #ddd;
 }
-
+/* 
 form input.error {
   border-color: red;
 }
 
 form span.error {
   color: red;
+} */
+
+form input.error {
+  border-color:white;
+}
+
+form span.error {
+  color:white;
+  /* position: fixed;
+  width: 605px; */
 }
 
 .hidden {
@@ -673,4 +722,41 @@ form button:disabled {
 }
 .tab-counter a{
   color: white;
+}
+
+/*Quote and weather trial*/
+
+.top-right {
+  position: fixed;
+  /* top: 10vh; */
+  left: 2vh;
+  top: 2vh;
+  
+}
+
+
+.quote {
+  font-family: "Helvetica Neue";
+  color: white;
+  font-size: 2vw;
+  letter-spacing: 1px;
+  line-height: 1;
+  margin: 0;
+}
+
+#quote-text {
+  font-size: 2vw;
+}
+
+#location {
+  margin-top: 5px
+}
+
+.weather {
+  font-family: "Helvetica Neue";
+  color: white;
+  font-size: 2.5vw;
+  letter-spacing: 1px;
+  line-height: 1;
+  margin: 10px;
 }
