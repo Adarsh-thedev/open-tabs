@@ -2,14 +2,17 @@ import React, { Component, useState, useRef } from 'react';
 import {DateTime} from 'luxon';
 import Modal from 'react-modal';
 import './styles.css';
+import Header from './Header';
 import Searchbar from './Searchbar';
 import { FiArrowRight, FiLogOut } from 'react-icons/fi';
 import {FiSettings, FiHome, FiUser, FiBell, FiGift} from 'react-icons/fi';
 import Dropdown from 'react-bootstrap/Dropdown';
 import logo from '../assets/logo2.png';
 import Tooltip from '@material-ui/core/Tooltip';
+
 import logosmall from '../assets/logo1.png';
 import { Row, Col } from 'react-bootstrap';
+import Tabcounter from './Tabcounter';
 import Toast from 'react-bootstrap/Toast';
 import Button from 'react-bootstrap/Button';
 import Overlay from 'react-bootstrap/Overlay';
@@ -48,6 +51,7 @@ function Update() {
         <Button id="update-btn" ref={target} onClick={() => setShow(true)}><FiBell /></Button>
       </Col>
     </Row>
+
   );
 }
 
@@ -55,7 +59,6 @@ const NAME_LS = 'name';
 const EMAIL_LS = 'email';
 const PASSWORD_LS = 'password';
 const TABS_LS = 'tabs_opened';
-const LOGIN_LS = 'login';
 
 const customStyles = {
     content: {
@@ -70,6 +73,7 @@ const customStyles = {
       transform: 'translate(-50%, -50%)',
       border: 'none',
       background: 'none',
+      backgroundColor: 'none',
       overflow: 'none',
       position:'fixed',
       padding: '0 20px'
@@ -82,10 +86,13 @@ const customStyles = {
 };
 
 function validate(name, email, password) {
-    return {
-      name: name.length < 1,
-    };
-  }
+  return {
+    name: name.length < 4, //true if name is empty
+    // email: email.length === 0,
+    // password: password.length < 6,
+  };
+}
+
 export default class Landingpage extends Component {
     constructor() {
         super();
@@ -108,12 +115,9 @@ export default class Landingpage extends Component {
           name: '',
           email: '',
           password: '',
+          // errors: false,
           showPopup: false,
-          errors: {
-            name: '',
-            email: '',
-            password: '',
-          },
+        //   tabs_opened: 0,
           tabs_opened: JSON.parse(localStorage.getItem(TABS_LS)),
           isNameRequired: true,
           salutation: this.determineSalutation(time.hour),
@@ -142,7 +146,7 @@ export default class Landingpage extends Component {
         this.handleLoad = this.handleLoad.bind(this);
         this.setState({tabs_opened: this.state.tabs_opened});
       }
-
+      
       changeState = () => {
         this.setState({
           login: !this.state.login
@@ -163,11 +167,10 @@ export default class Landingpage extends Component {
 
       resetForm = () => {
         this.setState(this.baseState);
-        this.setState({login: true});
-        localStorage.setItem(LOGIN_LS, this.state.login);
         this.setState({modalIsOpen: true});
         window.localStorage.clear();
         localStorage.clear();
+        this.setState({login: this.state.login});
         this.setState({tabs_opened: this.state.tabs_opened});
         localStorage.setItem(TABS_LS, this.state.tabs_opened);
       }
@@ -193,7 +196,7 @@ export default class Landingpage extends Component {
       handleChangePassword(e) {
         this.setState({password: e.target.value});
       }
-
+      
       handleBlur = (field) => (evt) => {
         this.setState({
           touched: { ...this.state.touched, [field]: true },
@@ -229,6 +232,7 @@ export default class Landingpage extends Component {
             time,
             salutation: this.determineSalutation(time.hour)
           });
+          // this.setState({ imgPath: "url(" + images[0] + ")" })
         }, 1000 * 1);
       }
 
@@ -294,8 +298,11 @@ export default class Landingpage extends Component {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ 
-            name: this.state.name, email: this.state.email, password: this.state.password, tabs_opened: this.state.tabs_opened, method: 'local'}),
+            name: this.state.name, email: this.state.email, password: this.state.password/*,tabs_opened: this.state.tabs_opened*/,method: 'local'}),
         })
+        // .then(
+        //      
+        // )
 
         .then(res => res.json())
         .then(data=>{
@@ -305,28 +312,30 @@ export default class Landingpage extends Component {
             console.log(this.state.modalIsOpen);
             this.setState({name: this.state.name});
             localStorage.setItem(NAME_LS, this.state.name);
+            // localStorage.setItem(name, this.state.name);
             this.setState({email: this.state.email});
             localStorage.setItem(EMAIL_LS, this.state.email);
+            // localStorage.setItem(email, this.state.email);
             this.setState({password: this.state.password});
             localStorage.setItem(PASSWORD_LS, this.state.password);
+            // localStorage.setItem(password, this.state.password);
             this.setState({tabs_opened: this.state.tabs_opened});
             localStorage.setItem(TABS_LS, this.state.tabs_opened); 
             this.setState({login: false}); //important to keep this false to get logout option
-            localStorage.setItem(LOGIN_LS, this.state.login); 
           }
           else {
             this.setState({modalIsOpen: true});
-            alert('Please enter valid login details!')
             console.log(this.state.modalIsOpen);
           }
           }          
         )
         this.setState({modalIsOpen: this.state.modalIsOpen})
         console.log(this.state.modalIsOpen);
-
-        this.setState({login: false});
-        localStorage.setItem(LOGIN_LS, this.state.login); 
         };
+        
+        // LoginLoad(){
+        //   this.setState({login: !this.state.login})
+        // }
 
         handleLoad = async e => {
             e.preventDefault();
@@ -346,39 +355,17 @@ export default class Landingpage extends Component {
         
             this.setState({tabs_opened: this.state.tabs_opened});
             localStorage.setItem(TABS_LS, this.state.tabs_opened);
-            this.setState({modalIsOpen: this.state.modalIsOpen})
-
-            if(!this.state.email){
-              this.setState({login: true}) //to make logout toggle stay even on load
-              localStorage.setItem(LOGIN_LS, this.state.login);
-              console.log(this.state.login);
-            }
-            else {
-              this.setState({login: false}) //to make logout toggle stay even on load
-              localStorage.setItem(LOGIN_LS, this.state.login);
-              console.log(this.state.login);
-            }
             
+            this.setState({login: !this.state.login}) //to make logout toggle stay even on load
+
+            // if(this.state.email === ''){
+            //   this.setState({login: this.state.login}) //to make logout toggle stay even on load
+            // } else {
+            //   this.setState({login: !this.state.login})
+            // }
           };
 
-    stayloggedout = () =>{
-      this.setState({name: this.state.name});
-      localStorage.setItem(NAME_LS, this.state.name);
-      this.setState({modalIsOpen: false});
-      this.setState({email: ''});
-      this.setState({password: ''});
-      this.setState({login: true});
-      localStorage.setItem(LOGIN_LS, this.state.login);
-    }
-
-    handleClick = () => {
-      this.setState((prevState, { tabs_opened }) => ({
-        tabs_opened: prevState.tabs_opened + 1
-      }));
-      localStorage.setItem(TABS_LS, this.state.tabs_opened + 1);
-    };
-
-    validatename = (e) => {
+      validatename = (e) => {
         if (!this.canBeSubmitted()) {
           e.preventDefault();
           return;
@@ -388,51 +375,41 @@ export default class Landingpage extends Component {
         const errors = validate(this.state.name);
         const isDisabled = Object.keys(errors).some(x => errors[x]);
         return !isDisabled;
-      } 
-      
-      validateemail = (e) => {
-        if (!this.EmailcanBeSubmitted()) {
-          e.preventDefault();
-          return;
-        }
-      }
-      EmailcanBeSubmitted() {
-        const errors = validate(this.state.email);
-        const emailPattern = /(.+)@(.+){2,}\.(.+){2,}/;
-        if (!emailPattern.test(this.state.email)) {
-          errors.email = 'Enter a valid email';
-        //   alert('Email should be in abc@email.com format')
-        }
-        this.setState({email: this.state.email})
-        const isDisabled = Object.keys(errors).some(x => errors[x]);
-        return !isDisabled;
       }  
 
-    //   validatepassword= (e) => {
-    //     if (!this.PasswordcanBeSubmitted()) {
-    //       e.preventDefault();
-    //       return;
-    //     }
-    //   }
-    //   PasswordcanBeSubmitted() {
-    //     const errors = validate(this.state.password);
-    //     if ({password: '' || this.state.password.length < 5}){
-    //         alert('Password should be of minimum 5 characters!')
-    //         this.setState({modalIsOpen: true})
-    //     }
-    //     this.setState({password: this.state.password})
-    //     const isDisabled = Object.keys(errors).some(x => errors[x]);
-    //     return !isDisabled;
-    //   }  
+      validateemail = (e) => {
+        const errors = validate(this.state.email);
+        const isDisabled = Object.keys(errors).some(x => errors[x]);
+        return !isDisabled;
+      }
+            
+    stayloggedout = () =>{
+      this.setState({name: this.state.name});
+      localStorage.setItem(NAME_LS, this.state.name);
+      this.setState({modalIsOpen: false});
+      this.setState({email: ''});
+      this.setState({password: ''});
+      this.setState({login: true});
+    }
+
+    handleClick = () => {
+      this.setState((prevState, { tabs_opened }) => ({
+        tabs_opened: prevState.tabs_opened + 1
+      }));
+      localStorage.setItem(TABS_LS, this.state.tabs_opened + 1);
+    };
+
+
 
       render() {
         const {images, currentImg} = this.state;
         const urlString = `url('${images[currentImg]}')`;
 
-        const emailPattern = /(.+)@(.+){2,}\.(.+){2,}/;
+        // const {login} = localStorage.getItem(LOGIN_LS);
+        // localStorage.setItem(LOGIN_LS, this.state.login);
         const {login} = this.state.login;
 
-        const errors = validate(this.state.name, this.state.email, this.state.password);
+        const errors = validate(this.state.name);
         const isDisabled = Object.keys(errors).some(x => errors[x]);
       
         const shouldMarkError = (field) => {
@@ -443,7 +420,7 @@ export default class Landingpage extends Component {
         };
 
         return (
-          <div className="bg"style={{backgroundImage: urlString}}>
+          <div className="bg" /*id="image-head" */style={{backgroundImage: urlString}}/* style={getBGStyle} style={{ backgroundImage: "url(" + images[i] + ")"}} style={getBGStyle}style={{ backgroundImage: this.state.imgPath }} style ={ { backgroundImage: "url("+Images[0]+")" } } style={ { backgroundImage: "url("+bgimg+")"}}*/>
             <div className="bg-wrapper">
             <div className="top-content">
             <div className="widgets"> 
@@ -485,11 +462,11 @@ export default class Landingpage extends Component {
                     <Dropdown.Item eventKey="1" target="_blank" href="http://opentabs.org"><FiHome /> Home</Dropdown.Item>
                     <Dropdown.Item eventKey="2" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScNIVjuhLCUF_CczUf2eCP3VOIiIfl-UhJAsh-f-SJbUq7WnQ/viewform"><FiUser /> Feedback</Dropdown.Item>
                     <Dropdown.Item eventKey="3" target="_blank" href="https://donorbox.org/opentabs"><FiGift /> Donate</Dropdown.Item>
-                    <Dropdown.Item eventKey="4" onClick={this.resetForm} onLoad={this.handleLoad, this.stayloggedout}/*onLoad={this.LoginLoad}*/>
+                    <Dropdown.Item eventKey="4" onClick={this.resetForm/*, this.changeState*/} /*onLoad={this.LoginLoad}*/
+                    /*className={login ? "btn-primary" : "btn-danger"}*/>
                       {console.log(this.state.login)}             
-                    {/* <FiLogOut /> {login? "Login" : "Log Out"} */}
-                    <FiLogOut /> {(this.state.login) ? "Login" : "Log Out"}
-                    {/* <span className={((this.state.email.length)>0 ? "Login" : "Log Out"}> </span> */}
+                    <FiLogOut /> {this.state.login? "Login" : "Log Out"}
+                    {/*  Log out */}
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
@@ -497,123 +474,116 @@ export default class Landingpage extends Component {
             </div>
               
               <div className="text-center centered" >
+              {/* <img src={this.state.selectedImage} /> */}
                 <div className="block-text">
                   <h1 id="time">{this.state.time.toFormat("HH':'mm")}</h1>
                 </div>
                 <h3 id="greetings">
                   Good {this.state.salutation}, {this.state.name}.
                 </h3>
+                {/* {myelement} */}
                 <Modal
                   isOpen={this.state.modalIsOpen}
                   style={customStyles}
                   contentLabel="name-modal"
                   ariaHideApp={false}
                 >
-                <img
-                    src={logo}
-                    width="80"
-                    height="99"                    
-                    alt="OpenTabs logo"
-                    className="User-Logo"
-                />
-
-                <div class="form-container">
-                <form onSubmit={this.handleSubmit} noValidate>
-                <input id='step2' type='checkbox'/>
+                  <img
+                      src={logo}
+                      width="80"
+                      height="99"                    
+                      alt="OpenTabs logo"
+                      className="User-Logo"
+                    />
+                  <div class="form-container">
+                    <form action="" role="form" /*onSubmit={this.handleSubmit}*/>
+                      <input id='step2' type='checkbox'/>
                       <input id='step3' type='checkbox'/>
                       <div id="part1" className="form-group">
                         <div className="panel panel-primary">
                           <div className="panel-heading">
                             <h1 className="panel-title">Hey, what's your name?</h1>
                           </div>
-                    
-                        <input type='text' name='name' 
-                        onChange={this.handleChangeName} 
-                        className={shouldMarkError('name') ? "error" : ""} 
-                        placeholder="" 
-                        aria-describedby="sizing-addon1" 
-                        onBlur={this.handleBlur('name')} 
-                        value={this.state.name} 
-                        onKeyPress={this.onKeyPress} /*onSubmit={this.validatename}*/ 
-                        required pattern="\S+"
-                        noValidate />
-                        <span className={shouldMarkError('name') ? "error" : "hidden"}
+                          <input 
+                          type="text" 
+                          id="name" 
+                          className=/*"form-control"*/{shouldMarkError('name') ? "error" : ""} 
+                          placeholder="" 
+                          aria-describedby="sizing-addon1" 
+                          onChange={this.handleChangeName}
+                          onBlur={this.handleBlur('name')} 
+                          value={this.state.name} 
+                          onKeyPress={this.onKeyPress} /*onSubmit={this.validatename}*/ 
+                          required pattern="\S+"/>
+                          <span className={shouldMarkError('name') ? "error" : "hidden"}
                           >invalid name</span>
-                        <div className="btn-group btn-group-lg" role="group" aria-label="...">
+                          <div className="btn-group btn-group-lg" role="group" aria-label="...">
                           <label for='step2' id="continue-step2" class="continue">
-                              <div className="btn btn-default btn-primary btn-lg" onClick={this.validatename}><FiArrowRight /> </div>
+                              <div className="btn btn-default btn-primary btn-lg" onClick={this.validatename} /*validate={validate}*/><FiArrowRight /> </div>
                             </label>
                           </div>
-                    </div>
-                    </div>
+                        </div>
+                      </div>
 
                       <div id="part2" className="form-group">
                         <div className="panel panel-primary">
                           <div className="panel-heading">
                             <h1 className="panel-title">What's your email {this.state.name}?</h1>
                           </div>
-                            <input type='email' name='email' 
-                            onChange={this.handleChangeEmail} 
-                            className={shouldMarkError('email') ? "error" : ""} 
-                            placeholder="" 
-                            aria-describedby="sizing-addon1" 
-                            onBlur={this.handleBlur('email')} 
-                            value={this.state.email} 
-                            onKeyPress={this.onKeyPress}
-                            noValidate 
-                            pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" required/>
-                        
-                            {/* <span className={shouldMarkError('email') ? "error" : "hidden"}
-                            >invalid email</span> */}
-
-                          <span className={((this.state.email.length)>0 /*&& (this.state.email.length)<5 */&& !(emailPattern.test(this.state.email))) ? "error" : "hidden"}>'{this.state.email}' is not a valid email </span>
-
-                        <div className="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
-                            <label for='step3' id="continue-step3" className="continue">
-                              <div className="btn btn-default btn-primary btn-lg" role="button" onClick={this.validateemail}><FiArrowRight /> </div>
+                          <input 
+                          type="email" 
+                          id="email" 
+                          className={shouldMarkError('email') ? "error" : ""}
+                          placeholder="" 
+                          onChange={this.handleChangeEmail}
+                          onBlur={this.handleBlur('email')} 
+                          value={this.state.email} 
+                          onKeyPress={this.onKeyPress} />
+                          <span className={shouldMarkError('email') ? "error" : "hidden"}
+                          >invalid email</span>
+                          <div className="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
+                            <label for='step3' id="continue-step3" className="continue" onClick={this.validateemail}>
+                              <div className="btn btn-default btn-primary btn-lg" role="button"><FiArrowRight /> </div>
                             </label>                    
                           </div>
-                        <div className="StayLoggedOut">
-                            <p>Or would you rather stay logged out?<button onClick={this.stayloggedout}>Stay logged out</button></p>
+                          <div className="StayLoggedOut">
+                              <p>Or Would you rather stay logged out?<button onClick={this.stayloggedout}>Stay logged out</button></p>
+                            </div> 
                         </div>
-                    </div>
-                    </div>
-                    
+                      </div>
+
                       <div id="part3" className="form-group">
                         <div className="panel panel-primary">
                           <div className="panel-heading">
                             <h1 className="panel-title">{this.state.name}, enter password</h1>
                           </div>
-                            <input type='password' name='password' 
-                            onChange={this.handleChangePassword} 
-                            className={shouldMarkError('password') ? "error" : ""} 
-                            placeholder="" 
-                            aria-describedby="sizing-addon1"
-                            onBlur={this.handleBlur('password')} 
-                            value={this.state.password} 
-                            onKeyPress={this.onKeyPress} 
-                            noValidate />
-
-                        <span className={((this.state.password.length)>0 && (this.state.password.length)<5) ? "error" : "hidden"}>Please enter a valid password for {this.state.email}</span>
-
-                        <div className="btn-group btn-group-lg" role="group" aria-label="...">
-                        <label className="continue">
-                            <button type="submit"
+                          <input 
+                          type="password" 
+                          id="password" 
+                          className={shouldMarkError('password') ? "error" : ""}
+                          placeholder="" 
+                          onChange={this.handleChangePassword}
+                          onBlur={this.handleBlur('password')} 
+                          value={this.state.password} 
+                          onKeyPress={this.onKeyPress} />
+                          <span className={shouldMarkError('password') ? "error" : "hidden"}
+                          >invalid password</span>
+                          <div className="btn-group btn-group-lg" role="group" aria-label="...">
+                            <label className="continue">
+                              <button type="submit"
                               id="submitbtn"
                               className="btn btn-default btn-primary btn-lg" 
                               onClick={this.handleSubmit}
-                            >
-                            <FiArrowRight />
-                            </button>
-                        </label>
+                              /*onSubmit={this.handleSubmit} 
+                              onClick={this.closeModal}*/>
+                                <FiArrowRight />
+                              </button>
+                            </label>
+                          </div>
                         </div>
-                        <label for='step3' id="back-step3" class="back">
-                            <div class="btn btn-default btn-primary btn-lg">Use a different email address</div>
-                        </label>
-                        </div>
-                        </div>
+                      </div>
                     </form>
-                </div>
+                  </div>
                 </Modal>
               <div className="Search">
                 <Searchbar />
