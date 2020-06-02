@@ -3,8 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'weather-icons/css/weather-icons.css';
-import Landingpage from './components/trial4bg';
-import Header from './components/Header';
+import Landingpage from './components/Landingpage';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 class App extends Component {
@@ -13,7 +12,7 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/">
-            <Header />
+      
           </Route>
           <Route path="/extension">
             <Landingpage />
