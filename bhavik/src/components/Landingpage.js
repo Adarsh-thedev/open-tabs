@@ -3,7 +3,7 @@ import {DateTime} from 'luxon';
 import Modal from 'react-modal';
 import './styles.css';
 import Searchbar from './Searchbar';
-import { FiArrowRight, FiLogOut } from 'react-icons/fi';
+import {FiLogOut } from 'react-icons/fi';
 import {FiSettings, FiHome, FiUser, FiBell, FiGift} from 'react-icons/fi';
 import Dropdown from 'react-bootstrap/Dropdown';
 import logo from '../assets/logo2.png';
@@ -129,6 +129,37 @@ export default class Landingpage extends Component {
         this.handleLoad = this.handleLoad.bind(this);
         this.setState({tabs_opened: this.state.tabs_opened});
     }
+ 
+    componentDidMount() {
+        // this.callApi()
+        // .then(res => this.setState({ response: res.express }))
+        // .catch(err => console.log(err));
+
+        window.addEventListener('load', this.handleLoad);
+
+        const name = localStorage.getItem(NAME_LS);
+
+        if (name) {
+          this.setState({name});
+        } else {
+          this.setState({modalIsOpen: true});
+        }
+    
+        this.interval = setInterval(() => {
+          var time = DateTime.local();
+          this.setState({
+            time,
+            salutation: this.determineSalutation(time.hour)
+          });
+        }, 1000 * 1);
+    }
+
+    componentWillUnmount() {
+        if (this.interval) {
+          clearInterval(this.interval);
+        }
+        window.removeEventListener('load', this.handleLoad) 
+    }
 
     togglePopup() {  
         this.setState({  
@@ -143,7 +174,7 @@ export default class Landingpage extends Component {
     }
 
     resetForm = async() => {
-        const response = await fetch('/api/users/update_tabs',
+        await fetch('/api/users/update_tabs',
         {
             method: 'POST',
             headers: {
@@ -181,41 +212,6 @@ export default class Landingpage extends Component {
         });
     }
 
-    componentDidMount() {
-        this.callApi()
-        .then(res => this.setState({ response: res.express }))
-        .catch(err => console.log(err));
-
-        window.addEventListener('load', this.handleLoad);
-
-        const name = localStorage.getItem(NAME_LS);
-        const email = localStorage.getItem(EMAIL_LS);
-        const password = localStorage.getItem(PASSWORD_LS);
-        const tabs_opened = localStorage.getItem(TABS_LS);
-
-        if (name) {
-          this.setState({name});
-        } else {
-          this.setState({modalIsOpen: true});
-        }
-    
-        this.interval = setInterval(() => {
-          var time = DateTime.local();
-          this.setState({
-            time,
-            salutation: this.determineSalutation(time.hour)
-          });
-        }, 1000 * 1);
-    }
-
-      
-    componentWillUnmount() {
-        if (this.interval) {
-          clearInterval(this.interval);
-        }
-        window.removeEventListener('load', this.handleLoad) 
-    }
-
     determineSalutation(hour) {
         if (hour > 11 && hour < 19) {
           return 'afternoon';     
@@ -250,15 +246,15 @@ export default class Landingpage extends Component {
         var dc = document.cookie;
         var prefix = name + "=";
         var begin = dc.indexOf("; " + prefix);
-        if (begin == -1) {
+        if (begin === -1) {
             begin = dc.indexOf(prefix);
-            if (begin != 0) return null;
+            if (begin !== 0) return null;
         }
         else
         {
             begin += 2;
             var end = document.cookie.indexOf(";", begin);
-            if (end == -1) {
+            if (end === -1) {
             end = dc.length;
             }
         }
@@ -279,7 +275,7 @@ export default class Landingpage extends Component {
             this.setState({tabs_opened: tab})
         }
         
-        const response = await fetch('/api/users/register', 
+        await fetch('/api/users/register', 
         {
           method: 'POST',
           headers: {
@@ -313,12 +309,11 @@ export default class Landingpage extends Component {
           }          
         )
         this.setState({modalIsOpen: this.state.modalIsOpen})
-        console.log(this.state.modalIsOpen);
     };
 
     handleLoad = async e => {
         e.preventDefault();
-        const response = await fetch('/api/users/single_update_tabs',
+        await fetch('/api/users/single_update_tabs',
         {
             method: 'POST',
             headers: {
@@ -378,9 +373,9 @@ export default class Landingpage extends Component {
 
     render() {
         const emailPattern = /(.+)@(.+){2,}\.(.+){2,}/;
-        const {login} = this.state.login;
+        // const {login} = this.state.login;
         const errors = validate(this.state.name, this.state.email, this.state.password);
-        const isDisabled = Object.keys(errors).some(x => errors[x]);
+        // const isDisabled = Object.keys(errors).some(x => errors[x]);
       
         const shouldMarkError = (field) => {
         const hasError = errors[field];
@@ -402,8 +397,9 @@ export default class Landingpage extends Component {
                     <Tooltip disableFocusListener title="No. of Tabs Opened" enterDelay={500} leaveDelay={200}>
                     <div onLoad={this.handleLoad} style={{padding: '8px 8px', position: 'relative', display: 'block'}}>
                       <button style={{border: 'none', background: 'none'}}>
-                      <a href="" target="_blank" style={{textDecoration: 'none'}}> 
-                      {this.state.tabs_opened}</a>
+                      {/* <a style={{textDecoration: 'none'}}>  */}
+                      {this.state.tabs_opened}
+                      {/* </a> */}
                       </button>
                     </div>
                     </Tooltip>
