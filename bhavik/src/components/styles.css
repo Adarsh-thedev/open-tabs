@@ -60,7 +60,6 @@ body{
 .toast{
   width: 400px;
   transition: opacity 1s ease-in-out;
-  /* margin-top: 10px; */
 }
 .toast-header{
   line-height: 1.2;
@@ -69,8 +68,7 @@ body{
   font-size: 2rem;
 }
 .fade {
-  transition: opacity 0.15s linear; /*default*/
-  /* transition: opacity 0.45s linear; trial */
+  transition: opacity 0.22s linear;
 }
 .toast-body {
   padding: .75rem;
@@ -95,14 +93,14 @@ body{
   margin: 0 5px;
 }
 .bottom-left a{
-    font-size: 20px;
-    margin: 2px 0px;
-    color: black;
-    text-decoration: none;
-    background-color: none;
+  font-size: 20px;
+  margin: 2px 0px;
+  color: black;
+  text-decoration: none;
+  background-color: none;
 }
 .logo-counter{
-    display: inline-flex;
+  display: inline-flex;
 }
 .logo-counter img{
   margin: 5px;
@@ -129,18 +127,15 @@ body{
   top: 2vh;
   right: 2vh;
 }
-
 .bottom-third {
   position: fixed;
   top: 85%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
 .block-text h1, h2 {
   display: inline;
 }
-
 /* Settings */
 .bottom-content {
   position: fixed;
@@ -163,33 +158,6 @@ body{
   border-color: transparent;
   background-color: transparent;
 }
-/* #settings {
-  color: #0080ff;
-  font-family: "Nunito", Sans-serif;
-  font-size: 1vw;
-  letter-spacing: 1px;
-  line-height: 1;
-  position: fixed;
-  bottom: 2%;
-  left: 2%;
-} */
-/* #settings .btn{
-  padding: none;
-  line-height: none;
-  border: none;
-} */
-/* #settings:focus, #settings:active{
-  outline: none;
-  border-color: transparent;
-}
-#settings button{
-  color: white;
-  font-family: "Nunito", Sans-serif;
-  background-color: transparent;
-  border-color: transparent;
-  outline: none;
-} */
-
 #settings button:hover, #settings button:active,  #settings button:focus{
   color:  white;
   opacity: 0.6;
@@ -233,13 +201,6 @@ body{
 }
 .dropdown-toggle::after {
   display: none;
-  /* margin-left: .255em;
-  vertical-align: .255em;
-  content: "";
-  border-top: .3em solid;
-  border-right: .3em solid transparent;
-  border-bottom: 0;
-  border-left: .3em solid transparent; */
 }
 .fa {
   position: relative;
@@ -248,30 +209,26 @@ body{
 .search{
   text-align: center;
   position: relative;
-  /* top: 65%; */
   width: 100vw;
   height: 24%;
   margin-bottom: 1%;
 }
 .search .container{
-    display: inline-flex;
+  display: inline-flex;
 }
-
 .search svg{
-    color: white;
-    overflow: hidden;
-    vertical-align: middle;
-    margin: 0 0 1px 0;
+  color: white;
+  overflow: hidden;
+  vertical-align: middle;
+  margin: 0 0 1px 0;
 }
 .search form{
   display: inline-flex;
 }
 #searchSubmit{
-    vertical-align: middle;
-    margin: 5px;
+  vertical-align: middle;
+  margin: 5px;
 }
-
-/*google-kind bar*/
 .searchbar{
   display: inline-flex;
   background: transparent;
@@ -307,32 +264,14 @@ body{
   background-color: transparent;
   border-color: transparent;
 }
-/* .searchbar input:hover, .search #q:active, .search #q:focus{
-  background: white;
-  opacity: 1;
-} */
 .ReactModal__Overlay{
-  /* background-image: url("../assets/green.jpg"); */
-  /* background-image: url(https://source.unsplash.com/pOWBHdgy1Lo/2560x1600); */
   background-image: url("../assets/modal-bg.jpg");
   background-color: black;
   background-size: cover;
   background-position: top;
 }
-.bg { 
-  /* background-image:url('chrome-extension://pcmkldhlmgpgllljcoofkfcebichpfoi/images/img1.jpg'); */
+.bg {
   background-image: url(https://source.unsplash.com/collection/10046061/1920x1080/daily?);
-  background-image: url(https://source.unsplash.com/lyPG-o_U0mE/2560x1600); 
-  background-image: url(https://source.unsplash.com/XHDtPRj535A/2560x1600); 
-  background-image: url(https://source.unsplash.com/muNaqVq7sTs/2560x1600);
-  background-image: url(https://source.unsplash.com/e5sp18O40yA/2560x1600);
-  background-image: url(https://source.unsplash.com/RkuRHfcTNGY/2560x1600);
-  background-image: url(https://source.unsplash.com/og3xEhnrOpQ/2560x1600);
-  background-image: url(https://source.unsplash.com/YMBpLXZrHmc/2560x1600);
-  background-image: url(https://source.unsplash.com/aaUJ_mfSiDU/2560x1600);
-  background-image: url(https://source.unsplash.com/ZOA-cqKuJAA/2560x1600);
-  background-image: url(https://source.unsplash.com/04-C1NZk1hE/2560x1600);
-  background-image: url("../assets/modal-bg.jpg");
   background-color: black;
   background-size: cover;
   background-position: top;
@@ -353,7 +292,6 @@ body{
   background: none;
   border: none;
   width: fit-content;
-  /* background-color: rgba(92, 92, 92, 0.4); */
 }
 .ReactModal__Content img{
   position: fixed;
@@ -364,7 +302,6 @@ body{
 }
 .form-container {
   height: 100%;
-  /* margin: 25vh 25vw; */
 }
 .form-container h1{
   font-family: "Neue Haas Grotesk Text Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -384,8 +321,6 @@ body{
   margin: 20px auto;
   font-size: 24px;
   text-align: center;
-  /* border: 1px solid white;
-  box-shadow: 0  0 1px 1px white; */
   background: transparent;
   border: none;
   border-bottom: 3px solid white;
@@ -398,7 +333,6 @@ body{
   border-radius: 0;
 }
 .form-container .panel {
-  /* background: rgba(0,0,0,.2); */
   height: 100%;
   width: 100;
   text-align: center;
@@ -413,18 +347,20 @@ body{
   justify-content: center;
 }
 .btn-group-lg>.btn, .btn-lg {
-  padding: 0.5rem 1rem;
+  /* padding: 0.5rem 1rem;
   font-size: 1.25rem;
+  border-radius: 3rem; */
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 25px;
   line-height: 1.5;
-  border-radius: 3rem;
   background-color: transparent;
   border-color: transparent;
-  transition: opacity 300ms, transform 300ms;
+  transition: none;
 }
 .btn-lg:hover, .btn-lg:active, .btn-lg:focus{
-  opacity: 0.6;
-  background-color: transparent;
-  border-color: transparent;
+  opacity: 1;
+  background-color: rgba(192, 192, 192, 0.2);
 }
 .btn-group svg {
   width: 3em;
@@ -432,18 +368,15 @@ body{
   vertical-align: middle;
   height: 3em;
 }
-/* .form-container .back {
-  float: left;
-  padding: 10px;
-} */
 .form-container .continue {
   float: right;
   padding: 10px;
 }
-/* Multi-Part CSS */
+.form-container .continue .btn{
+  border: 2px solid white;
+}
 .form-container input[type=checkbox] {
   position: absolute;
-  /* Position the checkbox in upper left corner */
   opacity: 0;
 }
 .form-group{
@@ -451,9 +384,7 @@ body{
 }
 .StayLoggedOut{
   width: 605px;
-  /* position: fixed;
-  bottom: 2vh; */
-  margin-top: 12vh;
+  margin-top: 17vh;
   text-align: center; 
   justify-content: center;
   display: inline-flex;
@@ -463,7 +394,8 @@ body{
   line-height: inherit;
 }
 .StayLoggedOut button{
-  margin: 0 5px;
+  margin: 0 15px;
+  padding: 5px 10px;
   color: #fff;
   background-color: transparent;
   border: 2px solid white;
@@ -471,16 +403,13 @@ body{
 }
 .StayLoggedOut button:focus, .StayLoggedOut button:hover, .StayLoggedOut button:active{
   color: #fff;
-  opacity: 0.6;
-  background-color: transparent;
-  border-color: transparent;
+  opacity: 1;
+  background-color: rgba(192, 192, 192, 0.2);
 }
 
 .back{
   width: 605px;
-  /* position: fixed;
-  bottom: 2vh; */
-  margin-top: 12vh;
+  margin-top: 17vh;
   text-align: center; 
   justify-content: center;
   display: inline-flex;
@@ -490,45 +419,37 @@ body{
   line-height: inherit;
 }
 .back .btn{
-  margin: 0 5px;
-  padding: 1px 6px;
+  margin: 0 15px;
+  padding: 5px 15px;
   color: #fff;
   background-color: transparent;
   border: 2px solid white;
   border-radius: 25px;
   font-size: 16px;
 }
-.back button:focus, .back button:hover, .back button:active{
+.back .btn:focus, .back .btn:hover, .back .btn:active{
   color: #fff;
-  opacity: 0.6;
-  background-color: transparent;
-  border-color: transparent;
+  opacity: 1;
+  background-color: rgba(192, 192, 192, 0.2);
 }
-
-/* Styling Parts */
 #part1,
 #part2,
 #part3 {
-  /* z-index: 2; */
   display: flex;
   justify-content: center;
   height: 100%;
   opacity: 1;
-  transition: opacity 1s ease-in-out;
+  transition: opacity 0.65s ease-in-out;
 }
 #part1, #part2{
-  /* margin-top: 16.5%; */
   margin-top: 21%;
 }
-/* Hidden Parts */
 #part2,
 #part3 {
   opacity: 0;
   height: auto;
   overflow: hidden;
 }
-
-/* Show Step 2 & Hide Step 1 */
 #step2:checked ~ #part2 {
   opacity: 1;
   height: auto;
@@ -538,8 +459,6 @@ body{
   height: 0;
   display: none;
 }
-
-/* Show Step 3  & Hide Step 2 */
 #step3:checked ~ #part3 {
   opacity: 1;
   height: auto;
@@ -583,15 +502,10 @@ body{
     width: 400px;
     margin-top: 0px;
   }
-  /* .toast-body{
-    height: 120px;
-    overflow-y: scroll;
-    text-align: justify;
-  } */
   .StayLoggedOut, .back{
     justify-content: center;
     display: inline-flex;
-    margin-top: 8.5vh;
+    margin-top: 17vh;
     color: white;
   }
 }
@@ -625,15 +539,10 @@ body{
     width: 400px;
     margin-top: 0px;
   }
-  /* .toast-body{
-    height: 120px;
-    overflow-y: scroll;
-    text-align: justify;
-  } */
   .StayLoggedOut, .back{
     justify-content: center;
     display: inline-flex;
-    margin-top: 8.5vh;
+    margin-top: 17vh;
     color: white;
   }
 }
@@ -643,120 +552,53 @@ body{
     padding: 5px 0;
   }
 }
-
-
-/*Form Trial*/
-
 form {
   padding: 0 40px;
 }
-
 form input {
   display: block;
   width: 100%;
   font-size: 20px;
   padding: 5px 10px;
   margin: 10px 0;
-  /* border-radius: 5px; */
   border: 1px solid #ddd;
 }
-/* 
-form input.error {
-  border-color: red;
-}
-
-form span.error {
-  color: red;
-} */
-
 form input.error {
   border-color:white;
 }
-
 form span.error {
   color:white;
-  /* position: fixed;
-  width: 605px; */
 }
-
 .hidden {
   display: none;
 }
-
+.errorspan{
+  width: 741.06px;
+  position: fixed;
+  margin: -18px 0 0 0;
+}
 form #submitbtn {
-  /* display: block;
-  width: 100%;
-  appearance: none;
-  border-radius: 5px;
-  background-color: transparent;
-  border-color: transparent;
-  color: #fff;
-  font-size: 16px;
-  height: 40px;
-  margin-top: 30px; */
-  padding: 0.5rem 1rem;
+  /* padding: 0.5rem 1rem;
   font-size: 1.25rem;
+  border-radius: 3rem; */
+  padding: 5px 10px;
+  font-size: 16px;
+  border-radius: 25px;
   line-height: 1.5;
-  border-radius: 3rem;
   background-color: transparent;
-  border-color: transparent;
+  border-color: 2px solid white;
 }
-
 form #submitbtn:hover, form #submitbtn:active, form #submitbtn:focus {
-  opacity: 0.6;
-  background-color: transparent;
-  border-color: transparent;
+  opacity: 1;
+  background-color: rgba(192, 192, 192, 0.2)
 }
-
 form button:disabled {
   background-color: #dbf99f;
   color: #333;
 }
-
 .tab-counter{
   color: #fff;
-  /* color: white;
-  font-family: -apple-system, BlinkMacSystemFont, "Neue Haas Grotesk Text Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  text-shadow: 0 0 25px rgba(0,0,0,0.3);
-  font-size: 1.2em; */
 }
 .tab-counter a{
   color: white;
-}
-
-/*Quote and weather trial*/
-
-.top-right {
-  position: fixed;
-  /* top: 10vh; */
-  left: 2vh;
-  top: 2vh;
-  
-}
-
-
-.quote {
-  font-family: "Helvetica Neue";
-  color: white;
-  font-size: 2vw;
-  letter-spacing: 1px;
-  line-height: 1;
-  margin: 0;
-}
-
-#quote-text {
-  font-size: 2vw;
-}
-
-#location {
-  margin-top: 5px
-}
-
-.weather {
-  font-family: "Helvetica Neue";
-  color: white;
-  font-size: 2.5vw;
-  letter-spacing: 1px;
-  line-height: 1;
-  margin: 10px;
 }
