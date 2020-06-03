@@ -127,7 +127,7 @@ export default class Landingpage extends Component {
         this.handleChangePassword = this.handleChangePassword.bind(this);
 
         this.handleLoad = this.handleLoad.bind(this);
-        this.setState({tabs_opened: this.state.tabs_opened});
+        // this.setState({tabs_opened: this.state.tabs_opened});
     }
  
     componentDidMount() {
@@ -457,7 +457,7 @@ export default class Landingpage extends Component {
                     className="User-Logo"
                 />
 
-                <div class="form-container">
+                <div className="form-container">
                 <form onSubmit={this.handleSubmit} noValidate>
                 <input id='step2' type='checkbox'/>
                       <input id='step3' type='checkbox'/>
@@ -478,7 +478,7 @@ export default class Landingpage extends Component {
                         required pattern="\S+"
                         noValidate />
                         <div className="btn-group btn-group-lg" role="group" aria-label="...">
-                            <label for='step2' id="continue-step2" class="continue">
+                            <label htmlFor='step2' id="continue-step2" className="continue">
                                 <div className="btn btn-default btn-primary btn-lg" onClick={this.validatename}>Continue</div>
                             </label>
                         </div>
@@ -505,7 +505,7 @@ export default class Landingpage extends Component {
                             </div>
                           
                             <div className="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
-                                <label for='step3' id="continue-step3" className="continue">
+                                <label htmlFor='step3' id="continue-step3" className="continue">
                                     <div className="btn btn-default btn-primary btn-lg" role="button">Continue</div>
                                 </label>                    
                             </div>
@@ -543,8 +543,8 @@ export default class Landingpage extends Component {
                                 </button>
                             </label>
                             </div>
-                            <label for='step3' id="back-step3" class="back">
-                                <div class="btn btn-default btn-primary btn-lg">Use a different email address</div>
+                            <label htmlFor='step3' id="back-step3" className="back">
+                                <div className="btn btn-default btn-primary btn-lg">Use a different email address</div>
                             </label>
                             </div>
                         </div>
