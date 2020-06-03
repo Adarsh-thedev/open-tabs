@@ -52,7 +52,8 @@ const server = http.createServer(app);
 const db = require('./backend/config/keys').mongoURI;
 
 mongoose
-    .connect(db)
+  .connect(db)
+  // .connect("mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb")
     .then(() =>console.log('MongoDB Connected'))
     .catch((err)=> console.log(err));
 
