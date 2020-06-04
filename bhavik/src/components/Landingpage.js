@@ -184,13 +184,28 @@ export default class Landingpage extends Component {
         }
         )
 
-        this.setState(this.baseState);
+        // 1st version
+        // this.setState(this.baseState);
+        // this.setState({login: true});
+        // localStorage.setItem(LOGIN_LS, this.state.login);
+        // this.setState({modalIsOpen: true});
+        // window.localStorage.clear();
+        // localStorage.clear();
+        // this.setState({tabs_opened: 0});
+        // localStorage.setItem(TABS_LS, this.state.tabs_opened);
+        // 2nd version
+        this.setState({name: ''});
+        localStorage.setItem(NAME_LS, this.state.name);
+        this.setState({email: ''});
+        localStorage.setItem(EMAIL_LS, this.state.email);
+        this.setState({password: ''});
+        localStorage.setItem(PASSWORD_LS, this.state.password);
         this.setState({login: true});
         localStorage.setItem(LOGIN_LS, this.state.login);
         this.setState({modalIsOpen: true});
-        window.localStorage.clear();
-        localStorage.clear();
-        this.setState({tabs_opened: 0});
+        window.localStorage.clear(this.state.login);
+        localStorage.clear(this.state.login);
+        this.setState({tabs_opened: this.state.tabs_opened});
         localStorage.setItem(TABS_LS, this.state.tabs_opened);
     }
       
@@ -345,7 +360,10 @@ export default class Landingpage extends Component {
       this.setState({modalIsOpen: false});
       this.setState({email: ''});
       this.setState({password: ''});
+      //1st version
       this.setState({tabs_opened: 0});
+      //2nd version
+      this.setState({tabs_opened: this.state.tabs_opened});
       localStorage.getItem(LOGIN_LS); 
       this.setState({login: true});
       localStorage.setItem(LOGIN_LS, this.state.login);
@@ -381,12 +399,11 @@ export default class Landingpage extends Component {
       const errors = validate(this.state.email);
       const isDisabled = Object.keys(errors).some(x => errors[x]);
       return !isDisabled;
-    } 
+  } 
     
 
     render() {
         const emailPattern = /(.+)@(.+){2,}\.(.+){2,}/;
-        // const {login} = this.state.login;
         const errors = validate(this.state.name, this.state.email, this.state.password);
         // const isDisabled = Object.keys(errors).some(x => errors[x]);
       
