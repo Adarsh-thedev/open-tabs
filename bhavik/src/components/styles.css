@@ -57,6 +57,11 @@ body{
   padding: 0px 5px;
   margin: 10px -15px;
 }
+#update-btn:focus, #update-btn:active, #update-btn:hover{
+  background: none;
+  border: none;
+  outline: none;
+}
 .toast{
   width: 400px;
   transition: opacity 1s ease-in-out;
@@ -405,6 +410,7 @@ body{
   background-color: transparent;
   border: 2px solid white;
   border-radius: 25px;
+  margin-bottom: 1000px;
 }
 .StayLoggedOut button:focus, .StayLoggedOut button:hover, .StayLoggedOut button:active{
   color: #fff;
