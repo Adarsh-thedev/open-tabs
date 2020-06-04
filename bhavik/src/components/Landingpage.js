@@ -15,42 +15,36 @@ import Button from 'react-bootstrap/Button';
 import Overlay from 'react-bootstrap/Overlay';
 import Background from '../assets/modal-bg.jpg';
 
-function Update() {
-  const [show, setShow] = useState(false);
-  const target = useRef(null);
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
-  return (
-    <Row >
-      <Overlay target={target.current} show={show}>
-      <Col xs={10}>
-        <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide style={{position: 'fixed', right: '18%'}}> 
-          <Toast.Header>
-            <strong className="mr-auto" style={{textAlign: 'left'}}>OpenTabs' Brand New Look!<br /><small>(Update June 2020)</small></strong>
-          </Toast.Header>
-          <Toast.Body style={{textAlign: 'left'}}>
-            <div>
-            After much preparation, we are launching our ready-for-market version of OpenTabs! A huge thank you to our beta users for your continued support.
-            <br />
-            <br />
-            We urge you to please share OpenTabs with your friends and family to further grow our mission of ending poverty and fighting climate change in innovative ways. 
-            <br />
-            <br />
-            If you haven't yet, we invite you to create an account (by clicking on the settings icon on the lower left) to ensure that you never lose your tabs count again, and can sync it across browsers and devices. 
-            <br />
-            <br />
-            Stay tuned for exciting updates coming soon.
-            </div>
-          </Toast.Body>
-        </Toast>
-      </Col>
-      
-      </Overlay>
-      <Col xs={3}>
-        <Button id="update-btn" ref={target} onClick={() => setShow(true)}><FiBell /></Button>
-      </Col>
-    </Row>
-  );
-}
+const popover = (
+  <Popover id="popover-basic">
+    <Popover.Title as="h3">
+    <strong className="mr-auto" style={{textAlign: 'left'}}>OpenTabs' Brand New Look!<br /><small>(Update June 2020)</small></strong>
+    </Popover.Title>
+    <Popover.Content>
+      <div>
+        After much preparation, we are launching our ready-for-market version of OpenTabs! A huge thank you to our beta users for your continued support.
+        <br />
+        <br />
+        We urge you to please share OpenTabs with your friends and family to further grow our mission of ending poverty and fighting climate change in innovative ways. 
+        <br />
+        <br />
+        If you haven't yet, we invite you to create an account (by clicking on the settings icon on the lower left) to ensure that you never lose your tabs count again. 
+        <br />
+        <br />
+        Stay tuned for exciting updates coming soon.
+      </div>
+    </Popover.Content>
+  </Popover>
+);
+
+const Update = () => (
+  <OverlayTrigger trigger="click" placement="left" overlay={popover} rootClose>
+    <Button id="update-btn"><FiBell /></Button>
+  </OverlayTrigger>
+);
 
 const NAME_LS = 'name';
 const EMAIL_LS = 'email';
@@ -163,7 +157,7 @@ export default class Landingpage extends Component {
 
     togglePopup() {  
         this.setState({  
-             showPopup: !this.state.showPopup  
+          showPopup: !this.state.showPopup  
         });  
     } 
 
