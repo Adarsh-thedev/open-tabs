@@ -27,7 +27,7 @@ function Update() {
           <Toast.Header>
             <strong className="mr-auto" style={{textAlign: 'left'}}>OpenTabs' Brand New Look!<br /><small>(Update June 2020)</small></strong>
           </Toast.Header>
-          <Toast.Body style={{textAlign: 'justify'}}>
+          <Toast.Body style={{textAlign: 'left'}}>
             <div>
             After much preparation, we are launching our ready-for-market version of OpenTabs! A huge thank you to our beta users for your continued support.
             <br />
@@ -404,6 +404,7 @@ export default class Landingpage extends Component {
 
     render() {
         const emailPattern = /(.+)@(.+){2,}\.(.+){2,}/;
+        // const {login} = this.state.login;
         const errors = validate(this.state.name, this.state.email, this.state.password);
         // const isDisabled = Object.keys(errors).some(x => errors[x]);
       
