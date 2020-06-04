@@ -25,14 +25,14 @@ function Update() {
       <Col xs={10}>
         <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide style={{position: 'fixed', right: '18%'}}> 
           <Toast.Header>
-            <strong className="mr-auto" style={{textAlign: 'left'}}>OpenTabs' Brand New Look!<br />(Update May 2020)</strong>
+            <strong className="mr-auto" style={{textAlign: 'left'}}>OpenTabs' Brand New Look!<br /><small>(Update June 2020)</small></strong>
           </Toast.Header>
           <Toast.Body style={{textAlign: 'justify'}}>
             <div>
             After much preparation, we are launching our ready-for-market version of OpenTabs! A huge thank you to our beta users for your continued support.
             <br />
             <br />
-            We urge you to please share OpenTabs with your friends and family to further grow our mission of reducing poverty and fighting climate change. 
+            We urge you to please share OpenTabs with your friends and family to further grow our mission of ending poverty and fighting climate change in innovative ways. 
             <br />
             <br />
             If you haven't yet, we invite you to create an account (by clicking on the settings icon on the lower left) to ensure that you never lose your tabs count again, and can sync it across browsers and devices. 
@@ -359,17 +359,30 @@ export default class Landingpage extends Component {
     };
 
     validatename = (e) => {
-        if (!this.canBeSubmitted()) {
-          e.preventDefault();
-          return;
-        }
+      if (!this.canBeSubmitted()) {
+        e.preventDefault();
+        return;
+      }
     }
     
     canBeSubmitted() {
-        const errors = validate(this.state.name);
-        const isDisabled = Object.keys(errors).some(x => errors[x]);
-        return !isDisabled;
+      const errors = validate(this.state.name);
+      const isDisabled = Object.keys(errors).some(x => errors[x]);
+      return !isDisabled;
     } 
+
+    validateemail = (e) => {
+      if (!this.EmailcanBeSubmitted()) {
+        e.preventDefault();
+        return;
+      }
+    }
+    EmailcanBeSubmitted() {
+      const errors = validate(this.state.email);
+      const isDisabled = Object.keys(errors).some(x => errors[x]);
+      return !isDisabled;
+    } 
+    
 
     render() {
         const emailPattern = /(.+)@(.+){2,}\.(.+){2,}/;
@@ -464,7 +477,7 @@ export default class Landingpage extends Component {
                       <div id="part1" className="form-group">
                         <div className="panel panel-primary">
                           <div className="panel-heading">
-                            <h1 className="panel-title">Hey, what's your name?</h1>
+                            <h1 className="panel-title">Hello, what's your name?</h1>
                           </div>
                     
                         <input type='text' name='name' 
@@ -488,7 +501,7 @@ export default class Landingpage extends Component {
                     <div id="part2" className="form-group">
                         <div className="panel panel-primary">
                             <div className="panel-heading">
-                                <h1 className="panel-title">What's your email {this.state.name}?</h1>
+                                <h1 className="panel-title">What's your email, {this.state.name}?</h1>
                             </div>
                             <input type='email' name='email' 
                             onChange={this.handleChangeEmail} 
@@ -506,7 +519,7 @@ export default class Landingpage extends Component {
                           
                             <div className="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
                                 <label htmlFor='step3' id="continue-step3" className="continue">
-                                    <div className="btn btn-default btn-primary btn-lg" role="button">Continue</div>
+                                    <div className="btn btn-default btn-primary btn-lg" role="button" onClick={this.validateemail}>Continue</div>
                                 </label>                    
                             </div>
                             <div className="StayLoggedOut">
@@ -530,7 +543,7 @@ export default class Landingpage extends Component {
                             onKeyPress={this.onKeyPress} 
                             noValidate />
                             <div className="errorspan">
-                                <span className={((this.state.password.length)>0 && (this.state.password.length)<5) ? "error" : "hidden"}>Password should be atleast five characters.</span>
+                                <span className={((this.state.password.length)>0 && (this.state.password.length)<5) ? "error" : "hidden"}>Password should be at least five characters.</span>
                             </div>
                             <div className="btn-group btn-group-lg" role="group" aria-label="...">
                             <label className="continue">
