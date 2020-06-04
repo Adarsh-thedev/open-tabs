@@ -418,75 +418,19 @@ export default class Landingpage extends Component {
         return (
           <div className="bg" style={getBGStyle}>
             <div className="bg-wrapper">
-            <div className="top-content">
-            <div className="widgets"> 
-              <div className="header">
-                <div className="text-right top-left logo">
-                  <div className="logo-counter">
-                    <Update />
-                    <div className="tab-counter">
-                    <Tooltip disableFocusListener title="No. of Tabs Opened" enterDelay={500} leaveDelay={200}>
-                    <div onLoad={this.handleLoad} style={{padding: '8px 8px', position: 'relative', display: 'block'}}>
-                      <button style={{border: 'none', background: 'none'}}>
-                      {/* <a style={{textDecoration: 'none'}}>  */}
-                      {this.state.tabs_opened}
-                      {/* </a> */}
-                      </button>
-                    </div>
-                    </Tooltip>
-                  </div>
-                    <img
-                      src={logosmall}
-                      width="35"
-                      height="35"
-                      className="d-inline-block align-top"
-                      alt="OpenTabs logo"
-                    />
-                  </div>
-                </div>                 
-            </div>
-            </div>   
-            </div>
-           
-
-            <div className="bottom-content">
-                <div className="text-left bottom-left">
-                <Dropdown id="settings">
-                  <Dropdown.Toggle>
-                  <FiSettings/>
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu>
-                    <Dropdown.Item eventKey="1" href="http://opentabs.org"><FiHome /> Home</Dropdown.Item>
-                    <Dropdown.Item eventKey="2" href="https://docs.google.com/forms/d/e/1FAIpQLScNIVjuhLCUF_CczUf2eCP3VOIiIfl-UhJAsh-f-SJbUq7WnQ/viewform"><FiUser /> Feedback</Dropdown.Item>
-                    <Dropdown.Item eventKey="3" href="https://donorbox.org/opentabs"><FiGift /> Donate</Dropdown.Item>
-                    <Dropdown.Item eventKey="4" onClick={this.resetForm} onLoad={this.handleLoad}>
-                        <FiLogOut /> {(this.state.login) ? "Login" : "Log Out"}
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-                </div>
-            </div>
-              
-            <div className="text-center centered" >
-                <div className="block-text">
-                    <h1 id="time">{this.state.time.toFormat("HH':'mm")}</h1>
-                </div>
-                <h3 id="greetings">
-                  Good {this.state.salutation}, {this.state.name}.
-                </h3>
-                <Modal
-                  isOpen={this.state.modalIsOpen}
-                  style={customStyles}
-                  contentLabel="name-modal"
-                  ariaHideApp={false}
-                >
-                <img
-                    src={logo}
-                    width="80"
-                    height="99"                    
-                    alt="OpenTabs logo"
-                    className="User-Logo"
-                />
+              <Modal
+                isOpen={this.state.modalIsOpen}
+                style={customStyles}
+                contentLabel="name-modal"
+                ariaHideApp={false}
+              >
+              <img
+                src={logo}
+                width="80"
+                height="99"                    
+                alt="OpenTabs logo"
+                className="User-Logo"
+              />
 
                 <div className="form-container">
                 <form onSubmit={this.handleSubmit} noValidate>
@@ -581,7 +525,63 @@ export default class Landingpage extends Component {
                         </div>
                     </form>
                 </div>
-                </Modal>
+              </Modal>
+            <div className="top-content">
+            <div className="widgets"> 
+              <div className="header">
+                <div className="text-right top-left logo">
+                  <div className="logo-counter">
+                    <Update />
+                    <div className="tab-counter">
+                    <Tooltip disableFocusListener title="No. of Tabs Opened" enterDelay={500} leaveDelay={200}>
+                    <div onLoad={this.handleLoad} style={{padding: '8px 8px', position: 'relative', display: 'block'}}>
+                      <button style={{border: 'none', background: 'none'}}>
+                      {/* <a style={{textDecoration: 'none'}}>  */}
+                      {this.state.tabs_opened}
+                      {/* </a> */}
+                      </button>
+                    </div>
+                    </Tooltip>
+                  </div>
+                    <img
+                      src={logosmall}
+                      width="35"
+                      height="35"
+                      className="d-inline-block align-top"
+                      alt="OpenTabs logo"
+                    />
+                  </div>
+                </div>                 
+            </div>
+            </div>   
+            </div>
+           
+
+            <div className="bottom-content">
+                <div className="text-left bottom-left">
+                <Dropdown id="settings">
+                  <Dropdown.Toggle>
+                  <FiSettings/>
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item eventKey="1" href="http://opentabs.org"><FiHome /> Home</Dropdown.Item>
+                    <Dropdown.Item eventKey="2" href="https://docs.google.com/forms/d/e/1FAIpQLScNIVjuhLCUF_CczUf2eCP3VOIiIfl-UhJAsh-f-SJbUq7WnQ/viewform"><FiUser /> Feedback</Dropdown.Item>
+                    <Dropdown.Item eventKey="3" href="https://donorbox.org/opentabs"><FiGift /> Donate</Dropdown.Item>
+                    <Dropdown.Item eventKey="4" onClick={this.resetForm} onLoad={this.handleLoad}>
+                        <FiLogOut /> {(this.state.login) ? "Login" : "Log Out"}
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                </div>
+            </div>
+              
+            <div className="text-center centered" >
+                <div className="block-text">
+                    <h1 id="time">{this.state.time.toFormat("HH':'mm")}</h1>
+                </div>
+                <h3 id="greetings">
+                  Good {this.state.salutation}, {this.state.name}.
+                </h3>
                 <div className="Search">
                     <Searchbar />
                 </div>
