@@ -19,7 +19,8 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 
 const popover = (
-  <Popover id="popover-basic">
+  <Popover id="popover-basic" className='mt-2'>
+    <div>
     <Popover.Title as="h3">
     <strong className="mr-auto" style={{textAlign: 'left'}}>OpenTabs' Brand New Look!<br /><small>(Update June 2020)</small></strong>
     </Popover.Title>
@@ -37,6 +38,7 @@ const popover = (
         Stay tuned for exciting updates coming soon.
       </div>
     </Popover.Content>
+    </div>
   </Popover>
 );
 
@@ -121,14 +123,9 @@ export default class Landingpage extends Component {
         this.handleChangePassword = this.handleChangePassword.bind(this);
 
         this.handleLoad = this.handleLoad.bind(this);
-        // this.setState({tabs_opened: this.state.tabs_opened});
     }
  
     componentDidMount() {
-        // this.callApi()
-        // .then(res => this.setState({ response: res.express }))
-        // .catch(err => console.log(err));
-
         window.addEventListener('load', this.handleLoad);
 
         const name = localStorage.getItem(NAME_LS);
@@ -571,11 +568,13 @@ export default class Landingpage extends Component {
               
             <div className="text-center centered" >
                 <div className="block-text">
-                    <h1 id="time">{this.state.time.toFormat("HH':'mm")}</h1>
+                  <h1 id="time">{this.state.time.toFormat("HH':'mm")}</h1>
                 </div>
-                <h3 id="greetings">
-                  Good {this.state.salutation}, {this.state.name}.
-                </h3>
+                {/* <div className="greetings"> */}
+                  <h3 id="greetings">
+                    Good {this.state.salutation}, {this.state.name}.
+                  </h3>
+                {/* </div> */}
                 <div className="Search">
                     <Searchbar />
                 </div>
