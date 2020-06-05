@@ -10,6 +10,7 @@ body{
   margin: 0;
   font-weight: 500;
 }
+
 .bg-wrapper h1 {
   font-size: 8em;
 }
@@ -47,11 +48,19 @@ body{
   justify-content: center;
   margin: 0;
 }
+/* #update-btn{
+  background: none;
+  border: none;
+  padding: 0px 5px;
+  margin: 10px -15px;
+} */
 #update-btn{
   background: none;
   border: none;
   margin-right: -10px;
   outline: none;
+  /* padding: 0px 5px; */
+  /* margin: 10px -15px; */
 }
 #update-btn:focus, #update-btn:active, #update-btn:hover{
   background: none;
@@ -87,6 +96,12 @@ body{
 .popover .btn{
   padding: 0;
 }
+/* div#popover-basic{
+  top: 2vh;
+}
+#popover-basic{
+  top: 2vh
+} */
 .popover{
   max-width: 350px;
   margin: 2vh 2vh 0 0;
@@ -479,7 +494,8 @@ body{
   transition: opacity 0.65s ease-in-out;
 }
 #part1, #part2{
-  margin-top: 21%;
+  /* margin-top: 21%; */
+  margin-top: 42vh;
 }
 #part2,
 #part3 {
