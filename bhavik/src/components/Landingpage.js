@@ -15,42 +15,38 @@ import Button from 'react-bootstrap/Button';
 import Overlay from 'react-bootstrap/Overlay';
 import Background from '../assets/modal-bg.jpg';
 
-function Update() {
-  const [show, setShow] = useState(false);
-  const target = useRef(null);
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
-  return (
-    <Row >
-      <Overlay target={target.current} show={show}>
-      <Col xs={10}>
-        <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide style={{position: 'fixed', right: '18%'}}> 
-          <Toast.Header>
-            <strong className="mr-auto" style={{textAlign: 'left'}}>OpenTabs' Brand New Look!<br />(Update May 2020)</strong>
-          </Toast.Header>
-          <Toast.Body style={{textAlign: 'justify'}}>
-            <div>
-            After much preparation, we are launching our ready-for-market version of OpenTabs! A huge thank you to our beta users for your continued support.
-            <br />
-            <br />
-            We urge you to please share OpenTabs with your friends and family to further grow our mission of reducing poverty and fighting climate change. 
-            <br />
-            <br />
-            If you haven't yet, we invite you to create an account (by clicking on the settings icon on the lower left) to ensure that you never lose your tabs count again, and can sync it across browsers and devices. 
-            <br />
-            <br />
-            Stay tuned for exciting updates coming soon.
-            </div>
-          </Toast.Body>
-        </Toast>
-      </Col>
-      
-      </Overlay>
-      <Col xs={3}>
-        <Button id="update-btn" ref={target} onClick={() => setShow(true)}><FiBell /></Button>
-      </Col>
-    </Row>
-  );
-}
+const popover = (
+  <Popover id="popover-basic" className='mt-2'>
+    <div>
+    <Popover.Title as="h3">
+    <strong className="mr-auto" style={{textAlign: 'left'}}>OpenTabs' Brand New Look!<br /><small>(Update June 2020)</small></strong>
+    </Popover.Title>
+    <Popover.Content>
+      <div>
+        After much preparation, we are launching our ready-for-market version of OpenTabs! A huge thank you to our beta users for your continued support.
+        <br />
+        <br />
+        We urge you to please share OpenTabs with your friends and family to further grow our mission of ending poverty and fighting climate change in innovative ways. 
+        <br />
+        <br />
+        If you haven't yet, we invite you to create an account (by clicking on the settings icon on the lower left) to ensure that you never lose your tabs count again. 
+        <br />
+        <br />
+        Stay tuned for exciting updates coming soon.
+      </div>
+    </Popover.Content>
+    </div>
+  </Popover>
+);
+
+const Update = () => (
+  <OverlayTrigger trigger="click" placement="left" overlay={popover} rootClose>
+    <Button id="update-btn"><FiBell /></Button>
+  </OverlayTrigger>
+);
 
 const NAME_LS = 'name';
 const EMAIL_LS = 'email';
@@ -127,14 +123,9 @@ export default class Landingpage extends Component {
         this.handleChangePassword = this.handleChangePassword.bind(this);
 
         this.handleLoad = this.handleLoad.bind(this);
-        // this.setState({tabs_opened: this.state.tabs_opened});
     }
  
     componentDidMount() {
-        // this.callApi()
-        // .then(res => this.setState({ response: res.express }))
-        // .catch(err => console.log(err));
-
         window.addEventListener('load', this.handleLoad);
 
         const name = localStorage.getItem(NAME_LS);
@@ -163,7 +154,7 @@ export default class Landingpage extends Component {
 
     togglePopup() {  
         this.setState({  
-             showPopup: !this.state.showPopup  
+          showPopup: !this.state.showPopup  
         });  
     } 
 
@@ -184,13 +175,28 @@ export default class Landingpage extends Component {
         }
         )
 
-        this.setState(this.baseState);
+        // 1st version
+        // this.setState(this.baseState);
+        // this.setState({login: true});
+        // localStorage.setItem(LOGIN_LS, this.state.login);
+        // this.setState({modalIsOpen: true});
+        // window.localStorage.clear();
+        // localStorage.clear();
+        // this.setState({tabs_opened: 0});
+        // localStorage.setItem(TABS_LS, this.state.tabs_opened);
+        // 2nd version
+        this.setState({name: ''});
+        localStorage.setItem(NAME_LS, this.state.name);
+        this.setState({email: ''});
+        localStorage.setItem(EMAIL_LS, this.state.email);
+        this.setState({password: ''});
+        localStorage.setItem(PASSWORD_LS, this.state.password);
         this.setState({login: true});
         localStorage.setItem(LOGIN_LS, this.state.login);
         this.setState({modalIsOpen: true});
-        window.localStorage.clear();
-        localStorage.clear();
-        this.setState({tabs_opened: 0});
+        window.localStorage.clear(this.state.login);
+        localStorage.clear(this.state.login);
+        this.setState({tabs_opened: this.state.tabs_opened});
         localStorage.setItem(TABS_LS, this.state.tabs_opened);
     }
       
@@ -345,7 +351,10 @@ export default class Landingpage extends Component {
       this.setState({modalIsOpen: false});
       this.setState({email: ''});
       this.setState({password: ''});
+      //1st version
       this.setState({tabs_opened: 0});
+      //2nd version
+      this.setState({tabs_opened: this.state.tabs_opened});
       localStorage.getItem(LOGIN_LS); 
       this.setState({login: true});
       localStorage.setItem(LOGIN_LS, this.state.login);
@@ -359,17 +368,30 @@ export default class Landingpage extends Component {
     };
 
     validatename = (e) => {
-        if (!this.canBeSubmitted()) {
-          e.preventDefault();
-          return;
-        }
+      if (!this.canBeSubmitted()) {
+        e.preventDefault();
+        return;
+      }
     }
     
     canBeSubmitted() {
-        const errors = validate(this.state.name);
-        const isDisabled = Object.keys(errors).some(x => errors[x]);
-        return !isDisabled;
+      const errors = validate(this.state.name);
+      const isDisabled = Object.keys(errors).some(x => errors[x]);
+      return !isDisabled;
     } 
+
+    validateemail = (e) => {
+      if (!this.EmailcanBeSubmitted()) {
+        e.preventDefault();
+        return;
+      }
+    }
+    EmailcanBeSubmitted() {
+      const errors = validate(this.state.email);
+      const isDisabled = Object.keys(errors).some(x => errors[x]);
+      return !isDisabled;
+  } 
+    
 
     render() {
         const emailPattern = /(.+)@(.+){2,}\.(.+){2,}/;
@@ -387,6 +409,114 @@ export default class Landingpage extends Component {
         return (
           <div className="bg" style={getBGStyle}>
             <div className="bg-wrapper">
+              <Modal
+                isOpen={this.state.modalIsOpen}
+                style={customStyles}
+                contentLabel="name-modal"
+                ariaHideApp={false}
+              >
+              <img
+                src={logo}
+                width="80"
+                height="99"                    
+                alt="OpenTabs logo"
+                className="User-Logo"
+              />
+
+                <div className="form-container">
+                <form onSubmit={this.handleSubmit} noValidate>
+                <input id='step2' type='checkbox'/>
+                      <input id='step3' type='checkbox'/>
+                      <div id="part1" className="form-group">
+                        <div className="panel panel-primary">
+                          <div className="panel-heading">
+                            <h1 className="panel-title">Hello, what's your name?</h1>
+                          </div>
+                    
+                        <input type='text' name='name' 
+                        onChange={this.handleChangeName} 
+                        className={shouldMarkError('name') ? "error" : ""} 
+                        placeholder="" 
+                        aria-describedby="sizing-addon1" 
+                        onBlur={this.handleBlur('name')} 
+                        value={this.state.name} 
+                        onKeyPress={this.onKeyPress}
+                        required pattern="\S+"
+                        noValidate />
+                        <div className="btn-group btn-group-lg" role="group" aria-label="...">
+                            <label htmlFor='step2' id="continue-step2" className="continue">
+                                <div className="btn btn-default btn-primary btn-lg" onClick={this.validatename}>Continue</div>
+                            </label>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div id="part2" className="form-group">
+                        <div className="panel panel-primary">
+                            <div className="panel-heading">
+                                <h1 className="panel-title">What's your email, {this.state.name}?</h1>
+                            </div>
+                            <input type='email' name='email' 
+                            onChange={this.handleChangeEmail} 
+                            className={shouldMarkError('email') ? "error" : ""} 
+                            placeholder="" 
+                            aria-describedby="sizing-addon1" 
+                            onBlur={this.handleBlur('email')} 
+                            value={this.state.email} 
+                            onKeyPress={this.onKeyPress}
+                            noValidate 
+                            pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" required/>
+                            <div className="errorspan">
+                                <span className={((this.state.email.length)>0 && !(emailPattern.test(this.state.email))) ? "error" : "hidden"}>'{this.state.email}' is not a valid email </span>
+                            </div>
+                          
+                            <div className="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
+                                <label htmlFor='step3' id="continue-step3" className="continue">
+                                    <div className="btn btn-default btn-primary btn-lg" role="button" onClick={this.validateemail}>Continue</div>
+                                </label>                    
+                            </div>
+                            <div className="StayLoggedOut">
+                                <p>Or would you rather stay logged out?<button onClick={this.stayloggedout}>Stay logged out</button></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                      <div id="part3" className="form-group">
+                        <div className="panel panel-primary">
+                          <div className="panel-heading">
+                            <h1 className="panel-title">{this.state.name}, enter password</h1>
+                          </div>
+                            <input type='password' name='password' 
+                            onChange={this.handleChangePassword} 
+                            className={shouldMarkError('password') ? "error" : ""} 
+                            placeholder="" 
+                            aria-describedby="sizing-addon1"
+                            onBlur={this.handleBlur('password')} 
+                            value={this.state.password} 
+                            onKeyPress={this.onKeyPress} 
+                            noValidate />
+                            <div className="errorspan">
+                                <span className={((this.state.password.length)>0 && (this.state.password.length)<5) ? "error" : "hidden"}>Password should be at least five characters.</span>
+                            </div>
+                            <div className="btn-group btn-group-lg" role="group" aria-label="...">
+                            <label className="continue">
+                                <button type="submit"
+                                id="submitbtn"
+                                className="btn btn-default btn-primary btn-lg" 
+                                onClick={this.handleSubmit}
+                                >
+                                Continue
+                                </button>
+                            </label>
+                            </div>
+                            <label htmlFor='step3' id="back-step3" className="back">
+                                <div className="btn btn-default btn-primary btn-lg">Use a different email address</div>
+                            </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+              </Modal>
             <div className="top-content">
             <div className="widgets"> 
               <div className="header">
@@ -438,119 +568,13 @@ export default class Landingpage extends Component {
               
             <div className="text-center centered" >
                 <div className="block-text">
-                    <h1 id="time">{this.state.time.toFormat("HH':'mm")}</h1>
+                  <h1 id="time">{this.state.time.toFormat("HH':'mm")}</h1>
                 </div>
-                <h3 id="greetings">
-                  Good {this.state.salutation}, {this.state.name}.
-                </h3>
-                <Modal
-                  isOpen={this.state.modalIsOpen}
-                  style={customStyles}
-                  contentLabel="name-modal"
-                  ariaHideApp={false}
-                >
-                <img
-                    src={logo}
-                    width="80"
-                    height="99"                    
-                    alt="OpenTabs logo"
-                    className="User-Logo"
-                />
-
-                <div className="form-container">
-                <form onSubmit={this.handleSubmit} noValidate>
-                <input id='step2' type='checkbox'/>
-                      <input id='step3' type='checkbox'/>
-                      <div id="part1" className="form-group">
-                        <div className="panel panel-primary">
-                          <div className="panel-heading">
-                            <h1 className="panel-title">Hey, what's your name?</h1>
-                          </div>
-                    
-                        <input type='text' name='name' 
-                        onChange={this.handleChangeName} 
-                        className={shouldMarkError('name') ? "error" : ""} 
-                        placeholder="" 
-                        aria-describedby="sizing-addon1" 
-                        onBlur={this.handleBlur('name')} 
-                        value={this.state.name} 
-                        onKeyPress={this.onKeyPress}
-                        required pattern="\S+"
-                        noValidate />
-                        <div className="btn-group btn-group-lg" role="group" aria-label="...">
-                            <label htmlFor='step2' id="continue-step2" className="continue">
-                                <div className="btn btn-default btn-primary btn-lg" onClick={this.validatename}>Continue</div>
-                            </label>
-                        </div>
-                    </div>
-                    </div>
-
-                    <div id="part2" className="form-group">
-                        <div className="panel panel-primary">
-                            <div className="panel-heading">
-                                <h1 className="panel-title">What's your email {this.state.name}?</h1>
-                            </div>
-                            <input type='email' name='email' 
-                            onChange={this.handleChangeEmail} 
-                            className={shouldMarkError('email') ? "error" : ""} 
-                            placeholder="" 
-                            aria-describedby="sizing-addon1" 
-                            onBlur={this.handleBlur('email')} 
-                            value={this.state.email} 
-                            onKeyPress={this.onKeyPress}
-                            noValidate 
-                            pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" required/>
-                            <div className="errorspan">
-                                <span className={((this.state.email.length)>0 && !(emailPattern.test(this.state.email))) ? "error" : "hidden"}>'{this.state.email}' is not a valid email </span>
-                            </div>
-                          
-                            <div className="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
-                                <label htmlFor='step3' id="continue-step3" className="continue">
-                                    <div className="btn btn-default btn-primary btn-lg" role="button">Continue</div>
-                                </label>                    
-                            </div>
-                            <div className="StayLoggedOut">
-                                <p>Or would you rather stay logged out?<button onClick={this.stayloggedout}>Stay logged out</button></p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                      <div id="part3" className="form-group">
-                        <div className="panel panel-primary">
-                          <div className="panel-heading">
-                            <h1 className="panel-title">{this.state.name}, enter password</h1>
-                          </div>
-                            <input type='password' name='password' 
-                            onChange={this.handleChangePassword} 
-                            className={shouldMarkError('password') ? "error" : ""} 
-                            placeholder="" 
-                            aria-describedby="sizing-addon1"
-                            onBlur={this.handleBlur('password')} 
-                            value={this.state.password} 
-                            onKeyPress={this.onKeyPress} 
-                            noValidate />
-                            <div className="errorspan">
-                                <span className={((this.state.password.length)>0 && (this.state.password.length)<5) ? "error" : "hidden"}>Password should be atleast five characters.</span>
-                            </div>
-                            <div className="btn-group btn-group-lg" role="group" aria-label="...">
-                            <label className="continue">
-                                <button type="submit"
-                                id="submitbtn"
-                                className="btn btn-default btn-primary btn-lg" 
-                                onClick={this.handleSubmit}
-                                >
-                                Continue
-                                </button>
-                            </label>
-                            </div>
-                            <label htmlFor='step3' id="back-step3" className="back">
-                                <div className="btn btn-default btn-primary btn-lg">Use a different email address</div>
-                            </label>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                </Modal>
+                {/* <div className="greetings"> */}
+                  <h3 id="greetings">
+                    Good {this.state.salutation}, {this.state.name}.
+                  </h3>
+                {/* </div> */}
                 <div className="Search">
                     <Searchbar />
                 </div>

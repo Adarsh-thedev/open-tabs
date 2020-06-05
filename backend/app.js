@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const users = require("./routes/api/users.js");
+const path = require("path");
 const app = express();
 const cors = require('cors');
 
@@ -13,8 +14,12 @@ app.use(bodyParser.json());
 //     //res.sendFile(__dirname+"/"+"index.html");
 
 // })
-
+app.use(express.static(path.join(__dirname,'build')));
 app.use('/api/users', users);
+
+app.get('/*', function (req, res) {
+   res.sendFile(path.join(__dirname, 'build', 'index.html'));
+ });
 //Normal route for new tab
 // app.get('/newtab',(req,res)=>{
 
