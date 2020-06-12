@@ -10,25 +10,23 @@ import logo from '../assets/logo2.png';
 import Tooltip from '@material-ui/core/Tooltip';
 import logosmall from '../assets/logo1.png';
 import { Row, Col } from 'react-bootstrap';
-import Toast from 'react-bootstrap/Toast';
+// import Toast from 'react-bootstrap/Toast';
 import Button from 'react-bootstrap/Button';
-import Overlay from 'react-bootstrap/Overlay';
+// import Overlay from 'react-bootstrap/Overlay';
 import Background from '../assets/modal-bg.jpg';
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
-import AdSense from "react-adsense";
-import { render } from "react-dom";
-import {
-  Advertisement,
-  Container,
-  Divider,
-  Header,
-  Icon,
-  Message
-} from "semantic-ui-react";
-
-import Ad from './Ad';
+// import AdSense from "react-adsense";
+// import { render } from "react-dom";
+// import {
+//   Advertisement,
+//   Container,
+//   Divider,
+//   Header,
+//   Icon,
+//   Message
+// } from "semantic-ui-react";
 
 const popover = (
   <Popover id="popover-basic" className='mt-2'>
