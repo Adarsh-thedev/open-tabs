@@ -62,7 +62,8 @@ router.post('/register', [
                     local:{
                     name:req.body.name,
                     email:req.body.email,
-                    password:req.body.password
+                    password:req.body.password,
+                    date_created: new Date(),
                     },
                     tabs_opened:tabs
                 });
