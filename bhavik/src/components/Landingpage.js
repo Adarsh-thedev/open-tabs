@@ -1,7 +1,7 @@
 import React, { Component, useState, useRef } from 'react';
 import {DateTime} from 'luxon';
 import Modal from 'react-modal';
-import './styles.css';
+import './teststyles.css';
 import Searchbar from './Searchbar';
 import {FiLogOut } from 'react-icons/fi';
 import {FiSettings, FiHome, FiUser, FiBell, FiGift} from 'react-icons/fi';
@@ -10,11 +10,8 @@ import logo from '../assets/logo2.png';
 import Tooltip from '@material-ui/core/Tooltip';
 import logosmall from '../assets/logo1.png';
 import { Row, Col } from 'react-bootstrap';
-import Toast from 'react-bootstrap/Toast';
 import Button from 'react-bootstrap/Button';
-import Overlay from 'react-bootstrap/Overlay';
 import Background from '../assets/modal-bg.jpg';
-
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 
@@ -71,6 +68,7 @@ const customStyles = {
       overflow: 'none',
       position:'fixed',
       padding: '0 20px'
+      // padding: '0'
       }
   };
 const getBGStyle = {
@@ -79,13 +77,35 @@ const getBGStyle = {
     opacity: '1',
 };
 
+const demos = {
+  ad1:
+  '<iframe id="ad1" src="https://rcm-eu.amazon-adsystem.com/e/cm?o=30&p=12&l=ez&f=ifr&linkID=a14ccb526e4a34a36729dc7db2e15e02&t=opentabs0c-21&tracking_id=opentabs0c-21" width="300" height="250" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>',
+  ad2:
+  '<iframe id="ad2" data-aa="1406919" src="//ad.a-ads.com/1406919?size=728x90&background_color=0080ff&text_color=ffffff&title_color=ffffff&title_hover_color=ffffff&link_color=ffffff&link_hover_color=ffffff" scrolling="no" style="width:728px; height:90px; border:0px; padding:0; overflow:hidden; allowtransparency="true"></iframe>',  
+  ad1small:
+  '<iframe id="ad1small" src="https://rcm-eu.amazon-adsystem.com/e/cm?o=30&p=12&l=ez&f=ifr&linkID=a14ccb526e4a34a36729dc7db2e15e02&t=opentabs0c-21&tracking_id=opentabs0c-21" width="150" height="125" scrolling="no" border="0" marginwidth="0" style="border:none;" frameborder="0"></iframe>',
+  ad2small:
+  '<iframe id="ad2small" data-aa="1406919" src="//ad.a-ads.com/1406919?size=728x90&background_color=0080ff&text_color=ffffff&title_color=ffffff&title_hover_color=ffffff&link_color=ffffff&link_hover_color=ffffff" scrolling="no" style="width:364px; height:45px; border:0px; padding:0; overflow:hidden; allowtransparency="true"></iframe>',  
+  ad3:
+  '<iframe data-aa="1407350" src="//ad.a-ads.com/1407350?size=320x50&background_color=0080ff&text_color=ffffff&title_color=ffffff&title_hover_color=ffffff&link_color=ffffff&link_hover_color=ffffff" scrolling="no" style="width:320px; height:50px; border:0px; padding:0; overflow:hidden" allowtransparency="true"></iframe>'
+};
+
+function Iframe(props) {
+  return (
+    <div
+      dangerouslySetInnerHTML={{ __html: props.iframe ? props.iframe : "" }}
+    />
+  );
+}
+
+
 function validate(name) {
     return {
       name: name.length < 1,
     };
 }
 
-export default class Landingpage extends Component {
+export default class TestLandingpage extends Component {
     constructor() {
         super();
     
@@ -116,6 +136,7 @@ export default class Landingpage extends Component {
           response: '',
           post: '',
           responseToPost: '',
+          lpdisplay: 'block',
         };
         this.baseState = this.state;
         this.handleChangeName = this.handleChangeName.bind(this);
@@ -123,9 +144,14 @@ export default class Landingpage extends Component {
         this.handleChangePassword = this.handleChangePassword.bind(this);
 
         this.handleLoad = this.handleLoad.bind(this);
+        // this.setState({tabs_opened: this.state.tabs_opened});
     }
  
     componentDidMount() {
+        // this.callApi()
+        // .then(res => this.setState({ response: res.express }))
+        // .catch(err => console.log(err));
+
         window.addEventListener('load', this.handleLoad);
 
         const name = localStorage.getItem(NAME_LS);
@@ -305,6 +331,7 @@ export default class Landingpage extends Component {
             localStorage.setItem(TABS_LS, this.state.tabs_opened); 
             this.setState({login: false});
             localStorage.setItem(LOGIN_LS, this.state.login); 
+            this.setState({lpdisplay: 'block'});
           }
           else {
             this.setState({modalIsOpen: true});
@@ -358,6 +385,7 @@ export default class Landingpage extends Component {
       localStorage.getItem(LOGIN_LS); 
       this.setState({login: true});
       localStorage.setItem(LOGIN_LS, this.state.login);
+      this.setState({lpdisplay: 'block'});
     }
 
     handleClick = () => {
@@ -391,6 +419,18 @@ export default class Landingpage extends Component {
       const isDisabled = Object.keys(errors).some(x => errors[x]);
       return !isDisabled;
   } 
+
+    hidelpcontent = (e) => {
+      if (!this.state.name) {
+        this.setState({lpdisplay: 'none'});
+      }
+      else {
+          this.setState({lpdisplay: 'block'});
+        }
+      // if (this.state.name) {
+      //   this.setState({lpdisplay: 'block'});
+      // }
+    }
     
 
     render() {
@@ -407,7 +447,7 @@ export default class Landingpage extends Component {
         };
 
         return (
-          <div className="bg" style={getBGStyle}>
+          <div className="bg" style={getBGStyle} onLoad={this.hidelpcontent} >
             <div className="bg-wrapper">
               <Modal
                 isOpen={this.state.modalIsOpen}
@@ -415,74 +455,103 @@ export default class Landingpage extends Component {
                 contentLabel="name-modal"
                 ariaHideApp={false}
               >
-              <img
-                src={logo}
-                width="80"
-                height="99"                    
-                alt="OpenTabs logo"
-                className="User-Logo"
-              />
+                {/* <Row>
+                  <Col> */}
+                  <img
+                    src={logo}
+                    width="80"
+                    height="99"                    
+                    alt="OpenTabs logo"
+                    className="User-Logo"
+                  />
+                  {/* </Col>
+                </Row> */}
 
                 <div className="form-container">
                 <form onSubmit={this.handleSubmit} noValidate>
                 <input id='step2' type='checkbox'/>
                       <input id='step3' type='checkbox'/>
-                      <div id="part1" className="form-group">
+
+                      {/* <Row>
+                        <Col> */}
+                        
+                        <div id="part1" className="form-group">
                         <div className="panel panel-primary">
-                          <div className="panel-heading">
+                        <Row>
+                        <Col>
+                        <div className="panel-heading">
                             <h1 className="panel-title">Hello, what's your name?</h1>
                           </div>
                     
-                        <input type='text' name='name' 
-                        onChange={this.handleChangeName} 
-                        className={shouldMarkError('name') ? "error" : ""} 
-                        placeholder="" 
-                        aria-describedby="sizing-addon1" 
-                        onBlur={this.handleBlur('name')} 
-                        value={this.state.name} 
-                        onKeyPress={this.onKeyPress}
-                        required pattern="\S+"
-                        noValidate />
-                        <div className="btn-group btn-group-lg" role="group" aria-label="...">
-                            <label htmlFor='step2' id="continue-step2" className="continue">
-                                <div className="btn btn-default btn-primary btn-lg" onClick={this.validatename}>Continue</div>
-                            </label>
+                            <input type='text' name='name' 
+                            onChange={this.handleChangeName} 
+                            className={shouldMarkError('name') ? "error" : ""} 
+                            placeholder="" 
+                            aria-describedby="sizing-addon1" 
+                            onBlur={this.handleBlur('name')} 
+                            value={this.state.name} 
+                            onKeyPress={this.onKeyPress}
+                            required pattern="\S+"
+                            noValidate />
+                        </Col>
+                        </Row>
+                            <div className="btn-group btn-group-lg" role="group" aria-label="...">
+                                <label htmlFor='step2' id="continue-step2" className="continue">
+                                    <div className="btn btn-default btn-primary btn-lg" onClick={this.validatename}>Continue</div>
+                                </label>
+                            </div>
                         </div>
-                    </div>
-                    </div>
+                        </div>
+                        {/* </Col>
+                      </Row> */}
+                      
 
-                    <div id="part2" className="form-group">
+                    {/* <Row>
+                        <Col> */}
+                        <div id="part2" className="form-group">
                         <div className="panel panel-primary">
+                        <Row>
+                        <Col>
                             <div className="panel-heading">
                                 <h1 className="panel-title">What's your email, {this.state.name}?</h1>
                             </div>
-                            <input type='email' name='email' 
-                            onChange={this.handleChangeEmail} 
-                            className={shouldMarkError('email') ? "error" : ""} 
-                            placeholder="" 
-                            aria-describedby="sizing-addon1" 
-                            onBlur={this.handleBlur('email')} 
-                            value={this.state.email} 
-                            onKeyPress={this.onKeyPress}
-                            noValidate 
-                            pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" required/>
-                            <div className="errorspan">
-                                <span className={((this.state.email.length)>0 && !(emailPattern.test(this.state.email))) ? "error" : "hidden"}>'{this.state.email}' is not a valid email </span>
-                            </div>
-                          
-                            <div className="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
-                                <label htmlFor='step3' id="continue-step3" className="continue">
-                                    <div className="btn btn-default btn-primary btn-lg" role="button" onClick={this.validateemail}>Continue</div>
-                                </label>                    
-                            </div>
-                            <div className="StayLoggedOut">
-                                <p>Or would you rather stay logged out?<button onClick={this.stayloggedout}>Stay logged out</button></p>
+                                <input type='email' name='email' 
+                                onChange={this.handleChangeEmail} 
+                                className={shouldMarkError('email') ? "error" : ""} 
+                                placeholder="" 
+                                aria-describedby="sizing-addon1" 
+                                onBlur={this.handleBlur('email')} 
+                                value={this.state.email} 
+                                onKeyPress={this.onKeyPress}
+                                noValidate 
+                                pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" required/>
+                                <div className="errorspan">
+                                    <span className={((this.state.email.length)>0 && !(emailPattern.test(this.state.email))) ? "error" : "hidden"}>This does not look like a valid email address </span>
+                                </div>
+                                </Col>
+                      </Row>
+                              
+                                <div className="btn-group btn-group-lg btn-group-justified" role="group" aria-label="...">
+                                    <label htmlFor='step3' id="continue-step3" className="continue">
+                                        <div className="btn btn-default btn-primary btn-lg" role="button" onClick={this.validateemail}>Continue</div>
+                                    </label>                    
+                                </div>
+                                <div className="StayLoggedOut">
+                                    <p>Or would you rather stay logged out?<button onClick={this.stayloggedout}>Stay logged out</button></p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                      <div id="part3" className="form-group">
+                        {/* </Col>
+                      </Row>
+
+                   
+
+                    <Row>
+                        <Col> */}
+                        <div id="part3" className="form-group">
                         <div className="panel panel-primary">
+                        <Row>
+                        <Col>
                           <div className="panel-heading">
                             <h1 className="panel-title">{this.state.name}, enter password</h1>
                           </div>
@@ -498,6 +567,8 @@ export default class Landingpage extends Component {
                             <div className="errorspan">
                                 <span className={((this.state.password.length)>0 && (this.state.password.length)<5) ? "error" : "hidden"}>Password should be at least five characters.</span>
                             </div>
+                            </Col>
+                      </Row>
                             <div className="btn-group btn-group-lg" role="group" aria-label="...">
                             <label className="continue">
                                 <button type="submit"
@@ -514,6 +585,10 @@ export default class Landingpage extends Component {
                             </label>
                             </div>
                         </div>
+                        {/* </Col>
+                      </Row> */}
+                    
+                      
                     </form>
                 </div>
               </Modal>
@@ -546,9 +621,21 @@ export default class Landingpage extends Component {
             </div>
             </div>   
             </div>
-           
 
+            {/* <div className="ad-section">
+             <Ad />
+             <Advertisement unit="leaderboard">
+      <AdSense.Google
+        client="ca-pub-4591861188995436"
+        format=""
+        slot="6710577704"
+        style={{ display: "inline-block", height: 90, width: 728 }}
+      />
+    </Advertisement> 
+            </div> */}
+            
             <div className="bottom-content">
+              
                 <div className="text-left bottom-left">
                 <Dropdown id="settings">
                   <Dropdown.Toggle>
@@ -566,19 +653,64 @@ export default class Landingpage extends Component {
                 </div>
             </div>
               
-            <div className="text-center centered" >
-                <div className="block-text">
-                  <h1 id="time">{this.state.time.toFormat("HH':'mm")}</h1>
-                </div>
-                {/* <div className="greetings"> */}
-                  <h3 id="greetings">
-                    Good {this.state.salutation}, {this.state.name}.
-                  </h3>
-                {/* </div> */}
-                <div className="Search">
-                    <Searchbar />
-                </div>
+            <div className="text-center centered" style={{display: this.state.lpdisplay}}>
+              <Row>
+                <Col>
+                  <Row>
+                    <Col>
+                    <div className="block-text">
+                      <p id="time">{this.state.time.toFormat("HH':'mm")}</p>
+                      <p id="greetings">Good {this.state.salutation}, {this.state.name}.</p>
+                      <Searchbar />
+                    </div>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
             </div>
+
+
+            <div className="ads">
+            <Row className="ads-row">
+              {/* <Col lg={8} style={{height: "90px", marginTop: "160px"}}>
+                <Tooltip placement="top" target="ad2"title={<p className="hovertext" style={{ fontSize: "14px", lineHeight: "1.2"}}>We use the revenues we make from ads to fund our cause of ending poverty & stopping climate change.</p>}>
+                  <div className="Ad2">
+                    <Iframe iframe={demos["ad2"]} allow="autoplay" target="ad2"/>,  */}
+                     {/* {/* <Iframe iframe={demos["ad2small"]} allow="autoplay"/>,   */}
+                  {/* </div>
+                </Tooltip>  */}
+                {/* <Overlay
+                  placement={'top'}
+                  overlay={
+                    <Tooltip id={'top'}>
+                      Tooltip on <strong>{'top'}</strong>.
+                    </Tooltip>
+                  }
+                >
+                  <div className="Ad2">
+                  <Iframe iframe={demos["ad2"]} allow="autoplay" target="top"/>, </div>
+                </Overlay>  */}
+              {/* </Col>
+              <Col lg={4} style={{textAlign: "center"}}>
+                <Tooltip title={<p style={{ fontSize: "14px", lineHeight: "1.2"}}>We use the revenues we make from ads to fund our cause of ending poverty & stopping climate change.</p>}>
+                  <div className="Ad1">
+                    <Iframe iframe={demos["ad1"]} allow="autoplay"/>,
+                    {/* <Iframe iframe={demos["ad1small"]} allow="autoplay"/>,    */}
+                  {/* </div>
+                </Tooltip>
+              </Col>  */}
+
+              <Col style={{textAlign: "center"}}>
+                <Tooltip title={<p style={{ fontSize: "14px", lineHeight: "1.2", textAlign: "center" }}>We raise money from these ads to end poverty & stop climate change.</p>}>
+                  <div className="Ad3">
+                    <Iframe iframe={demos["ad3"]} allow="autoplay"/>,
+                    {/* <Iframe iframe={demos["ad1small"]} allow="autoplay"/>,    */}
+                  </div>
+                </Tooltip>
+              </Col>
+            </Row>
+            </div>
+            
             </div> 
         </div>
         );
