@@ -7,7 +7,7 @@ const {check, validationResult} = require('express-validator');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const sendgridAPIKey = require('../../config/keys').sendgridAPIKey;
-
+const fetch = require('node-fetch');
 router.get('/test',(req,res) =>res.json({msg:"works"}))
 
 
@@ -72,7 +72,18 @@ router.post('/register', [
                         if(err) throw err;
                         newUser.local.password = hash;
                         newUser.save()
-                            .then(user =>{
+                            .then(user => {
+
+                                //add install referral if it exists
+                                if (req.body.referred_by) {
+                                    fetch('http://localhost:5000/api/referral/add_install_referral', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            referred_by:req.body.referred_by
+                                        })
+                                    })
+                                }
                                 // var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
                                 // token.save((err)=>{
                                 //     if(err)

@@ -298,15 +298,15 @@ export default class TestLandingpage extends Component {
     handleSubmit = async e => {
         e.preventDefault();
         
-        var tab = this.getCookie("tab");
+        // var tab = this.getCookie("tab");
 
-        if (tab == null) {
-            console.log('cookie doesnt exist') // do cookie doesn't exist stuff;
-        }
-        else {
-            this.setState({tabs_opened: tab})
-        }
-        
+        // if (tab == null) {
+        //     console.log('cookie doesnt exist') // do cookie doesn't exist stuff;
+        // }
+        // else {
+        //     this.setState({tabs_opened: tab})
+        // }
+      const referred_by = localStorage.getItem("referred_by");
         await fetch('/api/users/register', 
         {
           method: 'POST',
@@ -314,7 +314,7 @@ export default class TestLandingpage extends Component {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ 
-            name: this.state.name, email: this.state.email, password: this.state.password, tabs_opened: this.state.tabs_opened, method: 'local'}),
+            name: this.state.name,referred_by:referred_by, email: this.state.email, password: this.state.password, tabs_opened: this.state.tabs_opened, method: 'local'}),
         })
 
         .then(res => res.json())
