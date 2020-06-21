@@ -54,6 +54,19 @@ const userSchema = new Schema({
         type: Date,
         required: true,
         default: Date.now
+    },
+    userReferrals: {
+        type: Number,
+        default: 0,
+        required:true
+    },
+    installReferrals: {
+        type: Number,
+        default: 0,
+        required:true
+    },
+    referredBy: {
+        type: Schema.ObjectId,
     }
 })
 

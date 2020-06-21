@@ -3,19 +3,21 @@ const router = express.Router();
 const User = require('../../models/User');
 const { check, validationResult } = require('express-validator');
 
+
+//Get referral link for any user
 router.get('/referral_link', [
     // check('email').isEmail(),
     check('email').notEmpty()
 ], (req, res) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
-        return res.json({referralLink:"https:app.opentabs.org/referral/"});
+        return res.json({referralLink:"https://app.opentabs.org/referral/"});
     }
         User.findOne({ "local.email": req.body.email })
             .then(user => {
                 if (user)
                 {
-                    res.json({referralLink:"https:app.opentabs.org/referral/"+user._id})
+                    res.json({referralLink:"https://app.opentabs.org/referral/"+user._id})
                 }
                 else
                 {
@@ -70,10 +72,10 @@ router.post('/add_user_referral', [
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
     }
-        User.findOne({ "_id": req.body.referred_By })
+        User.findOne({ "_id": req.body.referred_by })
             .then(user => {
                 if (user) {
-                    user.installReferrals = user.installReferrals + 1;
+                    user.userReferrals = user.userReferrals + 1;
                     user.save();
                     return res.json({ msg: 'Referral complete' });
                 }

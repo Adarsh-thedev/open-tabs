@@ -258,42 +258,42 @@ export default class TestLandingpage extends Component {
         return DateTime.local();
     }
 
-    callApi = async () => {
-        const response = await (fetch('/api/users/register'));
-        const body = await response.json();
-        if (response.status !== 200) throw Error(body.message);
+    // callApi = async () => {
+    //     const response = await (fetch('/api/users/register'));
+    //     const body = await response.json();
+    //     if (response.status !== 200) throw Error(body.message);
         
-        return body;
-    };
+    //     return body;
+    // };
     
-    callApi = async () => {
-        const response = await fetch('/api/users/update_tabs');
-        const body = await response.json();
-        if (response.status !== 200) throw Error(body.message);
+    // callApi = async () => {
+    //     const response = await fetch('/api/users/update_tabs');
+    //     const body = await response.json();
+    //     if (response.status !== 200) throw Error(body.message);
         
-        return body;
-    };
+    //     return body;
+    // };
 
-    getCookie(name) {
-        var dc = document.cookie;
-        var prefix = name + "=";
-        var begin = dc.indexOf("; " + prefix);
-        if (begin === -1) {
-            begin = dc.indexOf(prefix);
-            if (begin !== 0) return null;
-        }
-        else
-        {
-            begin += 2;
-            var end = document.cookie.indexOf(";", begin);
-            if (end === -1) {
-            end = dc.length;
-            }
-        }
-        // because unescape has been deprecated, replaced with decodeURI
-        //return unescape(dc.substring(begin + prefix.length, end));
-        return decodeURI(dc.substring(begin + prefix.length, end));
-    } 
+    // getCookie(name) {
+    //     var dc = document.cookie;
+    //     var prefix = name + "=";
+    //     var begin = dc.indexOf("; " + prefix);
+    //     if (begin === -1) {
+    //         begin = dc.indexOf(prefix);
+    //         if (begin !== 0) return null;
+    //     }
+    //     else
+    //     {
+    //         begin += 2;
+    //         var end = document.cookie.indexOf(";", begin);
+    //         if (end === -1) {
+    //         end = dc.length;
+    //         }
+    //     }
+    //     // because unescape has been deprecated, replaced with decodeURI
+    //     //return unescape(dc.substring(begin + prefix.length, end));
+    //     return decodeURI(dc.substring(begin + prefix.length, end));
+    // } 
       
     handleSubmit = async e => {
         e.preventDefault();
@@ -306,7 +306,18 @@ export default class TestLandingpage extends Component {
         // else {
         //     this.setState({tabs_opened: tab})
         // }
-      const referred_by = localStorage.getItem("referred_by");
+      var referred_by = localStorage.getItem("referred_by");
+      const user_referred = localStorage.getItem("user_referred");
+      // if (!user_referred)
+      // {
+      //   localStorage.setItem("user_referred", "true");
+      //   console.log("do it");
+      // }
+      // else {
+      //   referred_by = "";
+
+      //   console.log("dont do it");
+      // }
         await fetch('/api/users/register', 
         {
           method: 'POST',
@@ -315,10 +326,10 @@ export default class TestLandingpage extends Component {
           },
           body: JSON.stringify({ 
             name: this.state.name,referred_by:referred_by, email: this.state.email, password: this.state.password, tabs_opened: this.state.tabs_opened, method: 'local'}),
-        })
+          })
 
         .then(res => res.json())
-        .then(data=>{
+          .then(data => {
             if(!data.errors){
             this.setState({modalIsOpen: false});
             this.setState({name: this.state.name});

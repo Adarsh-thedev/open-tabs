@@ -76,13 +76,13 @@ router.post('/register', [
 
                                 //add install referral if it exists
                                 if (req.body.referred_by) {
-                                    fetch('http://localhost:5000/api/referral/add_install_referral', {
+                                    fetch('http://localhost:5000/api/referral/add_user_referral', {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({
                                             referred_by:req.body.referred_by
                                         })
-                                    })
+                                    }).then(res =>{console.log("done")})
                                 }
                                 // var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
                                 // token.save((err)=>{
@@ -106,7 +106,7 @@ router.post('/register', [
                                 //     text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/api\/users\/confirmation\/' + token.token + '\n' };
                                 // transporter.sendMail(mailOptions)
                                 //     .catch(err=>console.log(err))
-                                res.json({user:user,msg:'User created'});//,msg:"Now please verify your email ID by clicking on the link in the email sent to you"})
+                                res.json({ user: user , referralLink :"https:app.opentabs.prg/referral/",msg:'User created'});//,msg:"Now please verify your email ID by clicking on the link in the email sent to you"})
 
                             })
                             .catch(err=>console.log(err));
@@ -117,6 +117,7 @@ router.post('/register', [
         })
     }
 })
+
 
 //POST '/api/users/update_tabs
 //API to update tab counter 
@@ -174,34 +175,34 @@ router.post('/single_update_tabs',[
 )
 
 // router.post('/confirmation', userController.confirmationPost);
-router.get('/confirmation/:token', [
-    check('token').notEmpty(),
-],(req,res,next)=>{
-    const errors = validationResult(req);
-    if(!errors.isEmpty()){
-        return res.status(422).json({errors:errors.array()});
-    }
-    console.log(req.params.token);
-    console.log(req.params.token);
+// router.get('/confirmation/:token', [
+//     check('token').notEmpty(),
+// ],(req,res,next)=>{
+//     const errors = validationResult(req);
+//     if(!errors.isEmpty()){
+//         return res.status(422).json({errors:errors.array()});
+//     }
+//     console.log(req.params.token);
+//     console.log(req.params.token);
 
-    Token.findOne({ token: req.params.token }, function (err, token) {
-        if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
+//     Token.findOne({ token: req.params.token }, function (err, token) {
+//         if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
 
-        // If we found a token, find a matching user
-        User.findOne({ _id: token._userId, email: req.body.email }, function (err, user) {
-            if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
-            if (user.isVerified) return res.status(400).send({ type: 'already-verified', msg: 'This user has already been verified.' });
+//         // If we found a token, find a matching user
+//         User.findOne({ _id: token._userId, email: req.body.email }, function (err, user) {
+//             if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
+//             if (user.isVerified) return res.status(400).send({ type: 'already-verified', msg: 'This user has already been verified.' });
 
-            // Verify and save the user
-            user.isVerified = true;
-            user.save(function (err) {
-                if (err) { 
-                    return res.status(500).send({ msg: err.message }); 
-                }
-                res.status(200).json({user:user, msg:"The account has been verified. Please log in."});
-            });
-        });
-    });
-})
+//             // Verify and save the user
+//             user.isVerified = true;
+//             user.save(function (err) {
+//                 if (err) { 
+//                     return res.status(500).send({ msg: err.message }); 
+//                 }
+//                 res.status(200).json({user:user, msg:"The account has been verified. Please log in."});
+//             });
+//         });
+//     });
+// })
 
 module.exports = router;
