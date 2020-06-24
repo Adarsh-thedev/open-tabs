@@ -3,3 +3,5 @@ package-lock.json
 /backend/config/keys.js
 /bhavik/node_modules
 /bhavik/package-lock.json
+/bhavik/build
+/backend/build

@@ -6,20 +6,19 @@ const bcrypt = require('bcryptjs');
 const {check, validationResult} = require('express-validator');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const sgMail = require('@sendgrid/mail');
 const sendgridAPIKey = require('../../config/keys').sendgridAPIKey;
-
+const fetch = require('node-fetch');
 router.get('/test',(req,res) =>res.json({msg:"works"}))
 
 
 ///ROUTE /api/users/register
 router.post('/register', [
-    check('email').isEmail(),
-    check('email').notEmpty(),
-    check('password').notEmpty(),
-    check('password').isLength({min:5}),
-    check('method').notEmpty(),
-    check('name').isAlpha()
+    check('email').isEmail().withMessage("Please enter a valid email address"),
+    check('email').notEmpty().withMessage("Please enter an email address"),
+    check('password').notEmpty().withMessage("Please enter a password"),
+    check('password').isLength({min:5}).withMessage("Password Length Should be Minimum 5 characters"),
+    check('method').notEmpty().withMessage("Method of login does not exist"),
+    check('name').isAlpha().withMessage("Invalid name")
 ],(req,res)=>{
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -38,11 +37,14 @@ router.post('/register', [
                     .then(isMatch=>{
                         if(isMatch) //if password is correct
                         {
-                            res.json({user:user, msg:'User authenticated'});
+                            // if (!user.isVerified) return res.status(401).send({ type: 'not-verified', msg: 'Your account has not been verified.' });
+                            // else{
+                             return res.json({user:user, msg:'User authenticated'});
+                            // }
                         }
                         else //if entered password is incorrect
                         {
-                            return res.status(400).json({errors:{password:'Password for the given email incorrect'}});
+                            return res.status(400).json({errors:{value:req.body.password,param:'password', msg:'Password for the given email incorrect'}});
                         }
                     })
                     .catch(err=>{console.log(err)});
@@ -60,7 +62,8 @@ router.post('/register', [
                     local:{
                     name:req.body.name,
                     email:req.body.email,
-                    password:req.body.password
+                    password:req.body.password,
+                    date_created: new Date(),
                     },
                     tabs_opened:tabs
                 });
@@ -69,36 +72,42 @@ router.post('/register', [
                         if(err) throw err;
                         newUser.local.password = hash;
                         newUser.save()
-                            .then(user =>{
-                                var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
-                                var transporter = nodemailer.createTransport({ 
-                                    service: 'Sendgrid', 
-                                    auth: {
-                                         user: 'scyther67', 
-                                         pass: 'Ghana@111' } });
-                                var mailOptions = { 
-                                    from: 'jashjain@opentabs.org', 
-                                    to: user.local.email, 
-                                    subject: 'Account Verification Token', 
-                                    text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + JSON.stringify(req.headers).host + '\/confirmation\/' + token.token + '.\n' };
-                                transporter.sendMail(mailOptions)
-                                    .catch(err=>console.log(err))
-                                res.json(user)
+                            .then(user => {
 
-                                // sgMail.setApiKey(sendgridAPIKey);
-                                // const msg = {
-                                // to: user.local.email,
-                                // from: 'test@example.com',
-                                // subject: 'Account Verification Token',
-                                // text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + token.token + '.\n', 
-                                // // text: 'hello',
-                                // html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-                                // };
-                                // sgMail.send(msg)
-                                //     .then(param =>{
-                                //     console.log('Mail sent');
-                                //     res.json(user)})})
+                                //add install referral if it exists
+                                if (req.body.referred_by) {
+                                    fetch('http://localhost:5000/api/referral/add_user_referral', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            referred_by:req.body.referred_by
+                                        })
+                                    }).then(res =>{console.log("done")})
+                                }
+                                // var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
+                                // token.save((err)=>{
+                                //     if(err)
+                                //     {return res.status(500).send({error: err.message});}
+                                // })
+                                // var transporter = nodemailer.createTransport({ 
+                                //     service: 'Sendgrid', 
+                                //     auth: {
+                                //          user: 'opentabs', 
+                                //          pass: 'qwaszx12e' } 
+                                //     // service: 'Gmail', 
+                                //     // auth: {
+                                //     //      user: 'no-reply@opentabs.org', 
+                                //     //      pass: 'Qwaszx12e' }
+                                // });
+                                // var mailOptions = { 
+                                //     from: 'no-reply@opentabs.org', 
+                                //     to: user.local.email, 
+                                //     subject: 'Account Verification Token', 
+                                //     text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/api\/users\/confirmation\/' + token.token + '\n' };
+                                // transporter.sendMail(mailOptions)
                                 //     .catch(err=>console.log(err))
+                                res.json({ user: user , referralLink :"https:app.opentabs.prg/referral/",msg:'User created'});//,msg:"Now please verify your email ID by clicking on the link in the email sent to you"})
+
                             })
                             .catch(err=>console.log(err));
                     })
@@ -109,7 +118,91 @@ router.post('/register', [
     }
 })
 
-// router.post('/confirmation', userController.confirmationPost);
 
+//POST '/api/users/update_tabs
+//API to update tab counter 
+router.post('/update_tabs',[
+    check('email').isEmail(),
+    check('email').notEmpty(),
+    check('tabs_opened').notEmpty(),
+    check('tabs_opened').isDecimal()
+],(req,res)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(422).json({errors:errors.array()});
+    }
+    User.findOne({"local.email" : req.body.email})
+        .then(user=>{
+            if(user)
+            {
+                user.tabs_opened=req.body.tabs_opened;
+                user.save();
+                return res.json({msg:'Tabs updated'});
+            }
+            else
+            {
+                return res.json({errors:{user:'User with given email does not exist'}});
+            }
+        })
+        .catch(err=>console.log(err));
+}
+   
+)
+
+router.post('/single_update_tabs',[
+    check('email').isEmail(),
+    check('email').notEmpty(),
+],(req,res)=>{
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(422).json({errors:errors.array()});
+    }
+    User.findOne({"local.email" : req.body.email})
+        .then(user=>{
+            if(user)
+            {
+                user.tabs_opened= (user.tabs_opened + 1);
+                user.save();
+                return res.json({msg:'Tab updated', tabs_opened:user.tabs_opened});
+            }
+            else
+            {
+                return res.json({errors:{user:'User with given email does not exist'}});
+            }
+        })
+        .catch(err=>console.log(err));
+}
+)
+
+// router.post('/confirmation', userController.confirmationPost);
+// router.get('/confirmation/:token', [
+//     check('token').notEmpty(),
+// ],(req,res,next)=>{
+//     const errors = validationResult(req);
+//     if(!errors.isEmpty()){
+//         return res.status(422).json({errors:errors.array()});
+//     }
+//     console.log(req.params.token);
+//     console.log(req.params.token);
+
+//     Token.findOne({ token: req.params.token }, function (err, token) {
+//         if (!token) return res.status(400).send({ type: 'not-verified', msg: 'We were unable to find a valid token. Your token my have expired.' });
+
+//         // If we found a token, find a matching user
+//         User.findOne({ _id: token._userId, email: req.body.email }, function (err, user) {
+//             if (!user) return res.status(400).send({ msg: 'We were unable to find a user for this token.' });
+//             if (user.isVerified) return res.status(400).send({ type: 'already-verified', msg: 'This user has already been verified.' });
+
+//             // Verify and save the user
+//             user.isVerified = true;
+//             user.save(function (err) {
+//                 if (err) { 
+//                     return res.status(500).send({ msg: err.message }); 
+//                 }
+//                 res.status(200).json({user:user, msg:"The account has been verified. Please log in."});
+//             });
+//         });
+//     });
+// })
 
 module.exports = router;
