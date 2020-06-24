@@ -447,7 +447,7 @@ export default class TestLandingpage extends Component {
         };
 
         return (
-          <div className="bg" style={getBGStyle} onLoad={this.hidelpcontent} >
+          <div className="bg" style={getBGStyle} onLoad={this.hidelpcontent}>
             <div className="bg-wrapper">
               <Modal
                 isOpen={this.state.modalIsOpen}
@@ -672,34 +672,6 @@ export default class TestLandingpage extends Component {
 
             <div className="ads">
             <Row className="ads-row">
-              {/* <Col lg={8} style={{height: "90px", marginTop: "160px"}}>
-                <Tooltip placement="top" target="ad2"title={<p className="hovertext" style={{ fontSize: "14px", lineHeight: "1.2"}}>We use the revenues we make from ads to fund our cause of ending poverty & stopping climate change.</p>}>
-                  <div className="Ad2">
-                    <Iframe iframe={demos["ad2"]} allow="autoplay" target="ad2"/>,  */}
-                     {/* {/* <Iframe iframe={demos["ad2small"]} allow="autoplay"/>,   */}
-                  {/* </div>
-                </Tooltip>  */}
-                {/* <Overlay
-                  placement={'top'}
-                  overlay={
-                    <Tooltip id={'top'}>
-                      Tooltip on <strong>{'top'}</strong>.
-                    </Tooltip>
-                  }
-                >
-                  <div className="Ad2">
-                  <Iframe iframe={demos["ad2"]} allow="autoplay" target="top"/>, </div>
-                </Overlay>  */}
-              {/* </Col>
-              <Col lg={4} style={{textAlign: "center"}}>
-                <Tooltip title={<p style={{ fontSize: "14px", lineHeight: "1.2"}}>We use the revenues we make from ads to fund our cause of ending poverty & stopping climate change.</p>}>
-                  <div className="Ad1">
-                    <Iframe iframe={demos["ad1"]} allow="autoplay"/>,
-                    {/* <Iframe iframe={demos["ad1small"]} allow="autoplay"/>,    */}
-                  {/* </div>
-                </Tooltip>
-              </Col>  */}
-
               <Col style={{textAlign: "center"}}>
                 <Tooltip title={<p style={{ fontSize: "14px", lineHeight: "1.2", textAlign: "center" }}>We raise money from these ads to end poverty & stop climate change.</p>}>
                   <div className="Ad3">
