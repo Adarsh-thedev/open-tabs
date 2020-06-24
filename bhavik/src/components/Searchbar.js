@@ -193,7 +193,7 @@ export default class Searchselect extends Component {
                 
                 <form method = "get" action="https://www.ecosia.org/search?q=" target="_top" style={{display: this.state.edisplay}}>
                   <div className="searchbar">
-                        <input type="text" placeholder="Search Ecosia" id="q" name="q" title="" alt="Search Text" maxLength="256" />
+                        <input type="text" placeholder="Search Ecosia" id="q" name="q" title="" alt="Search Text" maxLength="256" required/>
                         <button type="submit" id="searchsubmit">
                             <span id="searchsubmiticon"><FiSearch /></span>
                             <span id="searchsubmitimg"><img src="https://img.icons8.com/color/16/000000/ecosia.png" alt="ecosia-logo"/></span>
