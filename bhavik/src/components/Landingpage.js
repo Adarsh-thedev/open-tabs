@@ -100,7 +100,7 @@ function validate(name) {
     };
 }
 
-export default class TestLandingpage extends Component {
+export default class Landingpage extends Component {
     constructor() {
         super();
     
