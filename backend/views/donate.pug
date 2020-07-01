@@ -1,0 +1,23 @@
+html
+  head
+    title My Site
+    //- block scripts
+      script(src='/jquery.js')
+  body    
+    h1 Donate
+      p Thank you for donating!
+      form(method='POST' action='')
+        div
+          label(for='name') Name:
+          input#name(type='text' name='name')
+
+        div
+          label(for='email') Email address:
+          input#email(type='email' name='email')
+
+        div
+          label(for='amount') Amount:
+          input#amount(type='number' name='amount' min='10')
+
+        div
+          button(type='submit') Next

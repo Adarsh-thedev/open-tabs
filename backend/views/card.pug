@@ -1,0 +1,55 @@
+html
+  head
+    title My Site
+    block scripts
+      script(src='https://js.stripe.com/v3/')
+      script.
+        window.onload = (event) => {
+          const stripe = Stripe('pk_test_zQpE9J8MLBk7zbHeSIWcRUKg00FmRBxlvU');
+          const elements = stripe.elements();
+          const card = elements.create('card');
+          card.mount('#card-element');
+        }
+        const cardholderName = document.getElementById('cardholder-name');
+        const cardButton = document.getElementById('card-button');
+        const clientSecret = cardButton.dataset.secret; 
+        cardButton.addEventListener('click', async (event) => {
+          event.preventDefault();
+          try {
+            const result = await stripe.confirmCardPayment(clientSecret, {
+              payment_method: {
+                card: card,
+                billing_details: {name: cardholderName.value},
+              }
+            });
+            if (result.error) {
+              document.getElementById('card-errors').textContent = result.error.message;
+              return false;
+            } else {
+              document.getElementById('card').submit();
+            }
+          } catch(err) {
+            document.getElementById('card-errors').textContent = err.message;
+            return false;
+          }
+        });
+        script.
+          card.on('change', function(event) {
+            const displayError = document.getElementById('card-errors');
+            if (event.error) {
+              displayError.textContent = event.error.message;
+            } else {
+              displayError.textContent = '';
+            }
+          });
+  body
+    h1 Complete your donation
+    p= 'Thank you, ' + name + ', for your generosity! Please enter your payment details below to complete your donation.'
+    form(method='POST' action='/donate/thanks')
+      div
+        label(for='cardholder-name') Cardholder name:
+        input#cardholder-name(type='text' name='cardholder-name' value=(name))
+      div#card-element
+      div#card-errors
+      div
+        button#card-button(data-secret=(intentSecret))= ('Donate $' + amount)
