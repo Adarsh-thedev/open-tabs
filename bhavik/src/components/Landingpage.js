@@ -330,7 +330,8 @@ export default class TestLandingpage extends Component {
 
         .then(res => res.json())
           .then(data => {
-            if(!data.errors){
+            if (!data.errors) {
+              //user_referred set here
             this.setState({modalIsOpen: false});
             this.setState({name: this.state.name});
             localStorage.setItem(NAME_LS, this.state.name);
