@@ -18,6 +18,9 @@ class App extends Component {
           <Route path="/tabbing">
             <Landingpage />
           </Route>
+          <Route path="/test">
+            <Landingpagetest />
+          </Route>
           <Route path="/ads">
             <Ad />
           </Route>
