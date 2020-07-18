@@ -16,6 +16,7 @@
     "jquery": "^3.5.1",
     "luxon": "^1.23.0",
     "react": "^16.13.1",
+    "react-ad-block-detect": "^1.0.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
     "react-hooks-helper": "^1.6.0",
@@ -38,7 +39,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-"homepage":"./",
+  "homepage": "./",
   "browserslist": {
     "production": [
       ">0.2%",
