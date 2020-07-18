@@ -106,7 +106,7 @@ export default class Searchselect extends Component {
 
                 <form method = "get" action="https://www.google.com/search?q=" target="_top" style={{display: this.state.gdisplay}}>
                     <div className="searchbar">
-                        <input type="text" placeholder="Search Google" id="q" name="q" title="" alt="Search Text" maxLength="256" />
+                        <input type="text" placeholder="Search Google" id="q" name="q" title="" alt="Search Text" maxLength="256" autoComplete="off"/>
                         <button type="submit" id="searchsubmit">
                             <span id="searchsubmiticon"><FiSearch /></span>
                             <span id="searchsubmitimg"><img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="google-logo"/></span>
@@ -135,7 +135,7 @@ export default class Searchselect extends Component {
 
                 <form method = "get" action="https://www.bing.com/search?q=" target="_top" style={{display: this.state.bdisplay}}>
                   <div className="searchbar">
-                        <input type="text" placeholder="Search Bing" id="q" name="q" title="" alt="Search Text" maxLength="256" />
+                        <input type="text" placeholder="Search Bing" id="q" name="q" title="" alt="Search Text" maxLength="256" autoComplete="off"/>
                         <button type="submit" id="searchsubmit">
                             <span id="searchsubmiticon"><FiSearch /></span>
                             <span id="searchsubmitimg"><DiBingSmall  style={{color: "#25828c", width: "16px", height: "16px"}}/></span>
@@ -164,7 +164,7 @@ export default class Searchselect extends Component {
 
                 <form method = "get" action="https://www.duckduckgo.com/?q=" target="_top" style={{display: this.state.ddisplay}}>
                   <div className="searchbar">
-                        <input type="text" placeholder="Search DuckDuckGo" id="q" name="q" title="" alt="Search Text" maxLength="256" />
+                        <input type="text" placeholder="Search DuckDuckGo" id="q" name="q" title="" alt="Search Text" maxLength="256" autoComplete="off"/>
                         <button type="submit" id="searchsubmit">
                             <span id="searchsubmiticon"><FiSearch /></span>
                             <span id="searchsubmitimg"><img src="https://img.icons8.com/color/16/000000/duckduckgo--v1.png" alt="duckduckgo-logo"/></span>
@@ -193,7 +193,7 @@ export default class Searchselect extends Component {
                 
                 <form method = "get" action="https://www.ecosia.org/search?q=" target="_top" style={{display: this.state.edisplay}}>
                   <div className="searchbar">
-                        <input type="text" placeholder="Search Ecosia" id="q" name="q" title="" alt="Search Text" maxLength="256" required/>
+                        <input type="text" placeholder="Search Ecosia" id="q" name="q" title="" alt="Search Text" maxLength="256" required autoComplete="off"/>
                         <button type="submit" id="searchsubmit">
                             <span id="searchsubmiticon"><FiSearch /></span>
                             <span id="searchsubmitimg"><img src="https://img.icons8.com/color/16/000000/ecosia.png" alt="ecosia-logo"/></span>

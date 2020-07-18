@@ -1,4 +1,4 @@
-import React, { Component, useState, useRef } from 'react';
+import React, { Component} from 'react';
 import {DateTime} from 'luxon';
 import Modal from 'react-modal';
 import './styles.css';
@@ -18,14 +18,16 @@ import Background from '../assets/modal-bg.jpg';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import AdBlockDetect from 'react-ad-block-detect';
+import Referral from './Referral';
+import Donationcounter from './Donationcounter';
 
 const popover = (
-  <Popover id="popover-basic" className='mt-3'>
+  <Popover id="popover-banner" className='mt-2'>
     <div>
-    <Popover.Title as="h3">
-    <strong className="mr-auto" style={{textAlign: 'left'}}>OpenTabs' Brand New Look!<br /><small>(Update June 2020)</small></strong>
-    </Popover.Title>
-    <Popover.Content>
+    <div className="popover-title" as="h3">
+    <strong style={{textAlign: 'left'}}>OpenTabs' Brand New Look!<br /><small>(Update June 2020)</small></strong>
+    </div>
+    <div className="popover-content">
       <div>
         After much preparation, we are launching our ready-for-market version of OpenTabs! A huge thank you to our beta users for your continued support.
         <br />
@@ -38,15 +40,60 @@ const popover = (
         <br />
         Stay tuned for exciting updates coming soon.
       </div>
-    </Popover.Content>
+    </div>
     </div>
   </Popover>
 );
 
 const Update = () => (
-  <OverlayTrigger trigger="click" placement="left" overlay={popover} rootClose>
-    <Button id="update-btn"><FiBell /></Button>
+  <OverlayTrigger trigger="click" placement="bottom" overlay={popover} rootClose>
+    <Button id="update-btn" style={{padding: "none"}}><FiBell /></Button>
   </OverlayTrigger>
+);
+
+const counter = (
+  <Popover id="popover-counter" className='mt-2'>
+    <div>
+    <Popover.Content>
+      <div className="counter-content">
+        <p>
+          This is the number of tabs you have opened with OpenTabs. Every tab you open helps end poverty and stop climate change. On average you need around 1 tab to save a tree, 2,000 to donate a mosquito net, and 25,000 to provide a microloan!
+        </p>
+      </div>
+      <div className="invite-content">
+        {/* <Button id="invite-btn">Invite</Button> */}
+      </div>  
+    </Popover.Content>
+    </div>
+  </Popover>
+);
+
+const addetected = (
+  <Popover id="popover-addetected" className='mt-2'>
+    <div>
+    <Popover.Content>
+      <div className="addetected-content">
+        <p style={{fontSize: "small"}}>
+        We raise money from these ads to save trees, donate mosquito nets, and provide microloans. Three very effective ways of ending poverty and stopping climate change!  
+        </p>
+      </div>
+    </Popover.Content>
+    </div>
+  </Popover>
+);
+
+const addisplayed = (
+  <Popover id="popover-addisplayed" className='mt-2'>
+    <div>
+    <Popover.Content>
+      <div className="addisplayed-content">
+        <p>
+        We raise money from these ads to end poverty & stop climate change.
+        </p>
+      </div>
+    </Popover.Content>
+    </div>
+  </Popover>
 );
 
 const NAME_LS = 'name';
@@ -54,6 +101,8 @@ const EMAIL_LS = 'email';
 const PASSWORD_LS = 'password';
 const TABS_LS = 'tabs_opened';
 const LOGIN_LS = 'login';
+const pdisplay_LS = 'pdisplay';
+const ratedisplay_LS = 'ratedisplay';
 
 const customStyles = {
     content: {
@@ -67,12 +116,11 @@ const customStyles = {
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       border: 'none',
-      // background: 'black',
+      background_color: 'black',
       background: "url(" + { Background } + ")",
       overflow: 'none',
       position:'fixed',
       padding: '0 20px'
-      // padding: '0'
       }
   };
 const getBGStyle = {
@@ -131,7 +179,10 @@ export default class Landingpage extends Component {
           response: '',
           post: '',
           responseToPost: '',
-          // lpdisplay: 'block',
+          pdisplay: 'block',
+          addisplay: 'block',
+          blockerdisplay: 'none',
+          ratedisplay: 'block',
         };
         this.baseState = this.state;
         this.handleChangeName = this.handleChangeName.bind(this);
@@ -143,9 +194,36 @@ export default class Landingpage extends Component {
     }
  
     componentDidMount() {
-        // this.callApi()
-        // .then(res => this.setState({ response: res.express }))
-        // .catch(err => console.log(err));
+      //Chrome
+      // if (navigator.userAgent.indexOf("Chrome") != -1 ) {
+      //   this.setState({ratedisplay: 'block'});
+      //   localStorage.setItem(ratedisplay_LS, this.state.ratedisplay);
+      // }
+      //OPERA
+      if(navigator.userAgent.indexOf("OPR") != -1 ) {
+        this.setState({ratedisplay: 'none'});
+        localStorage.setItem(ratedisplay_LS, this.state.ratedisplay);
+      }
+      // // INTERNET EXPLORER
+      // if (navigator.userAgent.indexOf("MSIE") != -1 ) {
+      //   this.setState({ratedisplay: 'none'});
+      //   localStorage.setItem(ratedisplay_LS, this.state.ratedisplay);
+      // }
+      // // // EDGE
+      // if (navigator.userAgent.indexOf("Edge") != -1 ) {
+      //   this.setState({ratedisplay: 'none'});
+      //   localStorage.setItem(ratedisplay_LS, this.state.ratedisplay);
+      // }
+      // // // SAFARI
+      // if (navigator.userAgent.indexOf("Safari") != -1 ) {
+      //   this.setState({ratedisplay: 'none'});
+      //   localStorage.setItem(ratedisplay_LS, this.state.ratedisplay);
+      // }
+      // // YANDEX BROWSER
+      // if (navigator.userAgent.indexOf("YaBrowser") != -1 ) {
+      //   this.setState({ratedisplay: 'none'});
+      //   localStorage.setItem(ratedisplay_LS, this.state.ratedisplay);
+      // }
 
         window.addEventListener('load', this.handleLoad);
 
@@ -156,7 +234,14 @@ export default class Landingpage extends Component {
         } else {
           this.setState({modalIsOpen: true});
         }
-    
+        if (name) {
+          this.setState({pdisplay: 'block'});
+          localStorage.setItem(pdisplay_LS, this.state.pdisplay);  
+        }else{
+          this.setState({pdisplay: 'none'});
+          localStorage.setItem(pdisplay_LS, this.state.pdisplay);
+        }
+
         this.interval = setInterval(() => {
           var time = DateTime.local();
           this.setState({
@@ -195,17 +280,8 @@ export default class Landingpage extends Component {
             body: JSON.stringify({ email: localStorage.getItem(EMAIL_LS), tabs_opened: localStorage.getItem(TABS_LS)}),    
         }
         )
-
-        // 1st version
-        // this.setState(this.baseState);
-        // this.setState({login: true});
-        // localStorage.setItem(LOGIN_LS, this.state.login);
-        // this.setState({modalIsOpen: true});
-        // window.localStorage.clear();
-        // localStorage.clear();
-        // this.setState({tabs_opened: 0});
-        // localStorage.setItem(TABS_LS, this.state.tabs_opened);
-        // 2nd version
+        this.setState({pdisplay: 'none'});
+        localStorage.setItem(pdisplay_LS, this.state.pdisplay);
         this.setState({name: ''});
         localStorage.setItem(NAME_LS, this.state.name);
         this.setState({email: ''});
@@ -268,52 +344,13 @@ export default class Landingpage extends Component {
         
         return body;
     };
-
-    // getCookie(name) {
-    //     var dc = document.cookie;
-    //     var prefix = name + "=";
-    //     var begin = dc.indexOf("; " + prefix);
-    //     if (begin === -1) {
-    //         begin = dc.indexOf(prefix);
-    //         if (begin !== 0) return null;
-    //     }
-    //     else
-    //     {
-    //         begin += 2;
-    //         var end = document.cookie.indexOf(";", begin);
-    //         if (end === -1) {
-    //         end = dc.length;
-    //         }
-    //     }
-    //     // because unescape has been deprecated, replaced with decodeURI
-    //     //return unescape(dc.substring(begin + prefix.length, end));
-    //     return decodeURI(dc.substring(begin + prefix.length, end));
-    // } 
       
     handleSubmit = async e => {
       e.preventDefault();
-        
-        // var tab = this.getCookie("tab");
-
-        // if (tab == null) {
-        //     console.log('cookie doesnt exist') // do cookie doesn't exist stuff;
-        // }
-        // else {
-        //     this.setState({tabs_opened: tab})
-        // }
-
+ 
       var referred_by = localStorage.getItem("referred_by");
       const user_referred = localStorage.getItem("user_referred");
-      // if (!user_referred)
-      // {
-      //   localStorage.setItem("user_referred", "true");
-      //   console.log("do it");
-      // }
-      // else {
-      //   referred_by = "";
 
-      //   console.log("dont do it");
-      // }
 
         await fetch('/api/users/register', 
         {
@@ -328,6 +365,10 @@ export default class Landingpage extends Component {
         .then(res => res.json())
         .then(data=>{
             if(!data.errors){
+            // this.setState({user_referred: this.state.user_referred});
+            // localStorage.setItem(user_referred_LS, this.state.user_referred);
+            this.setState({pdisplay: 'block'});
+            localStorage.setItem(pdisplay_LS, this.state.pdisplay);
             this.setState({modalIsOpen: false});
             this.setState({name: this.state.name});
             localStorage.setItem(NAME_LS, this.state.name);
@@ -352,7 +393,7 @@ export default class Landingpage extends Component {
         this.setState({modalIsOpen: this.state.modalIsOpen})
     };
 
-    handleLoad = async e => {
+    handleLoad = async e => {       
         e.preventDefault();
         await fetch('/api/users/single_update_tabs',
         {
@@ -377,10 +418,12 @@ export default class Landingpage extends Component {
           }));
           
         this.setState({login: this.state.login});
-        localStorage.setItem(LOGIN_LS, this.state.login);
+        localStorage.setItem(LOGIN_LS, this.state.login);        
     };
 
     stayloggedout = () =>{
+      this.setState({pdisplay: 'block'});
+      localStorage.setItem(pdisplay_LS, this.state.pdisplay);
       this.setState({name: this.state.name});
       localStorage.setItem(NAME_LS, this.state.name);
       this.setState({modalIsOpen: false});
@@ -426,14 +469,36 @@ export default class Landingpage extends Component {
       const errors = validate(this.state.email);
       const isDisabled = Object.keys(errors).some(x => errors[x]);
       return !isDisabled;
-  } 
+  }
+
+  handleadblock(){
+    this.setState({blockerdisplay: 'block'});
+    this.setState({addisplay: 'none'});
+  }
+
+  onFocus = event => {
+    if(event.target.autocomplete)
+    {
+      event.target.autocomplete = "whatever";
+    }
+  }
+
+  browserRating() {
+       // CHROME
+      if (navigator.userAgent.indexOf("Chrome") != -1 ) {
+        window.open('https://chrome.google.com/webstore/detail/opentabs/igeeighenacaciapkehcacnojlegbnpa', '_blank');
+      }
+      // FIREFOX
+      else if (navigator.userAgent.indexOf("Firefox") != -1 ) {
+        window.open('https://addons.mozilla.org/en-US/firefox/addon/opentabs_org/', '_blank');
+      }
+  }    
 
     render() {
         const emailPattern = /(.+)@(.+){2,}\.(.+){2,}/;
         // const {login} = this.state.login;
         const errors = validate(this.state.name, this.state.email, this.state.password);
         // const isDisabled = Object.keys(errors).some(x => errors[x]);
-      
         const shouldMarkError = (field) => {
         const hasError = errors[field];
         const shouldShow = this.state.touched[field];
@@ -442,8 +507,8 @@ export default class Landingpage extends Component {
         };
 
         return (
-          <div className="bg" style={getBGStyle}>
-            <div className="bg-wrapper">
+          <div>
+          <div>
               <Modal
                 isOpen={this.state.modalIsOpen}
                 style={customStyles}
@@ -453,15 +518,15 @@ export default class Landingpage extends Component {
                 <img
                   src={logo}
                   width="80"
-                  height="99"                    
+                  height="99"                  
                   alt="OpenTabs logo"
                   className="User-Logo"
                 />
     
                 <div className="form-container">
                 <form onSubmit={this.handleSubmit} noValidate>
-                <input id='step2' type='checkbox'/>
-                      <input id='step3' type='checkbox'/>
+                <input id='step2' type='checkbox' autoComplete="off"/>
+                      <input id='step3' type='checkbox' autoComplete="off"/>
                         <div id="part1" className="form-group">
                         <div className="panel panel-primary">
                         <Row>
@@ -469,9 +534,7 @@ export default class Landingpage extends Component {
                         <div className="panel-heading">
                             <h1 className="panel-title">Hello, what's your name?</h1>
                           </div>
-                    
                             <input type='text' name='name' 
-                            autoComplete='off'
                             onChange={this.handleChangeName} 
                             className={shouldMarkError('name') ? "error" : ""} 
                             placeholder="" 
@@ -480,7 +543,9 @@ export default class Landingpage extends Component {
                             value={this.state.name} 
                             onKeyPress={this.onKeyPress}
                             required pattern="\S+"
-                            noValidate />
+                            noValidate 
+                            autoComplete="off"
+                            onFocus={this.onFocus}/>
                         </Col>
                         </Row>
                             <div className="btn-group btn-group-lg" role="group" aria-label="...">
@@ -499,7 +564,6 @@ export default class Landingpage extends Component {
                                 <h1 className="panel-title">What's your email, {this.state.name}?</h1>
                             </div>
                                 <input type='email' name='email'
-                                autoComplete='off' 
                                 onChange={this.handleChangeEmail} 
                                 className={shouldMarkError('email') ? "error" : ""} 
                                 placeholder="" 
@@ -508,6 +572,7 @@ export default class Landingpage extends Component {
                                 value={this.state.email} 
                                 onKeyPress={this.onKeyPress}
                                 noValidate 
+                                autoComplete="off" 
                                 pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" required/>
                                 <div className="errorspan">
                                     <span className={((this.state.email.length)>0 && !(emailPattern.test(this.state.email))) ? "error" : "hidden"}>This does not look like a valid email address </span>
@@ -534,7 +599,6 @@ export default class Landingpage extends Component {
                             <h1 className="panel-title">{this.state.name}, enter password</h1>
                           </div>
                             <input type='password' name='password'
-                            autoComplete='off' 
                             onChange={this.handleChangePassword} 
                             className={shouldMarkError('password') ? "error" : ""} 
                             placeholder="" 
@@ -542,6 +606,7 @@ export default class Landingpage extends Component {
                             onBlur={this.handleBlur('password')} 
                             value={this.state.password} 
                             onKeyPress={this.onKeyPress} 
+                            autoComplete="off" 
                             noValidate />
                             <div className="errorspan">
                                 <span className={((this.state.password.length)>0 && (this.state.password.length)<5) ? "error" : "hidden"}>Password should be at least five characters.</span>
@@ -567,24 +632,21 @@ export default class Landingpage extends Component {
                     </form>
                 </div>
               </Modal>
-
+              </div>
+            <div className="bg" style={getBGStyle} style={{display: this.state.pdisplay}}>
+            <div className="bg-wrapper">
             <div className="top-content">
             <div className="widgets"> 
               <div className="header">
                 <div className="text-right top-left logo">
                   <div className="logo-counter">
-                    <Update />
-                    <div className="tab-counter">
-                    <Tooltip disableFocusListener title="No. of Tabs Opened" enterDelay={500} leaveDelay={200}>
-                    <div onLoad={this.handleLoad} style={{padding: '8px 8px', position: 'relative', display: 'block'}}>
-                      <button style={{border: 'none', background: 'none'}}>
-                      {/* <a style={{textDecoration: 'none'}}>  */}
-                      {this.state.tabs_opened}
-                      {/* </a> */}
-                      </button>
-                    </div>
-                    </Tooltip>
-                  </div>
+                    <Donationcounter />
+                    <Update />                    
+                    <div className="tab-counter">                  
+                    <OverlayTrigger trigger="click" placement="bottom" overlay={counter} rootClose>
+                      <Button id="counter-btn"><p style={{marginBottom: '0'}}>{this.state.tabs_opened}</p></Button>
+                    </OverlayTrigger>
+                    </div>                    
                     <img
                       src={logosmall}
                       width="35"
@@ -606,7 +668,7 @@ export default class Landingpage extends Component {
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Item eventKey="1" href="https://opentabs.org/"><FiHome /> Home</Dropdown.Item>
-                    <Dropdown.Item eventKey="2" href="https://addons.mozilla.org/en-US/firefox/addon/opentabs_org/" target="_top"><FaStar /> Rate Us</Dropdown.Item>
+                    <Dropdown.Item eventKey="2" style={{display: this.state.ratedisplay}} onClick={this.browserRating} target="_top"><FaStar /> Rate Us</Dropdown.Item>
                     <Dropdown.Item eventKey="3" href="https://docs.google.com/forms/d/e/1FAIpQLScNIVjuhLCUF_CczUf2eCP3VOIiIfl-UhJAsh-f-SJbUq7WnQ/viewform"><FiUser /> Feedback</Dropdown.Item>
                     <Dropdown.Item eventKey="4" href="https://donorbox.org/opentabs"><FiGift /> Donate</Dropdown.Item>
                     <Dropdown.Item eventKey="5" onClick={this.resetForm} onLoad={this.handleLoad}>
@@ -634,20 +696,27 @@ export default class Landingpage extends Component {
             </div>
 
             <div className="ads">
-            <Row className="ads-row">
+            <AdBlockDetect onLoad={this.handleadblock} style={{display: this.state.blockerdisplay}}>
+              <div className="ad-blocker" style={{marginTop: "-2vh", marginBottom: "3vh"}}>
+                  <OverlayTrigger trigger="hover" placement="top" overlay={addetected} rootClose>
+                    <p style={{color: 'white', backgroundColor: 'rgba(0, 0, 0, 0.36', textAlign: 'center', padding: '5px'}}>Please click <a href="https://opentabs.org/adblock.php">here</a> to disable your adblocker and see the ads. We raise money from ads to save trees, donate mosquito nets, and provide microloans.</p>
+                  </OverlayTrigger>
+              </div>
+            </AdBlockDetect>
+            <Row className="ads-row" onLoad={this.handleadblock} style={{display: this.state.addisplay}}>
               <Col style={{textAlign: "center"}}>
-                <Tooltip title={<p style={{ fontSize: "14px", lineHeight: "1.2", textAlign: "center" }}>We raise money from these ads to end poverty & stop climate change.</p>}>
-                  <div className="Ad1">
-                    <Iframe iframe={ads["ad1"]} allow="autoplay"/>,
-                  </div>
-                </Tooltip>
+                  <OverlayTrigger trigger="hover" placement="top" overlay={addisplayed} rootClose>
+                    <div className="Ad1">
+                      <Iframe iframe={ads["ad1"]} allow="autoplay"/>,
+                    </div>
+                  </OverlayTrigger>
               </Col>
             </Row>
-            {/* <AdBlockDetect>
-                <p style={{color: 'white'}}>Show this if an ad blocker has been enabled.</p>
-            </AdBlockDetect> */}
+            
             </div>
             </div> 
+        </div>
+
         </div>
         );
     }
