@@ -10,27 +10,30 @@ import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 class App extends Component {
   render() {
     return (
-      <Router>
-        <Switch>
-          <Route exact path="/">
+      // <Router>
+      //   <Switch>
+      //     <Route exact path="/">
             
-          </Route>
-          <Route path="/tabbing">
-            <Landingpage />
-          </Route>
-          <Route path="/ads">
-            <Ad />
-          </Route>
-          {/* <Route
-            path="/referral/:id?"
-            component={Referral}
-          />
-          <Route 
-            path="/oninstall"
-            component={OnInstall}
-            /> */}
-        </Switch>
-      </Router>
+      //     </Route>
+      //     <Route path="/tabbing">
+      //       <Landingpage />
+      //     </Route>
+      //     <Route path="/ads">
+      //       <Ad />
+      //     </Route>
+      //     {/* <Route
+      //       path="/referral/:id?"
+      //       component={Referral}
+      //     />
+      //     <Route 
+      //       path="/oninstall"
+      //       component={OnInstall}
+      //       /> */}
+      //   </Switch>
+      // </Router>
+      <div>
+        <Landingpage />
+      </div>
     );
   }
 }
