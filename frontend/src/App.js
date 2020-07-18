@@ -13,7 +13,7 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/">
-            
+            <Landingpage />
           </Route>
           <Route path="/tabbing">
             <Landingpage />
