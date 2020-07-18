@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Landingpage from './components/Landingpage.js';
+import Landingpagetest from './components/Landingpagetest.js';
 import Ad from './components/Ad.js';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 // import Referral from './components/Referral';

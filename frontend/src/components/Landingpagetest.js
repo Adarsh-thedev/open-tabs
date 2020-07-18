@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
 import {DateTime} from 'luxon';
 import Modal from 'react-modal';
-import './styles.css';
+import './stylestest.css';
 import Searchbar from './Searchbar';
 import {FiLogOut } from 'react-icons/fi';
 import {FiSettings, FiHome, FiUser, FiBell, FiGift} from 'react-icons/fi';
