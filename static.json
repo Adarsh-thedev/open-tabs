@@ -2,7 +2,7 @@
     "root": "build/",
     "clean_urls": false,
     "routes": {
-      "/**": "index.html"
+      "/**": "./frontend/public/index.html"
     },
     "https_only": true,
    "headers": {
