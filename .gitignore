@@ -1,6 +1,6 @@
 /node_modules
 package-lock.json
 /backend/config/keys.js
-/frontend/node_modules
-/frontend/package-lock.json
+/bhavik/node_modules
+/bhavik/package-lock.json
 /backend/build
