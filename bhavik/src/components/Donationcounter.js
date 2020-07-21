@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import NumberFormat from 'react-number-format';
 
 const dcounter = (
-    <Popover id="popover-dcounter" className='mt-2'>
+    <Popover id="popover-dcounter" className='mt-0'>
       <div>
       <Popover.Content>
         <div className="dcounter-content">
@@ -87,13 +88,17 @@ export default class Donationcounter extends Component {
   componentWillUnmount() {
     clearInterval(this.interval);
   }
+  handleload(){
+    this.setState({Mcount: parseFloat(this.state.seconds).toFixed(2)});
+      localStorage.setItem(Mcount_LS, parseFloat(this.state.seconds).toFixed(2));
+  }
 
     render() {
       
         return (
             <div>
                 <OverlayTrigger trigger="click" placement="bottom" overlay={dcounter} rootClose>
-                  <Button id="Donation-btn"><p>€{(localStorage.getItem('Mcount'))}</p></Button>
+                  <Button id="Donation-btn" onLoad={this.handleload}><p><NumberFormat value={(this.state.seconds).toFixed(2)} displayType={'text'} thousandSeparator={true} prefix={'€'} /></p></Button>
                 </OverlayTrigger>
             </div>
         )

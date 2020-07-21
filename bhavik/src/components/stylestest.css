@@ -292,8 +292,8 @@ body{
   display: inline-flex;
 }
 .logo-counter img{
-  margin: 5px;
-  /* margin-top: 1rem; */
+  margin: 10px 10px 0 0;
+  /* margin-top: 1.5vh; */
 }
 .toast-header, .toast-body{
   font-family: -apple-system, BlinkMacSystemFont, "Neue Haas Grotesk Text Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -1004,4 +1004,25 @@ input:focus::-webkit-input-placeholder, input:active::-webkit-input-placeholder,
   .search .dropdown, #searchsubmit{
     width: auto;
   }
+}
+#counter-btn{
+  padding: .375rem 0 .375rem .75rem!important;
+}
+#counter-btn p{
+  opacity: 0.8;
+}
+#counter-btn p:hover{
+  opacity: 1;
+}
+#Donation-btn p{
+  opacity: 0.8;
+}
+#Donation-btn p:hover{
+  opacity: 1;
+}
+#update-btn svg{
+  opacity: 0.8;
+}
+#update-btn svg:hover{
+  opacity: 1;
 }

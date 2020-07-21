@@ -20,9 +20,10 @@ import Popover from 'react-bootstrap/Popover';
 import AdBlockDetect from 'react-ad-block-detect';
 import Referral from './Referral';
 import Donationcounter from './Donationcounter';
+import NumberFormat from 'react-number-format';
 
 const popover = (
-  <Popover id="popover-banner" className='mt-2'>
+  <Popover id="popover-banner" className='mt-0'>
     <div>
     <div className="popover-title" as="h3">
     <strong style={{textAlign: 'left'}}>OpenTabs' Brand New Look!<br /><small>(Update June 2020)</small></strong>
@@ -52,7 +53,7 @@ const Update = () => (
 );
 
 const counter = (
-  <Popover id="popover-counter" className='mt-2'>
+  <Popover id="popover-counter" className='mt-0'>
     <div>
     <Popover.Content>
       <div className="counter-content">
@@ -69,7 +70,7 @@ const counter = (
 );
 
 const addetected = (
-  <Popover id="popover-addetected" className='mt-2'>
+  <Popover id="popover-addetected" className='mt-0'>
     <div>
     <Popover.Content>
       <div className="addetected-content">
@@ -165,6 +166,7 @@ export default class Landingpagetest extends Component {
             email: '',
             password: '',
           },
+          // tabs_opened: JSON.parse(localStorage.getItem(TABS_LS)).toLocaleString(),
           tabs_opened: JSON.parse(localStorage.getItem(TABS_LS)),
           isNameRequired: true,
           salutation: this.determineSalutation(time.hour),
@@ -644,15 +646,16 @@ export default class Landingpagetest extends Component {
                     <Update />                    
                     <div className="tab-counter">                  
                     <OverlayTrigger trigger="click" placement="bottom" overlay={counter} rootClose>
-                      <Button id="counter-btn"><p style={{marginBottom: '0'}}>{this.state.tabs_opened}</p></Button>
+                      <Button id="counter-btn"><p style={{marginBottom: '0'}}><NumberFormat value={this.state.tabs_opened} displayType={'text'} thousandSeparator={true}/></p></Button>
                     </OverlayTrigger>
                     </div>                    
                     <img
                       src={logosmall}
-                      width="35"
-                      height="35"
+                      width="25"
+                      height="25"
                       className="d-inline-block align-top"
                       alt="OpenTabs logo"
+                      style={{margin: "10px 10px 0 0"}}
                     />
                   </div>
                 </div>                 

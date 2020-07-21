@@ -653,6 +653,7 @@ export default class Landingpage extends Component {
                       height="35"
                       className="d-inline-block align-top"
                       alt="OpenTabs logo"
+                      style={{margin: "5px"}}
                     />
                   </div>
                 </div>                 
