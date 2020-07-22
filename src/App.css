@@ -1,0 +1,35 @@
+.App {
+  text-align: center;
+}
+
+.nav{
+  background-color:#fff;
+  text-decoration: none !important;
+}
+
+a:hover {
+  text-decoration : none !important;
+}
+
+.footer{
+  font-family : Nunito, sans-serif;
+  color : #0080ff !important;
+}
+
+.footer a:hover {
+  text-decoration: none;
+  color : #0080ff !important;
+}
+
+.no-dec {
+  color: black;
+}
+
+.no-dec:hover {
+  text-decoration: none !important;
+  color : black;
+}
+
+.nunito {
+  font-family : Nunito, sans-serif;
+}
