@@ -39,7 +39,7 @@ const FlightSearchResults = ({location}) => {
 
     var npas = parseInt(passengers.slice(0,1))
     var ntrip;
-    if(trip=="One way"){
+    if(trip==="One way"){
         ntrip = 1;
     }
     else{
