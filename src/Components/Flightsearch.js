@@ -9,7 +9,7 @@ const FlightSearch = () => {
     const [details, setDetails] = useState({
         travelingDate : `${new Date().toISOString().substr(0,10)}`,
         returnDate : `${nextDate.toISOString().substr(0,10)}`,
-        trip : 'Round trip',
+        trip : 'One way',
         passengers : '1 Passenger',
         cabin : 'Economy'
     });

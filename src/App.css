@@ -2,23 +2,23 @@
   text-align: center;
 }
 
-.nav{
-  background-color:#fff;
+.nav {
+  background-color: #fff;
   text-decoration: none !important;
 }
 
 a:hover {
-  text-decoration : none !important;
+  text-decoration: none !important;
 }
 
-.footer{
-  font-family : Nunito, sans-serif;
-  color : #0080ff !important;
+.footer {
+  font-family: Nunito, sans-serif;
+  color: #0080ff !important;
 }
 
 .footer a:hover {
   text-decoration: none;
-  color : #0080ff !important;
+  color: #0080ff !important;
 }
 
 .no-dec {
@@ -27,9 +27,9 @@ a:hover {
 
 .no-dec:hover {
   text-decoration: none !important;
-  color : black;
+  color: black;
 }
 
 .nunito {
-  font-family : Nunito, sans-serif;
+  font-family: Nunito, sans-serif;
 }

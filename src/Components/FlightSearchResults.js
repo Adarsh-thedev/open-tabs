@@ -9,12 +9,14 @@ const haversine = require('haversine')
 
 const FlightSearchResults = ({location}) => {
     const {searchResult, source, destination, passengers, trip, cabin} = location.state;
-
+    
     try{
-        var start1 = airportsData[source.toUpperCase()]['coordinates']["lat"]
-        var start2 = airportsData[source.toUpperCase()]['coordinates']["lon"]
-        var end1 = airportsData[destination.toUpperCase()]['coordinates']["lat"]
-        var end2 = airportsData[destination.toUpperCase()]['coordinates']["lon"]
+        var ss = source.slice(source.length-3,source.length);
+        var dd = destination.slice(destination.length-3,destination.length);
+        var start1 = airportsData[ss.toUpperCase()]['coordinates']["lat"]
+        var start2 = airportsData[ss.toUpperCase()]['coordinates']["lon"]
+        var end1 = airportsData[dd.toUpperCase()]['coordinates']["lat"]
+        var end2 = airportsData[dd.toUpperCase()]['coordinates']["lon"]
     }
     catch(err){
         alert("Invalid Input!");
@@ -75,6 +77,7 @@ const FlightSearchResults = ({location}) => {
             <div className = 'container nunito mb2'>
                 <h3 className = 'center mt2'>
                     {source.slice(0, source.length-5)} - {destination.slice(0, destination.length-5)}
+                    
                 </h3>
                 <div>
                     {Object.values(searchResult[0]).flatMap(airport =>

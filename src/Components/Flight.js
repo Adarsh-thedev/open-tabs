@@ -3,7 +3,6 @@ import { Redirect } from 'react-router-dom';
 
 import airlineData from '../assets/airline_iata_name'
 
-
 const Flight = ({flightNumber, price, airline, departureTime, returnTime, co2}) => {
 
     const [state, setState] = useState(false);
